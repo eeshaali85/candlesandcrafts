@@ -1,38 +1,147 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { db } from "./db";
+import { eq } from "drizzle-orm";
+import {
+  users, products, cartItems, orders, orderItems,
+  type User, type InsertUser, type Product, type CartItem, type Order, type InsertCartItem
+} from "@shared/schema";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
+  // User (Auth)
+  getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+
+  // Products
+  getProducts(): Promise<Product[]>;
+  getProduct(id: number): Promise<Product | undefined>;
+  createProduct(product: Partial<Product>): Promise<Product>; // For seeding
+
+  // Cart
+  getCart(userId: number): Promise<(CartItem & { product: Product })[]>;
+  addToCart(item: InsertCartItem): Promise<CartItem>;
+  removeFromCart(id: number): Promise<void>;
+  clearCart(userId: number): Promise<void>;
+
+  // Orders
+  createOrder(userId: number, total: number, items: { productId: number; quantity: number; price: number }[]): Promise<Order>;
+  getOrders(userId: number): Promise<(Order & { items: (typeof orderItems.$inferSelect & { product: Product })[] })[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
-  }
-
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+export class DatabaseStorage implements IStorage {
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
+  }
+
+  async getProducts(): Promise<Product[]> {
+    return await db.select().from(products);
+  }
+
+  async getProduct(id: number): Promise<Product | undefined> {
+    const [product] = await db.select().from(products).where(eq(products.id, id));
+    return product;
+  }
+
+  async createProduct(product: Partial<Product>): Promise<Product> {
+    const [newProduct] = await db.insert(products).values(product as any).returning();
+    return newProduct;
+  }
+
+  async getCart(userId: number): Promise<(CartItem & { product: Product })[]> {
+    const items = await db.select({
+      id: cartItems.id,
+      userId: cartItems.userId,
+      productId: cartItems.productId,
+      quantity: cartItems.quantity,
+      product: products
+    })
+    .from(cartItems)
+    .innerJoin(products, eq(cartItems.productId, products.id))
+    .where(eq(cartItems.userId, userId));
+    
+    return items;
+  }
+
+  async addToCart(item: InsertCartItem): Promise<CartItem> {
+    // Check if exists
+    const [existing] = await db.select()
+      .from(cartItems)
+      .where(eq(cartItems.userId, item.userId!)) // Assume validated
+      .where(eq(cartItems.productId, item.productId!));
+
+    if (existing) {
+      const [updated] = await db.update(cartItems)
+        .set({ quantity: existing.quantity + (item.quantity || 1) })
+        .where(eq(cartItems.id, existing.id))
+        .returning();
+      return updated;
+    }
+
+    const [newItem] = await db.insert(cartItems).values(item).returning();
+    return newItem;
+  }
+
+  async removeFromCart(id: number): Promise<void> {
+    await db.delete(cartItems).where(eq(cartItems.id, id));
+  }
+
+  async clearCart(userId: number): Promise<void> {
+    await db.delete(cartItems).where(eq(cartItems.userId, userId));
+  }
+
+  async createOrder(userId: number, total: number, items: { productId: number; quantity: number; price: number }[]): Promise<Order> {
+    return await db.transaction(async (tx) => {
+      const [order] = await tx.insert(orders).values({
+        userId,
+        total: total.toString(),
+        status: "completed"
+      }).returning();
+
+      for (const item of items) {
+        await tx.insert(orderItems).values({
+          orderId: order.id,
+          productId: item.productId,
+          quantity: item.quantity,
+          price: item.price.toString()
+        });
+      }
+
+      return order;
+    });
+  }
+
+  async getOrders(userId: number): Promise<(Order & { items: (typeof orderItems.$inferSelect & { product: Product })[] })[]> {
+    const userOrders = await db.select().from(orders).where(eq(orders.userId, userId));
+    
+    const result = [];
+    for (const order of userOrders) {
+      const items = await db.select({
+        id: orderItems.id,
+        orderId: orderItems.orderId,
+        productId: orderItems.productId,
+        quantity: orderItems.quantity,
+        price: orderItems.price,
+        product: products
+      })
+      .from(orderItems)
+      .innerJoin(products, eq(orderItems.productId, products.id))
+      .where(eq(orderItems.orderId, order.id));
+      
+      result.push({ ...order, items });
+    }
+    
+    return result;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
