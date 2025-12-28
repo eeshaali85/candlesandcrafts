@@ -20,10 +20,6 @@ export function Navbar() {
 
   const cartCount = cart?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
-  const links = [
-    { href: "/", label: "Our Story" },
-  ];
-
   const shopCategories = [
     { href: "/", label: "All Products" },
     { href: "/?category=jar-candles", label: "Jar Candles" },
@@ -67,17 +63,14 @@ export function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {links.map((link) => (
-              <Link 
-                key={link.href} 
-                href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  location === link.href ? "text-primary border-b-2 border-primary" : "text-muted-foreground"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            <Link 
+              href="/our-story"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                location === "/our-story" ? "text-primary border-b-2 border-primary" : "text-muted-foreground"
+              }`}
+            >
+              Our Story
+            </Link>
           </div>
 
           {/* Actions */}
@@ -147,16 +140,13 @@ export function Navbar() {
                     </div>
                   </div>
 
-                  {links.map((link) => (
-                    <Link 
-                      key={link.href} 
-                      href={link.href} 
-                      onClick={() => setIsOpen(false)}
-                      className="text-lg font-serif text-foreground hover:text-primary transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
+                  <Link 
+                    href="/our-story"
+                    onClick={() => setIsOpen(false)}
+                    className="text-lg font-serif text-foreground hover:text-primary transition-colors"
+                  >
+                    Our Story
+                  </Link>
                   <div className="h-px bg-border my-4" />
                   {user ? (
                     <Link href="/profile" onClick={() => setIsOpen(false)} className="text-xl font-medium">
