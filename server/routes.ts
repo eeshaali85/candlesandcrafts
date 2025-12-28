@@ -90,15 +90,15 @@ async function seedDatabase() {
       name: "Ocean Breeze",
       description: "A refreshing blend of honeydew and fresh citrus.",
       price: "24.00",
-      category: "Fresh",
-      image: "/images/candles-hero.jpeg", // Use one of the user images
+      category: "jar-candles",
+      image: "/images/candles-collection.jpeg",
       stock: 50
     });
     await storage.createProduct({
       name: "Toasted Vanilla",
       description: "Warm amber and sandalwood notes.",
       price: "24.00",
-      category: "Warm",
+      category: "jar-candles",
       image: "/images/candles-collection.jpeg",
       stock: 50
     });
@@ -106,9 +106,33 @@ async function seedDatabase() {
       name: "Espresso Shot",
       description: "Rich coffee and tonka bean.",
       price: "24.00",
-      category: "Warm",
+      category: "jar-candles",
       image: "/images/candles-collection.jpeg",
       stock: 50
+    });
+    await storage.createProduct({
+      name: "Lavender Serenity",
+      description: "Calming lavender and eucalyptus.",
+      price: "32.00",
+      category: "pillar-candles",
+      image: "/images/candles-hero.jpeg",
+      stock: 30
+    });
+    await storage.createProduct({
+      name: "Rose Garden",
+      description: "Beautiful rose petals with musk notes.",
+      price: "28.00",
+      category: "bouquets",
+      image: "/images/candles-collection.jpeg",
+      stock: 25
+    });
+    await storage.createProduct({
+      name: "Gift Set Trio",
+      description: "Three premium candles in beautiful packaging.",
+      price: "65.00",
+      category: "gift-sets",
+      image: "/images/candles-hero.jpeg",
+      stock: 15
     });
     console.log("Database seeded!");
   }

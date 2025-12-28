@@ -1,10 +1,16 @@
 import { Link, useLocation } from "wouter";
-import { ShoppingBag, User, Menu, X, Flame } from "lucide-react";
+import { ShoppingBag, User, Menu, X, Flame, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useUser } from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -15,8 +21,15 @@ export function Navbar() {
   const cartCount = cart?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
   const links = [
-    { href: "/", label: "Home" },
-    { href: "/shop", label: "Shop" },
+    { href: "/", label: "Our Story" },
+  ];
+
+  const shopCategories = [
+    { href: "/", label: "All Products" },
+    { href: "/?category=jar-candles", label: "Jar Candles" },
+    { href: "/?category=pillar-candles", label: "Pillar Candles" },
+    { href: "/?category=bouquets", label: "Bouquets" },
+    { href: "/?category=gift-sets", label: "Gift Sets" },
   ];
 
   return (
@@ -35,6 +48,25 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
+            {/* Shop Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="text-sm font-medium transition-colors hover:text-primary text-muted-foreground flex items-center gap-1">
+                  Shop
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-56">
+                {shopCategories.map((item) => (
+                  <DropdownMenuItem key={item.href} asChild>
+                    <Link href={item.href} className="cursor-pointer">
+                      {item.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             {links.map((link) => (
               <Link 
                 key={link.href} 
@@ -99,12 +131,28 @@ export function Navbar() {
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <div className="flex flex-col gap-6 mt-10">
+                  <div>
+                    <h3 className="text-lg font-serif font-bold text-primary mb-3">Shop</h3>
+                    <div className="flex flex-col gap-2">
+                      {shopCategories.map((item) => (
+                        <Link 
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className="text-base text-foreground hover:text-primary transition-colors pl-2"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
                   {links.map((link) => (
                     <Link 
                       key={link.href} 
                       href={link.href} 
                       onClick={() => setIsOpen(false)}
-                      className="text-2xl font-serif text-foreground hover:text-primary transition-colors"
+                      className="text-lg font-serif text-foreground hover:text-primary transition-colors"
                     >
                       {link.label}
                     </Link>
