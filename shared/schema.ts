@@ -17,7 +17,7 @@ export const products = pgTable("products", {
   description: text("description").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   image: text("image").notNull(),
-  category: text("category").notNull(),
+  category: text("category").notNull(), // "jar-candles" | "pillar-candles" | "bouquets" | "gift-sets"
   stock: integer("stock").default(0),
 });
 
