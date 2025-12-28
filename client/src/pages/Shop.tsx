@@ -58,16 +58,16 @@ export default function Shop() {
           {/* Sidebar - Desktop */}
           <div className="hidden lg:block w-64 flex-shrink-0">
             <div className="sticky top-24">
-              <h3 className="font-serif text-lg font-bold mb-6">Categories</h3>
-              <div className="space-y-3">
+              <h3 className="font-serif text-lg font-bold mb-4 text-primary">Categories</h3>
+              <div className="space-y-2">
                 {CATEGORIES.map(category => (
                   <a
                     key={category.value}
                     href={category.value === "all" ? "/" : `/?category=${category.value}`}
-                    className={`block px-4 py-2 rounded transition-colors ${
+                    className={`block px-4 py-3 rounded-md transition-all font-medium ${
                       selectedCategory === category.value
-                        ? "bg-primary text-primary-foreground font-medium"
-                        : "text-foreground hover:bg-secondary"
+                        ? "bg-primary text-primary-foreground shadow-md"
+                        : "text-foreground hover:bg-secondary/50"
                     }`}
                   >
                     {category.label}
@@ -90,17 +90,17 @@ export default function Shop() {
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-64">
-                  <h3 className="font-serif text-lg font-bold mb-6 mt-4">Categories</h3>
-                  <div className="space-y-3">
+                  <h3 className="font-serif text-lg font-bold mb-4 mt-4 text-primary">Categories</h3>
+                  <div className="space-y-2">
                     {CATEGORIES.map(category => (
                       <a
                         key={category.value}
                         href={category.value === "all" ? "/" : `/?category=${category.value}`}
                         onClick={() => setIsFilterOpen(false)}
-                        className={`block px-4 py-2 rounded transition-colors ${
+                        className={`block px-4 py-3 rounded-md transition-all font-medium ${
                           selectedCategory === category.value
-                            ? "bg-primary text-primary-foreground font-medium"
-                            : "text-foreground hover:bg-secondary"
+                            ? "bg-primary text-primary-foreground shadow-md"
+                            : "text-foreground hover:bg-secondary/50"
                         }`}
                       >
                         {category.label}
