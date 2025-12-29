@@ -39,7 +39,7 @@ export function Navbar() {
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
-              <img src={logoUrl} alt="Candles & Crafts" className="h-16 w-16 object-contain" />
+              <img src={logoUrl} alt="Candles & Crafts" className="h-16 w-16 object-contain" style={{ mixBlendMode: 'multiply' }} />
             </Link>
 
             {/* Desktop Navigation */}
