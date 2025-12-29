@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { ShoppingBag, User, Menu, ArrowRight } from "lucide-react";
+import { ShoppingBag, User, Menu, ArrowRight, Search } from "lucide-react";
 import { useState } from "react";
 import { useUser } from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
@@ -35,10 +35,10 @@ export function Navbar() {
       {/* Main Navigation */}
       <nav className="sticky top-0 z-50 w-full bg-background border-b border-border/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-24">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
-              <img src={logoUrl} alt="Candles & Crafts" className="h-16 w-16 object-contain" style={{ mixBlendMode: 'multiply' }} />
+              <img src={logoUrl} alt="Candles & Crafts" className="h-20 w-20 object-contain" style={{ mixBlendMode: 'multiply' }} />
             </Link>
 
             {/* Desktop Navigation */}
@@ -57,7 +57,11 @@ export function Navbar() {
             </div>
 
             {/* Desktop Actions */}
-            <div className="hidden lg:flex items-center space-x-6">
+            <div className="hidden lg:flex items-center space-x-4">
+              <Button variant="ghost" size="icon" className="hover:bg-secondary">
+                <Search className="w-5 h-5" data-testid="button-search" />
+              </Button>
+
               {user ? (
                 <Link href="/profile">
                   <Button variant="ghost" size="icon" className="hover:bg-secondary">
