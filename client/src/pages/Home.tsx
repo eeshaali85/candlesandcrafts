@@ -112,24 +112,23 @@ export default function Home() {
       {/* Our Values Section */}
       <section className="bg-muted py-16 md:py-24 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-serif text-foreground">Our Values</h2>
-            <div className="h-1 w-24 bg-accent mx-auto mt-4" />
+          <div className="text-center mb-16">
+            <h2 className="text-2xl md:text-3xl font-serif text-foreground">why us you ask?</h2>
+            <p className="text-muted-foreground mt-2">who wouldn't want this?</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             {[
-              { title: "Non-Toxic", description: "Safe for your home and loved ones" },
-              { title: "Eco-Friendly", description: "Sustainable and responsible sourcing" },
-              { title: "Handcrafted", description: "Made with care and attention to detail" },
-              { title: "With Love", description: "Every candle made with intention" },
+              { title: "Woman Owned Business", icon: "👸" },
+              { title: "Handmade with Love", icon: "🤲" },
+              { title: "Made in Pakistan", icon: "🇵🇰" },
+              { title: "Charitable Contributions", icon: "🎁" },
             ].map((value, i) => (
               <div key={i} className="text-center">
-                <div className="w-16 h-16 bg-accent/20 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl">
-                  ✨
+                <div className="text-6xl mb-4 flex justify-center">
+                  {value.icon}
                 </div>
-                <h3 className="font-serif text-lg text-foreground mb-2">{value.title}</h3>
-                <p className="text-sm text-muted-foreground">{value.description}</p>
+                <h3 className="font-medium text-foreground text-sm md:text-base">{value.title}</h3>
               </div>
             ))}
           </div>
@@ -139,41 +138,47 @@ export default function Home() {
       {/* Reviews Section */}
       <section className="py-16 md:py-24 px-4 max-w-6xl mx-auto w-full">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground">What Our Customers Say</h2>
-          <div className="flex items-center justify-center gap-2 mt-4">
-            <div className="flex gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-              ))}
-            </div>
-            <span className="text-sm text-muted-foreground">from 41 reviews</span>
-          </div>
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground">Customer Reviews</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
-              name: "Malveen",
-              text: "Love the service and quality. I've ordered from them so many times, and have gotten this candle in almost every colour. They have...",
+              name: "Saad Raza",
+              text: "huge huge HUGE fan of your work!",
+              image: "/images/candles-hero.jpeg",
             },
             {
-              name: "Aiman Masood",
-              text: "Excellent quality! The candles are beautifully made and smell amazing. Highly recommended!",
+              name: "Zaynah",
+              text: "just opened it it's really beautiful! i'm obsessed omg so obsessed and very generous style 💕",
+              image: "/images/candles-collection.jpeg",
             },
             {
-              name: "Rubis Nasir",
-              text: "The matchbox is such good quality and it's super cute. Loveeee it!",
+              name: "gracesinghelli",
+              text: "A must-have for any matchbox lover 💚",
+              image: "/images/candles-hero.jpeg",
             },
           ].map((review, i) => (
-            <Card key={i} className="p-6">
-              <div className="flex gap-1 mb-3">
-                {[...Array(5)].map((_, j) => (
-                  <Star key={j} className="w-4 h-4 fill-accent text-accent" />
-                ))}
+            <div key={i} className="group relative overflow-hidden rounded-lg">
+              <div className="aspect-square overflow-hidden bg-muted">
+                <img
+                  src={review.image}
+                  alt={review.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
-              <p className="text-sm text-muted-foreground mb-4">{review.text}</p>
-              <p className="font-semibold text-foreground text-sm">{review.name}</p>
-            </Card>
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex flex-col justify-between p-6 text-white">
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, j) => (
+                    <Star key={j} className="w-3 h-3 fill-white text-white" />
+                  ))}
+                </div>
+                <div>
+                  <p className="text-sm font-medium leading-relaxed mb-2">{review.text}</p>
+                  <p className="text-xs font-semibold">{review.name}</p>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </section>
