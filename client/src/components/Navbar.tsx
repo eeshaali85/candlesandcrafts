@@ -16,7 +16,6 @@ export function Navbar() {
   const cartCount = cart?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
   const navLinks = [
-    { href: "/", label: "home" },
     { href: "/shop", label: "shop" },
     { href: "#", label: "workshop" },
     { href: "#", label: "events" },
