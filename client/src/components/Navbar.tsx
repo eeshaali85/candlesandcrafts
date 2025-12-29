@@ -1,16 +1,10 @@
 import { Link, useLocation } from "wouter";
-import { ShoppingBag, User, Menu, X, Flame, ChevronDown } from "lucide-react";
+import { ShoppingBag, User, Menu, X, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useUser } from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -20,149 +14,144 @@ export function Navbar() {
 
   const cartCount = cart?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
-  const shopCategories = [
-    { href: "/", label: "All Products" },
-    { href: "/?category=jar-candles", label: "Jar Candles" },
-    { href: "/?category=pillar-candles", label: "Pillar Candles" },
-    { href: "/?category=bouquets", label: "Bouquets" },
-    { href: "/?category=gift-sets", label: "Gift Sets" },
+  const navLinks = [
+    { href: "/", label: "home" },
+    { href: "/shop", label: "shop" },
+    { href: "#", label: "workshop" },
+    { href: "#", label: "events" },
+    { href: "/our-story", label: "our story" },
   ];
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20 items-center">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="p-2 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
-              <Flame className="w-6 h-6 text-primary" />
+    <>
+      {/* Announcement Bar */}
+      <div className="bg-secondary text-foreground text-center py-2 px-4 text-xs md:text-sm">
+        our products are made to order. please allow 7-10 days for dispatch!{" "}
+        <Link href="/shop" className="font-semibold hover:underline inline-flex items-center gap-1">
+          shop now <ArrowRight className="w-3 h-3" />
+        </Link>
+      </div>
+
+      {/* Main Navigation */}
+      <nav className="sticky top-0 z-50 w-full bg-background border-b border-border/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Desktop Navigation - Left */}
+            <div className="hidden lg:flex items-center space-x-12">
+              {navLinks.slice(0, 2).map((link) => (
+                <Link 
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors ${
+                    location === link.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
-            <span className="font-serif text-xl sm:text-2xl font-bold text-primary tracking-tight">
-              Candles<span className="font-hand text-foreground font-normal mx-1">&</span>Crafts
-            </span>
-          </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {/* Shop Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="text-sm font-medium transition-colors hover:text-primary text-muted-foreground flex items-center gap-1">
-                  Shop
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56">
-                {shopCategories.map((item) => (
-                  <DropdownMenuItem key={item.href} asChild>
-                    <Link href={item.href} className="cursor-pointer">
-                      {item.label}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <Link 
-              href="/our-story"
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                location === "/our-story" ? "text-primary border-b-2 border-primary" : "text-muted-foreground"
-              }`}
-            >
-              Our Story
-            </Link>
-          </div>
-
-          {/* Actions */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link href="/cart">
-              <Button variant="ghost" size="icon" className="relative hover:bg-primary/10 hover:text-primary">
-                <ShoppingBag className="w-5 h-5" />
-                {cartCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </Button>
+            {/* Logo */}
+            <Link href="/" className="absolute left-1/2 -translate-x-1/2 lg:relative lg:translate-x-0">
+              <span className="font-serif text-2xl font-bold text-foreground tracking-wide">dusk</span>
             </Link>
 
-            {user ? (
-              <Link href="/profile">
-                <Button variant="ghost" size="icon" className="hover:bg-primary/10 hover:text-primary">
+            {/* Desktop Navigation - Right */}
+            <div className="hidden lg:flex items-center space-x-12">
+              {navLinks.slice(2).map((link) => (
+                <Link 
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors ${
+                    location === link.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Desktop Actions */}
+            <div className="hidden lg:flex items-center space-x-6">
+              {user ? (
+                <Link href="/profile">
+                  <Button variant="ghost" size="icon" className="hover:bg-secondary">
+                    <User className="w-5 h-5" />
+                  </Button>
+                </Link>
+              ) : (
+                <Button 
+                  onClick={() => window.location.href = '/login'}
+                  variant="ghost"
+                  size="icon"
+                  className="hover:bg-secondary"
+                >
                   <User className="w-5 h-5" />
                 </Button>
-              </Link>
-            ) : (
-              <Button 
-                onClick={() => window.location.href = '/login'}
-                variant="outline" 
-                className="border-primary text-primary hover:bg-primary hover:text-white"
-              >
-                Sign In
-              </Button>
-            )}
-          </div>
-
-          {/* Mobile Menu */}
-          <div className="md:hidden flex items-center gap-4">
-            <Link href="/cart">
-              <div className="relative p-2">
-                <ShoppingBag className="w-6 h-6 text-foreground" />
-                {cartCount > 0 && (
-                  <span className="absolute top-0 right-0 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </div>
-            </Link>
-            
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="w-6 h-6" />
+              )}
+              
+              <Link href="/cart">
+                <Button variant="ghost" size="icon" className="relative hover:bg-secondary">
+                  <ShoppingBag className="w-5 h-5" />
+                  {cartCount > 0 && (
+                    <span className="absolute top-1 right-1 w-4 h-4 bg-foreground text-background text-[10px] font-bold rounded-full flex items-center justify-center">
+                      {cartCount}
+                    </span>
+                  )}
                 </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                <div className="flex flex-col gap-6 mt-10">
-                  <div>
-                    <h3 className="text-lg font-serif font-bold text-primary mb-3">Shop</h3>
-                    <div className="flex flex-col gap-2">
-                      {shopCategories.map((item) => (
-                        <Link 
-                          key={item.href}
-                          href={item.href}
-                          onClick={() => setIsOpen(false)}
-                          className="text-base text-foreground hover:text-primary transition-colors pl-2"
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
+              </Link>
+            </div>
 
-                  <Link 
-                    href="/our-story"
-                    onClick={() => setIsOpen(false)}
-                    className="text-lg font-serif text-foreground hover:text-primary transition-colors"
-                  >
-                    Our Story
-                  </Link>
-                  <div className="h-px bg-border my-4" />
-                  {user ? (
-                    <Link href="/profile" onClick={() => setIsOpen(false)} className="text-xl font-medium">
-                      My Account
-                    </Link>
-                  ) : (
-                    <Button onClick={() => window.location.href = '/login'} className="w-full">
-                      Sign In
-                    </Button>
+            {/* Mobile Menu */}
+            <div className="lg:hidden flex items-center gap-4">
+              <Link href="/cart">
+                <div className="relative p-2">
+                  <ShoppingBag className="w-5 h-5 text-foreground" />
+                  {cartCount > 0 && (
+                    <span className="absolute top-0 right-0 w-4 h-4 bg-foreground text-background text-[10px] font-bold rounded-full flex items-center justify-center">
+                      {cartCount}
+                    </span>
                   )}
                 </div>
-              </SheetContent>
-            </Sheet>
+              </Link>
+              
+              <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="w-5 h-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[280px]">
+                  <div className="flex flex-col gap-6 mt-10">
+                    {navLinks.map((link) => (
+                      <Link 
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className={`text-base font-medium transition-colors ${
+                          location === link.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                    <div className="h-px bg-border my-4" />
+                    {user ? (
+                      <Link href="/profile" onClick={() => setIsOpen(false)} className="text-base font-medium">
+                        My Account
+                      </Link>
+                    ) : (
+                      <Button onClick={() => window.location.href = '/login'} className="w-full">
+                        Sign In
+                      </Button>
+                    )}
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }
