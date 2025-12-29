@@ -1,10 +1,11 @@
 import { Link, useLocation } from "wouter";
-import { ShoppingBag, User, Menu, X, ArrowRight } from "lucide-react";
+import { ShoppingBag, User, Menu, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useUser } from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import logoUrl from "@assets/WhatsApp_Image_2025-12-29_at_7.27.13_PM_1767018467380.jpeg";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -35,30 +36,15 @@ export function Navbar() {
       {/* Main Navigation */}
       <nav className="sticky top-0 z-50 w-full bg-background border-b border-border/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Desktop Navigation - Left */}
-            <div className="hidden lg:flex items-center space-x-12">
-              {navLinks.slice(0, 2).map((link) => (
-                <Link 
-                  key={link.href}
-                  href={link.href}
-                  className={`text-sm font-medium transition-colors ${
-                    location === link.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-
+          <div className="flex justify-between items-center h-20">
             {/* Logo */}
-            <Link href="/" className="absolute left-1/2 -translate-x-1/2 lg:relative lg:translate-x-0">
-              <span className="font-serif text-2xl font-bold text-foreground tracking-wide">dusk</span>
+            <Link href="/" className="flex-shrink-0">
+              <img src={logoUrl} alt="Candles & Crafts" className="h-16 w-16 object-contain" />
             </Link>
 
-            {/* Desktop Navigation - Right */}
-            <div className="hidden lg:flex items-center space-x-12">
-              {navLinks.slice(2).map((link) => (
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-8">
+              {navLinks.map((link) => (
                 <Link 
                   key={link.href}
                   href={link.href}
