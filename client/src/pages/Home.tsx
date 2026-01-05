@@ -11,12 +11,14 @@ import vesselStock from "@assets/stock_images/vessel_candle_with_f_e840b005.jpg"
 
 import luxuryGiftStock from "@assets/stock_images/luxury_custom_gift_b_d50df118.jpg";
 
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+
 export default function Home() {
   const { data: products, isLoading } = useQuery({
     queryKey: ["/api/products"],
   });
 
-  const bestSellers = Array.isArray(products) ? products.slice(0, 4) : [];
+  const bestSellers = Array.isArray(products) ? products : [];
 
   const categories = [
     { name: "candles", image: candlesStock, href: "/shop?category=candle", shape: "blob-1" },
@@ -43,12 +45,6 @@ export default function Home() {
           <p className="text-lg md:text-xl text-white/90 max-w-xl mb-8">
             From our hands to your home, we bring you fragrances that uplift, inspire, and create a sense of belonging.
           </p>
-          <Link href="/shop">
-            <Button variant="outline" className="bg-white/20 border-white text-white hover:bg-white/30">
-              Explore Our Collection
-              <ChevronRight className="w-4 h-4 ml-2" />
-            </Button>
-          </Link>
         </div>
       </section>
 
@@ -77,48 +73,63 @@ export default function Home() {
           <div className="h-px w-32 bg-black mx-auto mt-4" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {isLoading
-            ? Array.from({ length: 4 }).map((_, i) => (
+        <div className="px-12">
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="space-y-4">
                   <Skeleton className="aspect-square rounded-md" />
                   <Skeleton className="h-4 w-3/4" />
                   <Skeleton className="h-4 w-1/2" />
                 </div>
-              ))
-            : bestSellers.map((product: any) => (
-                <Link key={product.id} href={`/shop#product-${product.id}`}>
-                  <Card className="overflow-hidden hover-elevate transition-all cursor-pointer h-full flex flex-col">
-                    <div className="aspect-square overflow-hidden bg-muted">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-4 flex-1 flex flex-col justify-between">
-                      <div>
-                        <h3 className="font-serif text-lg text-foreground">{product.name}</h3>
-                        <p className="text-sm text-muted-foreground mt-1">{product.description}</p>
-                      </div>
-                      <div className="mt-4 flex items-center justify-between">
-                        <span className="text-lg font-semibold text-foreground">
-                          ${parseFloat(product.price).toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
-                  </Card>
-                </Link>
               ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <Link href="/shop">
-            <Button variant="default" size="lg">
-              View All Products
-              <ChevronRight className="w-4 h-4 ml-2" />
-            </Button>
-          </Link>
+            </div>
+          ) : (
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-4">
+                {bestSellers.map((product: any) => (
+                  <CarouselItem key={product.id} className="pl-4 md:basis-1/2 lg:basis-1/4">
+                    <Link href={`/shop#product-${product.id}`}>
+                      <div className="group cursor-pointer">
+                        <div className="aspect-square overflow-hidden bg-muted mb-4 relative">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          {product.stock === 0 && (
+                            <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white text-[10px] px-2 py-1 rounded-full uppercase tracking-widest">
+                              Sold out
+                            </div>
+                          )}
+                        </div>
+                        <div className="space-y-1">
+                          <h3 className="font-serif text-base text-foreground lowercase">{product.name}</h3>
+                          <p className="text-[11px] text-muted-foreground lowercase leading-tight">
+                            {product.description}
+                          </p>
+                          <p className="text-[10px] text-muted-foreground lowercase italic">
+                            scented candle
+                          </p>
+                          <p className="text-sm font-medium text-foreground mt-2">
+                            Rs.{parseFloat(product.price).toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="hidden md:flex -left-12 h-10 w-10 border-0 bg-black/5 hover:bg-black/10" />
+              <CarouselNext className="hidden md:flex -right-12 h-10 w-10 border-0 bg-black/5 hover:bg-black/10" />
+            </Carousel>
+          )}
         </div>
       </section>
 
