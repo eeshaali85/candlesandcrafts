@@ -4,6 +4,10 @@ import { Card } from "@/components/ui/card";
 import { ChevronRight, Star, CheckCircle2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
+import candlesStock from "@assets/stock_images/handcrafted_candles__78dd0cf3.jpg";
+import homewareStock from "@assets/stock_images/modern_minimalist_ho_efcfdea8.jpg";
+import bouquetsStock from "@assets/stock_images/flower_bouquet_candl_69966b97.jpg";
+import vesselStock from "@assets/stock_images/vessel_candle_with_f_e840b005.jpg";
 
 export default function Home() {
   const { data: products, isLoading } = useQuery({
@@ -11,6 +15,13 @@ export default function Home() {
   });
 
   const bestSellers = Array.isArray(products) ? products.slice(0, 4) : [];
+
+  const categories = [
+    { name: "candles", image: candlesStock, href: "/shop?category=candle", shape: "blob-1" },
+    { name: "homeware", image: homewareStock, href: "/shop?category=ceramics", shape: "blob-2" },
+    { name: "bouquets", image: bouquetsStock, href: "/shop?category=bouquet", shape: "blob-3" },
+    { name: "vessel candles", image: vesselStock, href: "/shop?category=jar", shape: "blob-4" },
+  ];
 
   return (
     <div className="w-full">
@@ -60,7 +71,7 @@ export default function Home() {
       {/* Best Sellers Section */}
       <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto w-full">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground">Customer Favorites</h2>
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground">Best Sellers</h2>
           <div className="h-1 w-24 bg-accent mx-auto mt-4" />
         </div>
 
@@ -109,38 +120,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Explore More Section (Categories) */}
-      <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto w-full">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground">Explore More</h2>
-          <div className="h-0.5 w-24 bg-foreground/20 mx-auto mt-4" />
-        </div>
+      {/* Categories Section with Irregular Shapes */}
+      <section className="py-16 md:py-24 px-4 bg-background">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-serif text-foreground/80 lowercase">categories</h2>
+          </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {[
-            { name: "Candles", image: "/images/candles-hero.jpeg" },
-            { name: "Reed Diffusers", image: "/images/candles-collection.jpeg" },
-            { name: "Room & Linen Mists", image: "/images/candles-hero.jpeg" },
-            { name: "Bath & Body", image: "/images/candles-collection.jpeg" },
-            { name: "Specialty Tea", image: "/images/candles-hero.jpeg" },
-            { name: "Gift Sets", image: "/images/candles-collection.jpeg" },
-          ].map((cat, i) => (
-            <Link key={i} href={`/shop?category=${cat.name.toLowerCase()}`}>
-              <div className="group relative aspect-[3/4] overflow-hidden rounded-lg cursor-pointer">
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-                <div className="absolute inset-0 flex items-center justify-center p-4">
-                  <h3 className="text-white text-sm md:text-base font-medium text-center leading-tight">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 items-end">
+            {categories.map((cat, i) => (
+              <Link key={i} href={cat.href}>
+                <div className="flex flex-col items-center group cursor-pointer">
+                  <div className={`relative w-full aspect-[4/5] overflow-hidden mb-6 transition-transform duration-500 group-hover:scale-[1.02] ${
+                    cat.shape === 'blob-1' ? 'rounded-[40%_60%_70%_30%/40%_50%_60%_40%]' :
+                    cat.shape === 'blob-2' ? 'rounded-[30%_70%_70%_30%/50%_40%_60%_50%]' :
+                    cat.shape === 'blob-3' ? 'rounded-[60%_40%_30%_70%/60%_30%_70%_40%]' :
+                    'rounded-[40%_60%_30%_70%/40%_40%_60%_60%]'
+                  }`}>
+                    <img
+                      src={cat.image}
+                      alt={cat.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <span className="font-serif text-lg text-foreground/70 lowercase tracking-wide">
                     {cat.name}
-                  </h3>
+                  </span>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -284,30 +293,6 @@ export default function Home() {
                 key={i} 
                 className={`w-1.5 h-1.5 rounded-full ${i === 6 ? 'bg-black' : 'bg-black/10'}`} 
               />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Instagram Section (Moved here after customer favorites/reviews) */}
-      <section className="py-16 md:py-24 px-4 bg-muted">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-serif text-foreground lowercase italic">our insta is kind of cute</h2>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
-            {[
-              "/images/candles-hero.jpeg",
-              "/images/candles-collection.jpeg",
-              "/images/candles-hero.jpeg",
-              "/images/candles-collection.jpeg",
-              "/images/candles-hero.jpeg",
-              "/images/candles-collection.jpeg",
-            ].map((img, i) => (
-              <div key={i} className="aspect-square overflow-hidden rounded-md bg-muted group cursor-pointer">
-                <img src={img} alt="Instagram post" className="w-full h-full object-cover group-hover:opacity-80 transition-opacity" />
-              </div>
             ))}
           </div>
         </div>
