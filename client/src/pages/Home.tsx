@@ -109,26 +109,99 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Explore More Section (Categories) */}
+      <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto w-full">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground">Explore More</h2>
+          <div className="h-0.5 w-24 bg-foreground/20 mx-auto mt-4" />
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {[
+            { name: "Candles", image: "/images/candles-hero.jpeg" },
+            { name: "Reed Diffusers", image: "/images/candles-collection.jpeg" },
+            { name: "Room & Linen Mists", image: "/images/candles-hero.jpeg" },
+            { name: "Bath & Body", image: "/images/candles-collection.jpeg" },
+            { name: "Specialty Tea", image: "/images/candles-hero.jpeg" },
+            { name: "Gift Sets", image: "/images/candles-collection.jpeg" },
+          ].map((cat, i) => (
+            <Link key={i} href={`/shop?category=${cat.name.toLowerCase()}`}>
+              <div className="group relative aspect-[3/4] overflow-hidden rounded-lg cursor-pointer">
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                <div className="absolute inset-0 flex items-center justify-center p-4">
+                  <h3 className="text-white text-sm md:text-base font-medium text-center leading-tight">
+                    {cat.name}
+                  </h3>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* Our Values Section */}
       <section className="bg-muted py-16 md:py-24 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-2xl md:text-3xl font-serif text-foreground">why us you ask?</h2>
-            <p className="text-muted-foreground mt-2">who wouldn't want this?</p>
+            <h2 className="text-2xl md:text-3xl font-serif text-foreground lowercase">our values</h2>
+            <div className="h-px w-32 bg-foreground/10 mx-auto mt-4" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             {[
-              { title: "Woman Owned Business", icon: "👸" },
-              { title: "Handmade with Love", icon: "🤲" },
-              { title: "Made in Pakistan", icon: "🇵🇰" },
-              { title: "Charitable Contributions", icon: "🎁" },
+              { 
+                title: "woman owned business", 
+                subtitle: "empowering women every day",
+                icon: (
+                  <svg viewBox="0 0 100 100" className="w-20 h-20 mx-auto mb-4 fill-foreground/20 stroke-foreground/40 stroke-1">
+                    <circle cx="50" cy="50" r="40" fill="none" />
+                    <path d="M50 30 C40 30 35 40 35 50 C35 65 50 75 50 75 C50 75 65 65 65 50 C65 40 60 30 50 30 Z" />
+                  </svg>
+                )
+              },
+              { 
+                title: "handmade with love", 
+                subtitle: "crafted carefully by hand",
+                icon: (
+                  <svg viewBox="0 0 100 100" className="w-20 h-20 mx-auto mb-4 fill-foreground/20 stroke-foreground/40 stroke-1">
+                    <circle cx="50" cy="50" r="40" fill="none" />
+                    <path d="M30 50 Q30 35 50 35 Q70 35 70 50 Q70 70 50 85 Q30 70 30 50" />
+                  </svg>
+                )
+              },
+              { 
+                title: "made in Pakistan", 
+                subtitle: "proudly local craftsmanship",
+                icon: (
+                  <svg viewBox="0 0 100 100" className="w-20 h-20 mx-auto mb-4 fill-foreground/20 stroke-foreground/40 stroke-1">
+                    <circle cx="50" cy="50" r="40" fill="none" />
+                    <path d="M40 50 L60 50 M50 40 L50 60" transform="rotate(45 50 50)" />
+                  </svg>
+                )
+              },
+              { 
+                title: "charitable contributions", 
+                subtitle: "giving back to our community",
+                icon: (
+                  <svg viewBox="0 0 100 100" className="w-20 h-20 mx-auto mb-4 fill-foreground/20 stroke-foreground/40 stroke-1">
+                    <circle cx="50" cy="50" r="40" fill="none" />
+                    <rect x="35" y="45" width="30" height="25" rx="2" />
+                    <path d="M35 45 L50 35 L65 45" />
+                  </svg>
+                )
+              },
             ].map((value, i) => (
-              <div key={i} className="text-center">
-                <div className="text-6xl mb-4 flex justify-center">
+              <div key={i} className="text-center group">
+                <div className="transition-transform duration-300 group-hover:scale-110">
                   {value.icon}
                 </div>
-                <h3 className="font-medium text-foreground text-sm md:text-base">{value.title}</h3>
+                <h3 className="font-serif text-lg text-foreground mb-1 lowercase">{value.title}</h3>
+                <p className="text-xs text-muted-foreground italic lowercase">{value.subtitle}</p>
               </div>
             ))}
           </div>
@@ -137,45 +210,50 @@ export default function Home() {
 
       {/* Reviews Section */}
       <section className="py-16 md:py-24 px-4 max-w-6xl mx-auto w-full">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground">Customer Reviews</h2>
+        <div className="text-center mb-16">
+          <h2 className="text-2xl md:text-3xl font-serif text-foreground lowercase">customer reviews</h2>
+          <div className="h-px w-32 bg-foreground/10 mx-auto mt-4" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {[
             {
               name: "Saad Raza",
-              text: "huge huge HUGE fan of your work!",
+              text: "huge huge HUGE fan of your work! its amazing! 😍",
               image: "/images/candles-hero.jpeg",
             },
             {
               name: "Zaynah",
-              text: "just opened it it's really beautiful! i'm obsessed omg so obsessed and very generous style 💕",
+              text: "just opened it! it's really beautiful i'm obsessed! smells so ethereal and very pinterest style ✨🎀",
               image: "/images/candles-collection.jpeg",
             },
             {
-              name: "gracesinghelli",
-              text: "A must-have for any matchbox lover 💚",
+              name: "meenaghorii",
+              text: "A must-have for any matcha lover 💚",
               image: "/images/candles-hero.jpeg",
             },
           ].map((review, i) => (
-            <div key={i} className="group relative overflow-hidden rounded-lg">
-              <div className="aspect-square overflow-hidden bg-muted">
+            <div key={i} className="flex flex-col md:flex-row items-center gap-6">
+              <div className="w-32 h-32 flex-shrink-0 overflow-hidden rounded-lg bg-muted shadow-sm rotate-1 group hover:rotate-0 transition-transform duration-300">
                 <img
                   src={review.image}
                   alt={review.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex flex-col justify-between p-6 text-white">
-                <div className="flex gap-1">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="w-3 h-3 fill-white text-white" />
-                  ))}
-                </div>
-                <div>
-                  <p className="text-sm font-medium leading-relaxed mb-2">{review.text}</p>
-                  <p className="text-xs font-semibold">{review.name}</p>
+              <div className="flex-1 text-center md:text-left">
+                <p className="text-sm italic text-muted-foreground mb-3 leading-relaxed">
+                  "{review.text}"
+                </p>
+                <div className="flex flex-col md:flex-row md:items-center gap-2">
+                  <span className="text-xs font-serif font-bold tracking-widest text-foreground/60 uppercase">
+                    -{review.name}
+                  </span>
+                  <div className="flex gap-0.5 justify-center md:justify-start">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} className="w-2.5 h-2.5 fill-foreground text-foreground" />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -183,12 +261,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Instagram Section */}
+      {/* Instagram Section (Moved here after customer favorites/reviews) */}
       <section className="py-16 md:py-24 px-4 bg-muted">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-serif text-foreground">Our Instagram</h2>
-            <p className="text-muted-foreground mt-2">Follow us for daily inspiration</p>
+            <h2 className="text-2xl md:text-3xl font-serif text-foreground lowercase italic">our insta is kind of cute</h2>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
@@ -200,8 +277,8 @@ export default function Home() {
               "/images/candles-hero.jpeg",
               "/images/candles-collection.jpeg",
             ].map((img, i) => (
-              <div key={i} className="aspect-square overflow-hidden rounded-md bg-muted">
-                <img src={img} alt="Instagram post" className="w-full h-full object-cover" />
+              <div key={i} className="aspect-square overflow-hidden rounded-md bg-muted group cursor-pointer">
+                <img src={img} alt="Instagram post" className="w-full h-full object-cover group-hover:opacity-80 transition-opacity" />
               </div>
             ))}
           </div>
