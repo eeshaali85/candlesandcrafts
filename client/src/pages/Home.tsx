@@ -55,8 +55,8 @@ export default function Home() {
       {/* Tagline Section */}
       <section className="bg-secondary py-16 md:py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground mb-6">
-            Made with intention
+          <h2 className="text-3xl md:text-4xl font-serif text-black font-normal mb-6 lowercase">
+            made with intention
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
             Made in Pakistan, with love for your home. Each candle is crafted with premium ingredients and care.
@@ -73,8 +73,8 @@ export default function Home() {
       {/* Best Sellers Section */}
       <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto w-full">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground">Best Sellers</h2>
-          <div className="h-1 w-24 bg-accent mx-auto mt-4" />
+          <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase">best sellers</h2>
+          <div className="h-px w-32 bg-black mx-auto mt-4" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -125,8 +125,8 @@ export default function Home() {
       {/* Explore More Section */}
       <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto w-full">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground lowercase">explore more</h2>
-          <div className="h-px w-24 bg-foreground/10 mx-auto mt-4" />
+          <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase">explore more</h2>
+          <div className="h-px w-32 bg-black mx-auto mt-4" />
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -183,8 +183,8 @@ export default function Home() {
       <section className="bg-muted py-16 md:py-24 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-2xl md:text-3xl font-serif text-foreground lowercase">our values</h2>
-            <div className="h-px w-32 bg-foreground/10 mx-auto mt-4" />
+            <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase">our values</h2>
+            <div className="h-px w-32 bg-black mx-auto mt-4" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -247,7 +247,8 @@ export default function Home() {
       <section className="py-16 md:py-24 px-4 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-serif text-foreground lowercase tracking-tight">customer reviews</h2>
+            <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase tracking-tight">customer reviews</h2>
+            <div className="h-px w-32 bg-black mx-auto mt-4" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -327,8 +328,8 @@ export default function Home() {
       {/* FAQ Section */}
       <section className="py-16 md:py-24 px-4 max-w-3xl mx-auto w-full">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground">Frequently Asked Questions</h2>
-          <div className="h-1 w-24 bg-accent mx-auto mt-4" />
+          <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase">frequently asked questions</h2>
+          <div className="h-px w-32 bg-black mx-auto mt-4" />
         </div>
 
         <div className="space-y-3">
