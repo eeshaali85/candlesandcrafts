@@ -1,7 +1,8 @@
 import { useProducts } from "@/hooks/use-products";
 import { ProductCard } from "@/components/ProductCard";
 import { Loader2, Grid3x3, List } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useLocation } from "wouter";
 
 const SORT_OPTIONS = [
   { value: "best-selling", label: "Best selling" },
@@ -14,13 +15,48 @@ export default function Shop() {
   const { data: products, isLoading } = useProducts();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState("best-selling");
+  const [location] = useLocation();
+
+  const queryParams = useMemo(() => new URLSearchParams(window.location.search), [location]);
+  const categoryFilter = queryParams.get("category");
+
+  const categoryTitle = useMemo(() => {
+    if (!categoryFilter) return "All Candles";
+    return categoryFilter
+      .split("-")
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ") + (categoryFilter.toLowerCase().includes("set") || categoryFilter.toLowerCase().includes("ceramic") ? "" : " Candles");
+  }, [categoryFilter]);
+
+  const filteredProducts = useMemo(() => {
+    if (!products) return [];
+    let filtered = [...products];
+
+    if (categoryFilter) {
+      filtered = filtered.filter(p => {
+        const cat = p.category?.toLowerCase() || "";
+        if (categoryFilter === "jar") return cat.includes("jar");
+        if (categoryFilter === "bouquet") return cat.includes("bouquet");
+        if (categoryFilter === "decorative") return cat.includes("decorative");
+        if (categoryFilter === "gift-sets") return cat.includes("gift") || cat.includes("set");
+        if (categoryFilter === "ceramics") return cat.includes("ceramic");
+        return cat.includes(categoryFilter.toLowerCase());
+      });
+    }
+
+    // Sorting logic
+    if (sortBy === "price-low") filtered.sort((a, b) => Number(a.price) - Number(b.price));
+    if (sortBy === "price-high") filtered.sort((a, b) => Number(b.price) - Number(a.price));
+    
+    return filtered;
+  }, [products, categoryFilter, sortBy]);
 
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="bg-secondary py-12 px-4">
         <div className="container mx-auto text-center">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-foreground">All Candles</h1>
+          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-foreground lowercase">{categoryTitle}</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Discover our exquisite collection of luxury hand poured candles made with 100% pure BeeSoy wax and clean fragrances that truly make your space uniquely yours.
           </p>
@@ -59,11 +95,11 @@ export default function Shop() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-4 py-2 border border-border rounded-md bg-background text-foreground hover:bg-secondary transition-colors"
+            className="px-4 py-2 border border-border rounded-md bg-background text-foreground hover:bg-secondary transition-colors lowercase"
           >
             {SORT_OPTIONS.map(option => (
               <option key={option.value} value={option.value}>
-                {option.label}
+                {option.label.toLowerCase()}
               </option>
             ))}
           </select>
@@ -79,13 +115,13 @@ export default function Shop() {
             ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" 
             : "space-y-4"}`}
           >
-            {products && products.length > 0 ? (
-              products.map(product => (
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))
             ) : (
               <div className="col-span-full text-center py-20 text-muted-foreground">
-                <p className="text-lg">No products found.</p>
+                <p className="text-lg lowercase">no products found in this category.</p>
               </div>
             )}
           </div>

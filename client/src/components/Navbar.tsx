@@ -26,6 +26,7 @@ export function Navbar() {
     { label: "jar candles", href: "/shop?category=jar" },
     { label: "bouquet candles", href: "/shop?category=bouquet" },
     { label: "decorative candles", href: "/shop?category=decorative" },
+    { label: "gift sets", href: "/shop?category=gift-sets" },
     { label: "ceramics", href: "/shop?category=ceramics" },
   ];
 
