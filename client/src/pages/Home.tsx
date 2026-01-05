@@ -9,6 +9,8 @@ import homewareStock from "@assets/stock_images/modern_minimalist_ho_efcfdea8.jp
 import bouquetsStock from "@assets/stock_images/flower_bouquet_candl_69966b97.jpg";
 import vesselStock from "@assets/stock_images/vessel_candle_with_f_e840b005.jpg";
 
+import luxuryGiftStock from "@assets/stock_images/luxury_custom_gift_b_d50df118.jpg";
+
 export default function Home() {
   const { data: products, isLoading } = useQuery({
     queryKey: ["/api/products"],
@@ -120,35 +122,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Categories Section with Irregular Shapes */}
-      <section className="py-16 md:py-24 px-4 bg-background">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-serif text-foreground/80 lowercase">categories</h2>
-          </div>
+      {/* Explore More Section */}
+      <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto w-full">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground lowercase">explore more</h2>
+          <div className="h-px w-24 bg-foreground/10 mx-auto mt-4" />
+        </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 items-end">
-            {categories.map((cat, i) => (
-              <Link key={i} href={cat.href}>
-                <div className="flex flex-col items-center group cursor-pointer">
-                  <div className={`relative w-full aspect-[4/5] overflow-hidden mb-6 transition-transform duration-500 group-hover:scale-[1.02] ${
-                    cat.shape === 'blob-1' ? 'rounded-[40%_60%_70%_30%/40%_50%_60%_40%]' :
-                    cat.shape === 'blob-2' ? 'rounded-[30%_70%_70%_30%/50%_40%_60%_50%]' :
-                    cat.shape === 'blob-3' ? 'rounded-[60%_40%_30%_70%/60%_30%_70%_40%]' :
-                    'rounded-[40%_60%_30%_70%/40%_40%_60%_60%]'
-                  }`}>
-                    <img
-                      src={cat.image}
-                      alt={cat.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <span className="font-serif text-lg text-foreground/70 lowercase tracking-wide">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {[
+            { name: "candles", image: "/images/candles-hero.jpeg", href: "/shop?category=candle" },
+            { name: "reed diffusers", image: "/images/candles-collection.jpeg", href: "/shop?category=diffuser" },
+            { name: "room & linen mists", image: "/images/candles-hero.jpeg", href: "/shop?category=mist" },
+            { name: "bath & body", image: "/images/candles-collection.jpeg", href: "/shop?category=bath" },
+            { name: "specialty tea", image: "/images/candles-hero.jpeg", href: "/shop?category=tea" },
+            { name: "gift sets", image: "/images/candles-collection.jpeg", href: "/shop?category=gift-sets" },
+          ].map((cat, i) => (
+            <Link key={i} href={cat.href}>
+              <div className="group relative aspect-[3/4] overflow-hidden rounded-md cursor-pointer">
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                <div className="absolute inset-0 flex items-end justify-center p-4">
+                  <h3 className="text-white text-xs md:text-sm font-medium text-center leading-tight mb-2">
                     {cat.name}
-                  </span>
+                  </h3>
                 </div>
-              </Link>
-            ))}
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Custom Gifting Banner */}
+      <section className="relative w-full h-[400px] md:h-[500px] overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${luxuryGiftStock})`,
+          }}
+        />
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="relative h-full max-w-7xl mx-auto px-4 flex items-center">
+          <div className="max-w-md text-white">
+            <h2 className="text-3xl md:text-4xl font-serif mb-4">Custom Gifting, Made Easy.</h2>
+            <p className="text-lg text-white/90 mb-8">Your ideas, our craftsmanship. Let's make something uniquely yours.</p>
+            <Link href="/giveaways">
+              <Button size="lg" className="bg-white text-black hover:bg-white/90 border-0">
+                Get Started
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

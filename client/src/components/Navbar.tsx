@@ -32,8 +32,8 @@ export function Navbar() {
 
   const navLinks = [
     { href: "#", label: "workshop" },
-    { href: "#", label: "events" },
-    { href: "/our-story", label: "our story" },
+    { href: "/giveaways", label: "custom giveaways" },
+    { label: "our story", href: "/our-story" },
   ];
 
   return (
