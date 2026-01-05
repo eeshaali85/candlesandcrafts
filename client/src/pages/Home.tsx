@@ -10,7 +10,7 @@ export default function Home() {
     queryKey: ["/api/products"],
   });
 
-  const bestSellers = products?.slice(0, 4) || [];
+  const bestSellers = Array.isArray(products) ? products.slice(0, 4) : [];
 
   return (
     <div className="w-full">
