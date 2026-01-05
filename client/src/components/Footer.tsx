@@ -2,18 +2,21 @@ import { Link } from "wouter";
 import { SiFacebook, SiInstagram, SiWhatsapp } from "react-icons/si";
 
 export function Footer() {
+  const logoUrl = "/attached_assets/logo.png";
   return (
-    <footer className="bg-[#70734a] text-white py-16 px-4">
+    <footer className="bg-[#3d2b1f] text-white py-16 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start mb-16">
           {/* Brand */}
           <div className="space-y-4">
-            <div className="inline-block border border-white/40 rounded-full p-4">
-              <div className="text-center">
-                <p className="text-[10px] uppercase tracking-[0.2em] font-serif leading-none">hand poured</p>
-                <h2 className="text-2xl font-serif tracking-tighter my-1">CANDLE</h2>
-                <p className="text-[10px] uppercase tracking-[0.2em] font-serif leading-none">with CARE.</p>
-              </div>
+            <div className="inline-block p-2">
+              <Link href="/">
+                <img 
+                  src={logoUrl} 
+                  alt="Candles & Crafts" 
+                  className="h-24 w-24 object-contain brightness-0 invert" 
+                />
+              </Link>
             </div>
             <p className="text-sm font-serif italic opacity-80">hand poured with love</p>
           </div>
@@ -47,7 +50,7 @@ export function Footer() {
             <a href="#" className="hover:scale-110 transition-transform"><SiInstagram className="w-5 h-5" /></a>
             <a href="#" className="hover:scale-110 transition-transform"><SiWhatsapp className="w-5 h-5" /></a>
           </div>
-          <p className="text-xs opacity-60">© 2025 Candle With Care.</p>
+          <p className="text-xs opacity-60">© 2025 Candles & Crafts.</p>
         </div>
       </div>
     </footer>
