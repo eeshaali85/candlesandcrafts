@@ -1,10 +1,16 @@
 import { Link, useLocation } from "wouter";
-import { ShoppingBag, User, Menu, ArrowRight, Search } from "lucide-react";
+import { ShoppingBag, User, Menu, ArrowRight, Search, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useUser } from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import logoUrl from "@assets/WhatsApp_Image_2025-12-29_at_7.27.13_PM_1767018467380.jpeg";
 
 export function Navbar() {
@@ -15,8 +21,15 @@ export function Navbar() {
 
   const cartCount = cart?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
+  const shopCategories = [
+    { label: "all candles", href: "/shop" },
+    { label: "jar candles", href: "/shop?category=jar" },
+    { label: "bouquet candles", href: "/shop?category=bouquet" },
+    { label: "decorative candles", href: "/shop?category=decorative" },
+    { label: "ceramics", href: "/shop?category=ceramics" },
+  ];
+
   const navLinks = [
-    { href: "/shop", label: "shop" },
     { href: "#", label: "workshop" },
     { href: "#", label: "events" },
     { href: "/our-story", label: "our story" },
@@ -43,6 +56,21 @@ export function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="text-sm font-medium transition-colors text-muted-foreground hover:text-foreground flex items-center gap-1">
+                  shop <ChevronDown className="w-4 h-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-48">
+                  {shopCategories.map((category) => (
+                    <DropdownMenuItem key={category.href} asChild>
+                      <Link href={category.href} className="w-full lowercase cursor-pointer">
+                        {category.label}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               {navLinks.map((link) => (
                 <Link 
                   key={link.href}
@@ -112,6 +140,24 @@ export function Navbar() {
                 </SheetTrigger>
                 <SheetContent side="right" className="w-[280px]">
                   <div className="flex flex-col gap-6 mt-10">
+                    <div className="space-y-4">
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">shop</p>
+                      <div className="flex flex-col gap-3 pl-2">
+                        {shopCategories.map((category) => (
+                          <Link 
+                            key={category.href}
+                            href={category.href}
+                            onClick={() => setIsOpen(false)}
+                            className="text-sm font-medium transition-colors text-muted-foreground hover:text-foreground lowercase"
+                          >
+                            {category.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="h-px bg-border my-2" />
+
                     {navLinks.map((link) => (
                       <Link 
                         key={link.href}
