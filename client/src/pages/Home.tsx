@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ChevronRight, Star } from "lucide-react";
+import { ChevronRight, Star, CheckCircle2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -209,55 +209,83 @@ export default function Home() {
       </section>
 
       {/* Reviews Section */}
-      <section className="py-16 md:py-24 px-4 max-w-6xl mx-auto w-full">
-        <div className="text-center mb-16">
-          <h2 className="text-2xl md:text-3xl font-serif text-foreground lowercase">customer reviews</h2>
-          <div className="h-px w-32 bg-foreground/10 mx-auto mt-4" />
-        </div>
+      <section className="py-16 md:py-24 px-4 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-serif text-foreground lowercase tracking-tight">customer reviews</h2>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {[
-            {
-              name: "Saad Raza",
-              text: "huge huge HUGE fan of your work! its amazing! 😍",
-              image: "/images/candles-hero.jpeg",
-            },
-            {
-              name: "Zaynah",
-              text: "just opened it! it's really beautiful i'm obsessed! smells so ethereal and very pinterest style ✨🎀",
-              image: "/images/candles-collection.jpeg",
-            },
-            {
-              name: "meenaghorii",
-              text: "A must-have for any matcha lover 💚",
-              image: "/images/candles-hero.jpeg",
-            },
-          ].map((review, i) => (
-            <div key={i} className="flex flex-col md:flex-row items-center gap-6">
-              <div className="w-32 h-32 flex-shrink-0 overflow-hidden rounded-lg bg-muted shadow-sm rotate-1 group hover:rotate-0 transition-transform duration-300">
-                <img
-                  src={review.image}
-                  alt={review.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1 text-center md:text-left">
-                <p className="text-sm italic text-muted-foreground mb-3 leading-relaxed">
-                  "{review.text}"
-                </p>
-                <div className="flex flex-col md:flex-row md:items-center gap-2">
-                  <span className="text-xs font-serif font-bold tracking-widest text-foreground/60 uppercase">
-                    -{review.name}
-                  </span>
-                  <div className="flex gap-0.5 justify-center md:justify-start">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              {
+                handle: "@nimrakhan_official",
+                text: "This was the most creative way I could start my birthday! Who knew breakfast in bed could be so magical with your egg & toast candle!!😭",
+                image: "/images/candles-hero.jpeg",
+                verified: true
+              },
+              {
+                handle: "@meenaghorii",
+                text: "So pretty! I loved it ✨💕",
+                image: "/images/candles-collection.jpeg",
+                verified: true
+              },
+              {
+                handle: "@Fatima Sajjad",
+                text: "Its SO BEAUTIFUL! Fits my room's vibe perfectly 🎀🎀",
+                image: "/images/candles-hero.jpeg",
+                verified: false
+              },
+            ].map((review, i) => (
+              <div key={i} className="flex gap-6 items-start group">
+                {/* Image Card */}
+                <div className="w-1/2 aspect-[4/5] rounded-sm overflow-hidden bg-muted shadow-sm transform -rotate-1 group-hover:rotate-0 transition-transform duration-500">
+                  <img
+                    src={review.image}
+                    alt={review.handle}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                
+                {/* Content */}
+                <div className="w-1/2 pt-4 relative">
+                  {/* Text */}
+                  <p className="text-[11px] md:text-xs text-foreground/80 leading-relaxed mb-4 font-light italic">
+                    {review.text}
+                  </p>
+                  
+                  {/* Handle & Verified */}
+                  <div className="flex items-center gap-1.5 mb-4">
+                    <span className="text-[10px] text-muted-foreground font-medium">{review.handle}</span>
+                    {review.verified && (
+                      <CheckCircle2 className="w-3 h-3 text-[#3897f0] fill-[#3897f0] stroke-white stroke-[2]" />
+                    )}
+                  </div>
+
+                  {/* Rating */}
+                  <div className="flex gap-0.5">
                     {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="w-2.5 h-2.5 fill-foreground text-foreground" />
+                      <Star key={j} className="w-3 h-3 fill-[#4a4a4a] text-[#4a4a4a]" />
                     ))}
                   </div>
+
+                  {/* Divider Line (as seen in screenshot) */}
+                  {i === 2 && (
+                    <div className="absolute -right-4 top-0 bottom-0 w-1 bg-[#70734a]/40 hidden md:block" />
+                  )}
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          
+          {/* Pagination dots */}
+          <div className="flex justify-center gap-1.5 mt-16">
+            {[...Array(12)].map((_, i) => (
+              <div 
+                key={i} 
+                className={`w-1.5 h-1.5 rounded-full ${i === 6 ? 'bg-black' : 'bg-black/10'}`} 
+              />
+            ))}
+          </div>
         </div>
       </section>
 
