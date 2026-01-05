@@ -63,7 +63,7 @@ export default function Home() {
           </p>
           <Link href="/our-story">
             <Button variant="default">
-              Step Inside Honey, I'm Home
+              Step Inside CandlesandCrafts
               <ChevronRight className="w-4 h-4 ml-2" />
             </Button>
           </Link>
@@ -158,23 +158,25 @@ export default function Home() {
       </section>
 
       {/* Custom Gifting Banner */}
-      <section className="relative w-full h-[400px] md:h-[500px] overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${luxuryGiftStock})`,
-          }}
-        />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="relative h-full max-w-7xl mx-auto px-4 flex items-center">
-          <div className="max-w-md text-white">
-            <h2 className="text-3xl md:text-4xl font-serif mb-4">Custom Gifting, Made Easy.</h2>
-            <p className="text-lg text-white/90 mb-8">Your ideas, our craftsmanship. Let's make something uniquely yours.</p>
-            <Link href="/giveaways">
-              <Button size="lg" className="bg-white text-black hover:bg-white/90 border-0">
-                Get Started
-              </Button>
-            </Link>
+      <section className="py-16 md:py-24 px-4 max-w-7xl mx-auto w-full">
+        <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden rounded-lg">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: `url(${luxuryGiftStock})`,
+            }}
+          />
+          <div className="absolute inset-0 bg-black/30" />
+          <div className="relative h-full px-8 md:px-16 flex items-center">
+            <div className="max-w-md text-white">
+              <h2 className="text-3xl md:text-4xl font-serif mb-4">Custom Gifting, Made Easy.</h2>
+              <p className="text-lg text-white/90 mb-8">Your ideas, our craftsmanship. Let's make something uniquely yours.</p>
+              <Link href="/giveaways">
+                <Button size="lg" className="bg-white text-black hover:bg-white/90 border-0">
+                  Get Started
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
