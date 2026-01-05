@@ -1,3 +1,4 @@
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -8,10 +9,7 @@ import candlesStock from "@assets/stock_images/handcrafted_candles__78dd0cf3.jpg
 import homewareStock from "@assets/stock_images/modern_minimalist_ho_efcfdea8.jpg";
 import bouquetsStock from "@assets/stock_images/flower_bouquet_candl_69966b97.jpg";
 import vesselStock from "@assets/stock_images/vessel_candle_with_f_e840b005.jpg";
-
 import luxuryGiftStock from "@assets/stock_images/luxury_custom_gift_b_d50df118.jpg";
-
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export default function Home() {
   const { data: products, isLoading } = useQuery({
@@ -39,11 +37,11 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40" />
         <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-serif text-white mb-4 max-w-2xl">
-            Scents That Speak to the Soul
+          <h1 className="text-4xl md:text-5xl font-serif text-white mb-4 max-w-2xl lowercase">
+            scents that speak to the soul
           </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-xl mb-8">
-            From our hands to your home, we bring you fragrances that uplift, inspire, and create a sense of belonging.
+          <p className="text-lg md:text-xl text-white/90 max-w-xl mb-8 lowercase">
+            from our hands to your home, we bring you fragrances that uplift, inspire, and create a sense of belonging.
           </p>
         </div>
       </section>
@@ -54,12 +52,12 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-serif text-black font-normal mb-6 lowercase">
             made with intention
           </h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Made in Pakistan, with love for your home. Each candle is crafted with premium ingredients and care.
+          <p className="text-lg text-muted-foreground mb-8 lowercase">
+            made in pakistan, with love for your home. each candle is crafted with premium ingredients and care.
           </p>
           <Link href="/our-story">
             <Button variant="default">
-              Step Inside CandlesandCrafts
+              step inside candlesandcrafts
               <ChevronRight className="w-4 h-4 ml-2" />
             </Button>
           </Link>
@@ -180,11 +178,11 @@ export default function Home() {
           <div className="absolute inset-0 bg-black/30" />
           <div className="relative h-full px-8 md:px-16 flex items-center">
             <div className="max-w-md text-white">
-              <h2 className="text-3xl md:text-4xl font-serif mb-4">Custom Gifting, Made Easy.</h2>
-              <p className="text-lg text-white/90 mb-8">Your ideas, our craftsmanship. Let's make something uniquely yours.</p>
+              <h2 className="text-3xl md:text-4xl font-serif mb-4 lowercase">custom gifting, made easy.</h2>
+              <p className="text-lg text-white/90 mb-8 lowercase">your ideas, our craftsmanship. let's make something uniquely yours.</p>
               <Link href="/giveaways">
-                <Button size="lg" className="bg-white text-black hover:bg-white/90 border-0">
-                  Get Started
+                <Button size="lg" className="bg-white text-black hover:bg-white/90 border-0 lowercase">
+                  get started
                 </Button>
               </Link>
             </div>
