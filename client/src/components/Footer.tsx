@@ -29,6 +29,7 @@ export function Footer() {
               <li><Link href="/shop?category=candles" className="hover:underline">candles</Link></li>
               <li><Link href="/shop?category=homeware" className="hover:underline">homeware</Link></li>
               <li><Link href="/shop?category=bouquet" className="hover:underline">bouquet</Link></li>
+              <li><Link href="/giveaways" className="hover:underline">custom giveaways</Link></li>
             </ul>
           </div>
 
