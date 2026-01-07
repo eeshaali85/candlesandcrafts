@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { SiFacebook, SiInstagram, SiWhatsapp } from "react-icons/si";
 
-import logoUrl from "@assets/image_1767822379454.png";
+import logoUrl from "@assets/WhatsApp_Image_2025-12-29_at_7.27.13_PM_1767018467380.jpeg";
 
 export function Footer() {
   return (
