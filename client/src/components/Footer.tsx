@@ -5,7 +5,7 @@ import logoUrl from "@assets/WhatsApp_Image_2025-12-29_at_7.27.13_PM_17670184673
 
 export function Footer() {
   return (
-    <footer className="bg-[#3d2b1f] text-white py-16 px-4">
+    <footer className="bg-[#4a3728] text-white py-16 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start mb-16">
           {/* Brand */}
@@ -15,7 +15,7 @@ export function Footer() {
                 <img 
                   src={logoUrl} 
                   alt="Candles & Crafts" 
-                  className="h-32 w-32 object-contain"
+                  className="h-32 w-32 object-contain mix-blend-multiply brightness-125 contrast-125"
                 />
               </Link>
             </div>
