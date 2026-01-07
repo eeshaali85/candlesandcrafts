@@ -1,10 +1,11 @@
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ChevronRight, Star, CheckCircle2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useState, useEffect } from "react";
 import candlesStock from "@assets/stock_images/handcrafted_candles__78dd0cf3.jpg";
 import homewareStock from "@assets/stock_images/modern_minimalist_ho_efcfdea8.jpg";
 import bouquetsStock from "@assets/stock_images/flower_bouquet_candl_69966b97.jpg";
@@ -12,9 +13,22 @@ import vesselStock from "@assets/stock_images/vessel_candle_with_f_e840b005.jpg"
 import luxuryGiftStock from "@assets/stock_images/luxury_custom_gift_b_d50df118.jpg";
 
 export default function Home() {
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+
   const { data: products, isLoading } = useQuery({
     queryKey: ["/api/products"],
   });
+
+  useEffect(() => {
+    if (!api) return;
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap());
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
 
   const bestSellers = Array.isArray(products) ? products : [];
 
@@ -262,74 +276,90 @@ export default function Home() {
             <div className="h-px w-32 bg-black mx-auto mt-4" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[
-              {
-                handle: "@nimrakhan_official",
-                text: "This was the most creative way I could start my birthday! Who knew breakfast in bed could be so magical with your egg & toast candle!!😭",
-                image: "/images/candles-hero.jpeg",
-                verified: true
-              },
-              {
-                handle: "@meenaghorii",
-                text: "So pretty! I loved it ✨💕",
-                image: "/images/candles-collection.jpeg",
-                verified: true
-              },
-              {
-                handle: "@Fatima Sajjad",
-                text: "Its SO BEAUTIFUL! Fits my room's vibe perfectly 🎀🎀",
-                image: "/images/candles-hero.jpeg",
-                verified: false
-              },
-            ].map((review, i) => (
-              <div key={i} className="flex gap-6 items-start group">
-                {/* Image Card */}
-                <div className="w-1/2 aspect-[4/5] rounded-sm overflow-hidden bg-muted shadow-sm transform -rotate-1 group-hover:rotate-0 transition-transform duration-500">
-                  <img
-                    src={review.image}
-                    alt={review.handle}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                
-                {/* Content */}
-                <div className="w-1/2 pt-4 relative">
-                  {/* Text */}
-                  <p className="text-[11px] md:text-xs text-foreground/80 leading-relaxed mb-4 font-light italic">
-                    {review.text}
-                  </p>
-                  
-                  {/* Handle & Verified */}
-                  <div className="flex items-center gap-1.5 mb-4">
-                    <span className="text-[10px] text-muted-foreground font-medium">{review.handle}</span>
-                    {review.verified && (
-                      <CheckCircle2 className="w-3 h-3 text-[#3897f0] fill-[#3897f0] stroke-white stroke-[2]" />
-                    )}
-                  </div>
+          <div className="px-4 md:px-12">
+            <Carousel setApi={setApi} className="w-full">
+              <CarouselContent className="-ml-4">
+                {[
+                  {
+                    handle: "@nimrakhan_official",
+                    text: "This was the most creative way I could start my birthday! Who knew breakfast in bed could be so magical with your egg & toast candle!!😭",
+                    image: "/images/candles-hero.jpeg",
+                    verified: true
+                  },
+                  {
+                    handle: "@meenaghorii",
+                    text: "So pretty! I loved it ✨💕",
+                    image: "/images/candles-collection.jpeg",
+                    verified: true
+                  },
+                  {
+                    handle: "@Fatima Sajjad",
+                    text: "Its SO BEAUTIFUL! Fits my room's vibe perfectly 🎀🎀",
+                    image: "/images/candles-hero.jpeg",
+                    verified: false
+                  },
+                  {
+                    handle: "@sara_shaikh",
+                    text: "The scent is so calming, perfect for my workspace! 🕯️✨",
+                    image: "/images/candles-collection.jpeg",
+                    verified: true
+                  },
+                  {
+                    handle: "@zainab_ali",
+                    text: "Obsessed with the packaging! Makes such a perfect gift. 🎁",
+                    image: "/images/candles-hero.jpeg",
+                    verified: true
+                  }
+                ].map((review, i) => (
+                  <CarouselItem key={i} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                    <div className="flex gap-6 items-start group">
+                      {/* Image Card */}
+                      <div className="w-1/2 aspect-[4/5] rounded-sm overflow-hidden bg-muted shadow-sm transform -rotate-1 group-hover:rotate-0 transition-transform duration-500">
+                        <img
+                          src={review.image}
+                          alt={review.handle}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      
+                      {/* Content */}
+                      <div className="w-1/2 pt-4 relative">
+                        {/* Text */}
+                        <p className="text-[11px] md:text-xs text-foreground/80 leading-relaxed mb-4 font-light italic">
+                          {review.text}
+                        </p>
+                        
+                        {/* Handle & Verified */}
+                        <div className="flex items-center gap-1.5 mb-4">
+                          <span className="text-[10px] text-muted-foreground font-medium">{review.handle}</span>
+                          {review.verified && (
+                            <CheckCircle2 className="w-3 h-3 text-[#3897f0] fill-[#3897f0] stroke-white stroke-[2]" />
+                          )}
+                        </div>
 
-                  {/* Rating */}
-                  <div className="flex gap-0.5">
-                    {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="w-3 h-3 fill-[#4a4a4a] text-[#4a4a4a]" />
-                    ))}
-                  </div>
-
-                  {/* Divider Line (as seen in screenshot) */}
-                  {i === 2 && (
-                    <div className="absolute -right-4 top-0 bottom-0 w-1 bg-[#70734a]/40 hidden md:block" />
-                  )}
-                </div>
-              </div>
-            ))}
+                        {/* Rating */}
+                        <div className="flex gap-0.5">
+                          {[...Array(5)].map((_, j) => (
+                            <Star key={j} className="w-3 h-3 fill-[#4a4a4a] text-[#4a4a4a]" />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="hidden md:flex -left-12 h-10 w-10 border-0 bg-black/5 hover:bg-black/10" />
+              <CarouselNext className="hidden md:flex -right-12 h-10 w-10 border-0 bg-black/5 hover:bg-black/10" />
+            </Carousel>
           </div>
           
           {/* Pagination dots */}
           <div className="flex justify-center gap-1.5 mt-16">
-            {[...Array(12)].map((_, i) => (
-              <div 
+            {Array.from({ length: count }).map((_, i) => (
+              <button 
                 key={i} 
-                className={`w-1.5 h-1.5 rounded-full ${i === 6 ? 'bg-black' : 'bg-black/10'}`} 
+                onClick={() => api?.scrollTo(i)}
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === current ? 'bg-black w-4' : 'bg-black/10'}`} 
               />
             ))}
           </div>
