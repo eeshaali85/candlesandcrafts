@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import logoUrl from "@assets/WhatsApp_Image_2025-12-29_at_7.27.13_PM_1767018467380.jpeg";
+import logoUrl from "@assets/image_1767822379454.png";
 
 export function Navbar() {
   const [location] = useLocation();
