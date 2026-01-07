@@ -1,8 +1,9 @@
 import { Link } from "wouter";
 import { SiFacebook, SiInstagram, SiWhatsapp } from "react-icons/si";
 
+import logoUrl from "@assets/image_1767822379454.png";
+
 export function Footer() {
-  const logoUrl = "/attached_assets/logo.png";
   return (
     <footer className="bg-[#3d2b1f] text-white py-16 px-4">
       <div className="max-w-7xl mx-auto">

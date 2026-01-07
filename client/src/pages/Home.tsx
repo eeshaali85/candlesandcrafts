@@ -61,7 +61,7 @@ export default function Home() {
       </section>
 
       {/* Tagline Section */}
-      <section className="bg-secondary py-8 md:py-12 px-4">
+      <section className="bg-secondary py-12 md:py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-serif text-black font-normal mb-4 lowercase">
             made with intention
@@ -79,10 +79,10 @@ export default function Home() {
       </section>
 
       {/* Best Sellers Section */}
-      <section className="py-6 md:py-8 px-4 max-w-7xl mx-auto w-full">
-        <div className="text-center mb-6">
+      <section className="py-12 md:py-16 px-4 max-w-7xl mx-auto w-full">
+        <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase">best sellers</h2>
-          <div className="h-px w-32 bg-black mx-auto mt-2" />
+          <div className="h-px w-32 bg-black mx-auto mt-4" />
         </div>
 
         <div className="px-12">
@@ -146,10 +146,10 @@ export default function Home() {
       </section>
 
       {/* Explore More Section */}
-      <section className="py-6 md:py-8 px-4 max-w-7xl mx-auto w-full">
-        <div className="text-center mb-6">
+      <section className="py-12 md:py-16 px-4 max-w-7xl mx-auto w-full">
+        <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase">explore more</h2>
-          <div className="h-px w-32 bg-black mx-auto mt-2" />
+          <div className="h-px w-32 bg-black mx-auto mt-4" />
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -269,9 +269,9 @@ export default function Home() {
       </section>
 
       {/* Reviews Section */}
-      <section className="py-8 md:py-12 px-4 bg-white overflow-hidden">
+      <section className="py-12 md:py-16 px-4 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8">
+          <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase tracking-tight">customer reviews</h2>
             <div className="h-px w-32 bg-black mx-auto mt-4" />
           </div>
@@ -367,8 +367,8 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-8 md:py-12 px-4 max-w-3xl mx-auto w-full">
-        <div className="text-center mb-8">
+      <section className="py-12 md:py-16 px-4 max-w-3xl mx-auto w-full">
+        <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase">frequently asked questions</h2>
           <div className="h-px w-32 bg-black mx-auto mt-4" />
         </div>
