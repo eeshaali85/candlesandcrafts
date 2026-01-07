@@ -15,7 +15,7 @@ export function Footer() {
                 <img 
                   src={logoUrl} 
                   alt="Candles & Crafts" 
-                  className="h-32 w-32 object-contain mix-blend-screen" 
+                  className="h-32 w-32 object-contain mix-blend-screen brightness-200" 
                 />
               </Link>
             </div>
