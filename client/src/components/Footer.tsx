@@ -10,12 +10,12 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start mb-16">
           {/* Brand */}
           <div className="space-y-4">
-            <div className="inline-block p-2">
+            <div className="inline-block p-2 bg-white rounded-full">
               <Link href="/">
                 <img 
                   src={logoUrl} 
                   alt="Candles & Crafts" 
-                  className="h-24 w-24 object-contain brightness-0 invert" 
+                  className="h-24 w-24 object-contain mix-blend-multiply" 
                 />
               </Link>
             </div>
