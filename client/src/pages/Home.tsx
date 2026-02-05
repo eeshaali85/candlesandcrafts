@@ -65,11 +65,11 @@ export default function Home() {
             Where Scent Meets Feeling
           </h2>
           <p className="text-lg text-muted-foreground mb-6">
-            Every candle begins quietly — poured by hand, shaped with care, and finished with purpose. Our fragrances are designed to soften your space, slow your moments, and make home feel more like home.
+            Every candle begins quietly,poured by hand, shaped with care, and finished with purpose. Our fragrances are designed to soften your space and make home feel more like home.
           </p>
           <Link href="/our-story">
             <Button variant="default">
-              step inside candlesandcrafts
+              look inside candlesandcrafts
               <ChevronRight className="w-4 h-4 ml-2" />
             </Button>
           </Link>
@@ -150,13 +150,11 @@ export default function Home() {
           <div className="h-px w-32 bg-foreground/30 mx-auto mt-2" />
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { name: "candles", image: "/images/candles-hero.jpeg", href: "/shop?category=candle" },
-            { name: "reed diffusers", image: "/images/candles-collection.jpeg", href: "/shop?category=diffuser" },
-            { name: "room & linen mists", image: "/images/candles-hero.jpeg", href: "/shop?category=mist" },
-            { name: "bath & body", image: "/images/candles-collection.jpeg", href: "/shop?category=bath" },
-            { name: "specialty tea", image: "/images/candles-hero.jpeg", href: "/shop?category=tea" },
+            { name: "jar candles", image: "/images/candles-hero.jpeg", href: "/shop?category=jar-candles" },
+            { name: "decorative candles", image: "/images/candles-collection.jpeg", href: "/shop?category=decorative-candles" },
+            { name: "bouquets", image: "/images/candles-hero.jpeg", href: "/shop?category=bouquets" },
             { name: "gift sets", image: "/images/candles-collection.jpeg", href: "/shop?category=gift-sets" },
           ].map((cat, i) => (
             <Link key={i} href={cat.href}>
