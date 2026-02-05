@@ -105,7 +105,7 @@ export default function Home() {
               <CarouselContent className="-ml-4">
                 {bestSellers.map((product: any) => (
                   <CarouselItem key={product.id} className="pl-4 md:basis-1/2 lg:basis-1/4">
-                    <Link href={`/shop#product-${product.id}`}>
+                    <Link href={`/product/${product.id}`}>
                       <div className="group cursor-pointer">
                         <div className="aspect-square overflow-hidden bg-muted mb-4 relative">
                           <img
