@@ -63,7 +63,7 @@ export default function Home() {
       {/* Tagline Section */}
       <section className="bg-secondary py-8 md:py-12 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-serif text-black font-normal mb-4 lowercase">
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground font-normal mb-4 lowercase">
             made with intention
           </h2>
           <p className="text-lg text-muted-foreground mb-6 lowercase">
@@ -81,8 +81,8 @@ export default function Home() {
       {/* Best Sellers Section */}
       <section className="py-6 md:py-8 px-4 max-w-7xl mx-auto w-full">
         <div className="text-center mb-6">
-          <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase">best sellers</h2>
-          <div className="h-px w-32 bg-black mx-auto mt-2" />
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground font-normal lowercase">best sellers</h2>
+          <div className="h-px w-32 bg-foreground/30 mx-auto mt-2" />
         </div>
 
         <div className="px-12">
@@ -148,8 +148,8 @@ export default function Home() {
       {/* Explore More Section */}
       <section className="py-6 md:py-8 px-4 max-w-7xl mx-auto w-full">
         <div className="text-center mb-6">
-          <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase">explore more</h2>
-          <div className="h-px w-32 bg-black mx-auto mt-2" />
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground font-normal lowercase">explore more</h2>
+          <div className="h-px w-32 bg-foreground/30 mx-auto mt-2" />
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -208,8 +208,8 @@ export default function Home() {
       <section className="bg-muted py-8 md:py-12 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase">our values</h2>
-            <div className="h-px w-32 bg-black mx-auto mt-4" />
+            <h2 className="text-3xl md:text-4xl font-serif text-foreground font-normal lowercase">our values</h2>
+            <div className="h-px w-32 bg-foreground/30 mx-auto mt-4" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -269,11 +269,11 @@ export default function Home() {
       </section>
 
       {/* Reviews Section */}
-      <section className="py-8 md:py-12 px-4 bg-white overflow-hidden">
+      <section className="py-8 md:py-12 px-4 bg-card overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase tracking-tight">customer reviews</h2>
-            <div className="h-px w-32 bg-black mx-auto mt-4" />
+            <h2 className="text-3xl md:text-4xl font-serif text-foreground font-normal lowercase tracking-tight">customer reviews</h2>
+            <div className="h-px w-32 bg-foreground/30 mx-auto mt-4" />
           </div>
 
           <div className="px-4 md:px-12">
@@ -359,7 +359,7 @@ export default function Home() {
               <button 
                 key={i} 
                 onClick={() => api?.scrollTo(i)}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === current ? 'bg-black w-4' : 'bg-black/10'}`} 
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === current ? 'bg-foreground w-4' : 'bg-foreground/20'}`} 
               />
             ))}
           </div>
@@ -369,8 +369,8 @@ export default function Home() {
       {/* FAQ Section */}
       <section className="py-8 md:py-12 px-4 max-w-3xl mx-auto w-full">
         <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-serif text-black font-normal lowercase">frequently asked questions</h2>
-          <div className="h-px w-32 bg-black mx-auto mt-4" />
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground font-normal lowercase">frequently asked questions</h2>
+          <div className="h-px w-32 bg-foreground/30 mx-auto mt-4" />
         </div>
 
         <div className="space-y-3">

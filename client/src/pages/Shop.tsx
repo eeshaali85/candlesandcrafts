@@ -56,7 +56,7 @@ export default function Shop() {
       {/* Hero Section */}
       <section className="bg-secondary py-12 px-4">
         <div className="container mx-auto text-center">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-foreground lowercase">{categoryTitle}</h1>
+          <h1 className="font-serif text-4xl md:text-5xl font-normal mb-4 text-foreground lowercase">{categoryTitle}</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Discover our exquisite collection of luxury hand poured candles made with 100% pure BeeSoy wax and clean fragrances that truly make your space uniquely yours.
           </p>
