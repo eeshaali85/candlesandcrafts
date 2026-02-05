@@ -1,7 +1,7 @@
 import { useProducts } from "@/hooks/use-products";
 import { ProductCard } from "@/components/ProductCard";
 import { Loader2, Grid3x3, List } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useLocation } from "wouter";
 
 const SORT_OPTIONS = [
@@ -19,6 +19,10 @@ export default function Shop() {
 
   const queryParams = useMemo(() => new URLSearchParams(window.location.search), [location]);
   const categoryFilter = queryParams.get("category");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [categoryFilter]);
 
   const categoryTitle = useMemo(() => {
     if (!categoryFilter) return "All Candles";

@@ -3,7 +3,7 @@ import { useProduct, useProducts } from "@/hooks/use-products";
 import { useAddToCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
 import { Loader2, Minus, Plus, ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import {
   Select,
@@ -25,6 +25,10 @@ export default function ProductDetail() {
   const [selectedScent, setSelectedScent] = useState("flower meadows");
   const [selectedSeries, setSelectedSeries] = useState("");
   const [selectedType, setSelectedType] = useState("");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   const jarSeries = [
     "Mini Moments series – Shot Glass",
