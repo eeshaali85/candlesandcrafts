@@ -18,7 +18,6 @@ export function Navbar() {
   const { data: user } = useUser();
   const { data: cart } = useCart();
   const [isOpen, setIsOpen] = useState(false);
-  const [isShopOpen, setIsShopOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
 
@@ -79,31 +78,20 @@ export function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">
-              <div 
-                className="relative group"
-                onMouseEnter={() => setIsShopOpen(true)}
-                onMouseLeave={() => setIsShopOpen(false)}
-              >
-                <DropdownMenu open={isShopOpen} onOpenChange={setIsShopOpen}>
-                  <DropdownMenuTrigger className="text-sm font-medium transition-colors text-muted-foreground hover:text-foreground flex items-center gap-1 outline-none">
-                    shop <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent 
-                    align="start" 
-                    className="w-48"
-                    onMouseEnter={() => setIsShopOpen(true)}
-                    onMouseLeave={() => setIsShopOpen(false)}
-                  >
-                    {shopCategories.map((category) => (
-                      <DropdownMenuItem key={category.href} asChild>
-                        <Link href={category.href} className="w-full lowercase cursor-pointer">
-                          {category.label}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="text-sm font-medium transition-colors text-muted-foreground hover:text-foreground flex items-center gap-1 outline-none">
+                  shop <ChevronDown className="w-4 h-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-48">
+                  {shopCategories.map((category) => (
+                    <DropdownMenuItem key={category.href} asChild>
+                      <Link href={category.href} className="w-full lowercase cursor-pointer">
+                        {category.label}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
 
               {navLinks.map((link) => (
                 <Link 
