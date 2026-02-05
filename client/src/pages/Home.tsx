@@ -107,11 +107,11 @@ export default function Home() {
                   <CarouselItem key={product.id} className="pl-4 md:basis-1/2 lg:basis-1/4">
                     <Link href={`/product/${product.id}`}>
                       <div className="group cursor-pointer">
-                        <div className="aspect-square overflow-hidden bg-muted mb-4 relative">
+                        <div className="aspect-square overflow-hidden bg-muted mb-4 relative rounded-lg">
                           <img
                             src={product.image}
                             alt={product.name}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-lg"
                           />
                           {product.stock === 0 && (
                             <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white text-[10px] px-2 py-1 rounded-full uppercase tracking-widest">
@@ -277,11 +277,11 @@ export default function Home() {
                   <CarouselItem key={i} className="pl-4 md:basis-1/2 lg:basis-1/3">
                     <div className="flex gap-6 items-start group">
                       {/* Image Card */}
-                      <div className="w-1/2 aspect-[4/5] rounded-sm overflow-hidden bg-muted shadow-sm transform -rotate-1 group-hover:rotate-0 transition-transform duration-500">
+                      <div className="w-1/2 aspect-[4/5] rounded-lg overflow-hidden bg-muted shadow-sm transform -rotate-1 group-hover:rotate-0 transition-transform duration-500">
                         <img
                           src={review.image}
                           alt={review.handle}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover rounded-lg"
                         />
                       </div>
                       

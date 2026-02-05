@@ -132,34 +132,34 @@ export default function ProductDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Product Images */}
           <div className="space-y-4">
-            <div className="aspect-square bg-white rounded-sm overflow-hidden">
+            <div className="aspect-square bg-white rounded-lg overflow-hidden">
               <img 
                 src={product.image} 
                 alt={product.name} 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-lg"
               />
             </div>
             {/* Thumbnail Gallery */}
             <div className="flex gap-3">
-              <div className="w-20 h-20 bg-white rounded-sm overflow-hidden border-2 border-muted-foreground/20">
+              <div className="w-20 h-20 bg-white rounded-lg overflow-hidden border-2 border-muted-foreground/20">
                 <img 
                   src={product.image} 
                   alt={product.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-lg"
                 />
               </div>
-              <div className="w-20 h-20 bg-white rounded-sm overflow-hidden border border-muted-foreground/10">
+              <div className="w-20 h-20 bg-white rounded-lg overflow-hidden border border-muted-foreground/10">
                 <img 
                   src={product.image} 
                   alt={product.name}
-                  className="w-full h-full object-cover opacity-70"
+                  className="w-full h-full object-cover opacity-70 rounded-lg"
                 />
               </div>
-              <div className="w-20 h-20 bg-white rounded-sm overflow-hidden border border-muted-foreground/10">
+              <div className="w-20 h-20 bg-white rounded-lg overflow-hidden border border-muted-foreground/10">
                 <img 
                   src={product.image} 
                   alt={product.name}
-                  className="w-full h-full object-cover opacity-70"
+                  className="w-full h-full object-cover opacity-70 rounded-lg"
                 />
               </div>
             </div>
@@ -308,11 +308,11 @@ export default function ProductDetail() {
               .map((relatedProduct: any) => (
                 <Link key={relatedProduct.id} href={`/product/${relatedProduct.id}`}>
                   <div className="group cursor-pointer">
-                    <div className="aspect-square overflow-hidden bg-white rounded-sm mb-3">
+                    <div className="aspect-square overflow-hidden bg-white rounded-lg mb-3">
                       <img
                         src={relatedProduct.image}
                         alt={relatedProduct.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-lg"
                       />
                     </div>
                     <h3 className="text-sm text-center text-[#8b6b5a] font-medium mb-1">
