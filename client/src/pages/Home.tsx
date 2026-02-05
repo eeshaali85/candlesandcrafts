@@ -55,11 +55,11 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40" />
         <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-serif text-white mb-4 max-w-2xl lowercase">
-            scents that speak to the soul
+          <h1 className="text-4xl md:text-5xl font-serif text-white mb-4 max-w-2xl">
+            Where Scent Meets Feeling
           </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-xl mb-8 lowercase">
-            from our hands to your home, we bring you fragrances that uplift, inspire, and create a sense of belonging.
+          <p className="text-lg md:text-xl text-white/90 max-w-xl mb-8">
+            Every candle begins quietly — poured by hand, shaped with care, and finished with purpose. Our fragrances are designed to soften your space, slow your moments, and make home feel more like home.
           </p>
         </div>
       </section>
