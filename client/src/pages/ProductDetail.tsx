@@ -23,6 +23,9 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("crème");
   const [selectedScent, setSelectedScent] = useState("flower meadows");
+  const [selectedSize, setSelectedSize] = useState("small");
+
+  const sizes = ["small", "medium", "large"];
 
   const scents = [
     "flower meadows",
@@ -127,29 +130,27 @@ export default function ProductDetail() {
               </p>
             </div>
 
-            {/* Scent Selector - for jar candles and decorative candles */}
-            {(isJarCandle || isDecorativeCandle) && (
-              <div>
-                <p className="text-sm text-muted-foreground mb-2">scent</p>
-                <Select value={selectedScent} onValueChange={setSelectedScent}>
-                  <SelectTrigger className="w-full bg-white border-muted-foreground/20" data-testid="select-scent">
-                    <SelectValue placeholder="Select scent" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {scents.map((scent) => (
-                      <SelectItem key={scent} value={scent}>{scent}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+            {/* Size Selector */}
+            <div>
+              <p className="text-sm text-muted-foreground mb-2">size</p>
+              <Select value={selectedSize} onValueChange={setSelectedSize}>
+                <SelectTrigger className="w-full bg-[#f5f0eb] border-0" data-testid="select-size">
+                  <SelectValue placeholder="Select size" />
+                </SelectTrigger>
+                <SelectContent>
+                  {sizes.map((size) => (
+                    <SelectItem key={size} value={size}>{size}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
             {/* Color Selector - for decorative candles only */}
             {isDecorativeCandle && (
               <div>
                 <p className="text-sm text-muted-foreground mb-2">color</p>
                 <Select value={selectedColor} onValueChange={setSelectedColor}>
-                  <SelectTrigger className="w-full bg-white border-muted-foreground/20" data-testid="select-color">
+                  <SelectTrigger className="w-full bg-[#f5f0eb] border-0" data-testid="select-color">
                     <SelectValue placeholder="Select color" />
                   </SelectTrigger>
                   <SelectContent>
@@ -161,25 +162,42 @@ export default function ProductDetail() {
               </div>
             )}
 
+            {/* Scent Selector - for jar candles and decorative candles */}
+            {(isJarCandle || isDecorativeCandle) && (
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">scent</p>
+                <Select value={selectedScent} onValueChange={setSelectedScent}>
+                  <SelectTrigger className="w-full bg-[#f5f0eb] border-0" data-testid="select-scent">
+                    <SelectValue placeholder="Select scent" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {scents.map((scent) => (
+                      <SelectItem key={scent} value={scent}>{scent}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
             {/* Quantity Selector */}
             <div>
               <p className="text-sm text-muted-foreground mb-2">Quantity</p>
-              <div className="flex items-center border border-muted-foreground/20 rounded-sm bg-white w-fit">
+              <div className="flex items-center border border-muted-foreground/20 rounded-sm bg-[#f5f0eb] w-fit">
                 <button 
                   onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                  className="px-4 py-3 hover:bg-muted/50 transition-colors text-muted-foreground"
+                  className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"
                   disabled={quantity <= 1}
                   data-testid="button-decrease-quantity"
                 >
-                  <Minus className="w-4 h-4" />
+                  <Minus className="w-3 h-3" />
                 </button>
-                <span className="w-12 text-center font-medium text-foreground">{quantity}</span>
+                <span className="w-8 text-center text-sm text-foreground">{quantity}</span>
                 <button 
                   onClick={() => setQuantity(q => q + 1)}
-                  className="px-4 py-3 hover:bg-muted/50 transition-colors text-muted-foreground"
+                  className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"
                   data-testid="button-increase-quantity"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-3 h-3" />
                 </button>
               </div>
             </div>
@@ -188,7 +206,7 @@ export default function ProductDetail() {
             <Button 
               onClick={handleAddToCart}
               disabled={addToCart.isPending}
-              className="w-full py-6 rounded-full bg-[#d4b5a0] hover:bg-[#c4a590] text-[#5a4a42] font-medium text-base"
+              className="w-full py-4 rounded-full bg-[#d4b5a0] hover:bg-[#c4a590] text-[#5a4a42] font-medium text-sm"
               data-testid="button-add-to-cart"
             >
               {addToCart.isPending ? (
