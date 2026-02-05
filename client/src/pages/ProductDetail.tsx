@@ -23,9 +23,34 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("crème");
   const [selectedScent, setSelectedScent] = useState("flower meadows");
-  const [selectedSize, setSelectedSize] = useState("small");
+  const [selectedSeries, setSelectedSeries] = useState("");
+  const [selectedType, setSelectedType] = useState("");
 
-  const sizes = ["small", "medium", "large"];
+  const jarSeries = [
+    "Mini Moments series – Shot Glass",
+    "Aurora Series – Mini Gold",
+    "Eclipse Series – Black Jar",
+    "Amber Series – Amber Jar",
+    "Signature Luxe Series – Lidded"
+  ];
+
+  const decorativeTypes = [
+    { name: "Sakura/Body/Knot", weight: "90g" },
+    { name: "Short Ribbed", weight: "300g" },
+    { name: "Long Pierre", weight: "600g" },
+    { name: "Cylinder Ribbed", weight: "135g" },
+    { name: "Cylinder Ribbed Thick", weight: "315g" },
+    { name: "Mini Bubble/Rose Heart/Cloud", weight: "40g" },
+    { name: "Arch", weight: "230g" },
+    { name: "Bubble Heart/Bubble/Seashell/Puffy/Rose Bear/Dog", weight: "140g" },
+    { name: "Twisted", weight: "35g" },
+    { name: "Spirals/Mini Seashell/Small Peony/Twisted/Rose Bud", weight: "45g" },
+    { name: "Mini Bear", weight: "15g" },
+    { name: "Daisy/Peony Bud/Tulip", weight: "20g" },
+    { name: "Peony", weight: "70g" },
+    { name: "Sun/Aromatic Rose/Tapered/Big Bear/Rose", weight: "55g" },
+    { name: "3D Heart", weight: "80g" }
+  ];
 
   const scents = [
     "flower meadows",
@@ -130,20 +155,41 @@ export default function ProductDetail() {
               </p>
             </div>
 
-            {/* Size Selector */}
-            <div>
-              <p className="text-sm text-muted-foreground mb-2">size</p>
-              <Select value={selectedSize} onValueChange={setSelectedSize}>
-                <SelectTrigger className="w-full bg-[#f5f0eb] border-0" data-testid="select-size">
-                  <SelectValue placeholder="Select size" />
-                </SelectTrigger>
-                <SelectContent>
-                  {sizes.map((size) => (
-                    <SelectItem key={size} value={size}>{size}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            {/* Series Selector - for jar candles */}
+            {isJarCandle && (
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">series</p>
+                <Select value={selectedSeries} onValueChange={setSelectedSeries}>
+                  <SelectTrigger className="w-full bg-[#f5f0eb] border-0" data-testid="select-series">
+                    <SelectValue placeholder="Select series" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {jarSeries.map((series) => (
+                      <SelectItem key={series} value={series}>{series}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Type/Weight Selector - for decorative candles */}
+            {isDecorativeCandle && (
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">type</p>
+                <Select value={selectedType} onValueChange={setSelectedType}>
+                  <SelectTrigger className="w-full bg-[#f5f0eb] border-0" data-testid="select-type">
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {decorativeTypes.map((type) => (
+                      <SelectItem key={type.name} value={type.name}>
+                        {type.name} ({type.weight})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             {/* Color Selector - for decorative candles only */}
             {isDecorativeCandle && (
