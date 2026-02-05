@@ -22,6 +22,17 @@ export default function ProductDetail() {
   const addToCart = useAddToCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("crème");
+  const [selectedScent, setSelectedScent] = useState("flower meadows");
+
+  const scents = [
+    "flower meadows",
+    "butterscotch", 
+    "pink chiffon",
+    "alexandria library"
+  ];
+
+  const isJarCandle = product?.category?.toLowerCase().includes("jar");
+  const isDecorativeCandle = product?.category?.toLowerCase().includes("decorative");
 
   if (isLoading) {
     return (
@@ -113,20 +124,39 @@ export default function ProductDetail() {
               </p>
             </div>
 
-            {/* Color Selector */}
-            <div>
-              <p className="text-sm text-muted-foreground mb-2">color</p>
-              <Select value={selectedColor} onValueChange={setSelectedColor}>
-                <SelectTrigger className="w-full bg-white border-muted-foreground/20" data-testid="select-color">
-                  <SelectValue placeholder="Select color" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="crème">crème</SelectItem>
-                  <SelectItem value="rose">rose</SelectItem>
-                  <SelectItem value="sage">sage</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            {/* Scent Selector - for jar candles and decorative candles */}
+            {(isJarCandle || isDecorativeCandle) && (
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">scent</p>
+                <Select value={selectedScent} onValueChange={setSelectedScent}>
+                  <SelectTrigger className="w-full bg-white border-muted-foreground/20" data-testid="select-scent">
+                    <SelectValue placeholder="Select scent" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {scents.map((scent) => (
+                      <SelectItem key={scent} value={scent}>{scent}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Color Selector - for decorative candles only */}
+            {isDecorativeCandle && (
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">color</p>
+                <Select value={selectedColor} onValueChange={setSelectedColor}>
+                  <SelectTrigger className="w-full bg-white border-muted-foreground/20" data-testid="select-color">
+                    <SelectValue placeholder="Select color" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="crème">crème</SelectItem>
+                    <SelectItem value="rose">rose</SelectItem>
+                    <SelectItem value="sage">sage</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             {/* Quantity Selector */}
             <div>
