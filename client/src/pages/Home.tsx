@@ -216,7 +216,7 @@ export default function Home() {
             <div className="h-px w-32 bg-foreground/30 mx-auto mt-4" />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16">
             {[
               { title: "non-toxic", image: iconNonToxic },
               { title: "made in pakistan", image: iconPakistan },
@@ -224,12 +224,15 @@ export default function Home() {
               { title: "charitable contributions", image: iconCharity },
             ].map((value, i) => (
               <div key={i} className="text-center">
-                <img 
-                  src={value.image} 
-                  alt={value.title} 
-                  className="w-28 h-28 md:w-32 md:h-32 mx-auto mb-4 object-contain mix-blend-multiply"
-                />
-                <h3 className="font-serif text-base md:text-lg text-foreground lowercase">{value.title}</h3>
+                <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 flex items-center justify-center">
+                  <img 
+                    src={value.image} 
+                    alt={value.title} 
+                    className="w-full h-full object-contain"
+                    style={{ filter: 'sepia(20%) saturate(70%) brightness(0.6)' }}
+                  />
+                </div>
+                <h3 className="font-serif text-sm md:text-base text-foreground uppercase tracking-widest">{value.title}</h3>
               </div>
             ))}
           </div>
