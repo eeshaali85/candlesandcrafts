@@ -23,20 +23,12 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("crème");
   const [selectedScent, setSelectedScent] = useState("flower meadows");
-  const [selectedSeries, setSelectedSeries] = useState("");
   const [selectedType, setSelectedType] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  const jarSeries = [
-    "Mini Moments series – Shot Glass",
-    "Aurora Series – Mini Gold",
-    "Eclipse Series – Black Jar",
-    "Amber Series – Amber Jar",
-    "Signature Luxe Series – Lidded"
-  ];
 
   const decorativeTypes = [
     { name: "Sakura/Body/Knot", weight: "90g" },
@@ -159,22 +151,6 @@ export default function ProductDetail() {
               </p>
             </div>
 
-            {/* Series Selector - for jar candles */}
-            {isJarCandle && (
-              <div>
-                <p className="text-sm text-muted-foreground mb-2">series</p>
-                <Select value={selectedSeries} onValueChange={setSelectedSeries}>
-                  <SelectTrigger className="w-full bg-[#f5f0eb] border-0" data-testid="select-series">
-                    <SelectValue placeholder="Select series" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {jarSeries.map((series) => (
-                      <SelectItem key={series} value={series}>{series}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
 
             {/* Type/Weight Selector - for decorative candles */}
             {isDecorativeCandle && (
