@@ -148,7 +148,7 @@ export default function ProductDetail() {
             {/* Price */}
             <div>
               <p className="text-lg text-[#8b6b5a]">
-                Rs.{price.toLocaleString()}.00 PKR
+                Rs.{price.toLocaleString()}.00
               </p>
               <p className="text-sm text-muted-foreground mt-1">
                 <span className="underline cursor-pointer">Shipping</span> calculated at checkout.
@@ -296,7 +296,7 @@ export default function ProductDetail() {
                       {relatedProduct.name}
                     </h3>
                     <p className="text-sm text-center text-[#c4a590]">
-                      Rs.{parseFloat(relatedProduct.price).toLocaleString()}.00 PKR
+                      Rs.{parseFloat(relatedProduct.price).toLocaleString()}.00
                     </p>
                   </div>
                 </Link>
