@@ -28,7 +28,10 @@ export default function ProductDetail() {
     "flower meadows",
     "butterscotch", 
     "pink chiffon",
-    "alexandria library"
+    "alexandria library",
+    "oudh e bakhoor",
+    "ocean breeze",
+    "serenity"
   ];
 
   const isJarCandle = product?.category?.toLowerCase().includes("jar");
