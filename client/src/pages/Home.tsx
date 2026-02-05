@@ -55,23 +55,17 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40" />
         <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-serif text-white mb-4 max-w-2xl">
-            Where Scent Meets Feeling
-          </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-xl mb-8">
-            Every candle begins quietly — poured by hand, shaped with care, and finished with purpose. Our fragrances are designed to soften your space, slow your moments, and make home feel more like home.
-          </p>
         </div>
       </section>
 
       {/* Tagline Section */}
       <section className="bg-secondary py-8 md:py-12 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground font-normal mb-4 lowercase">
-            made with intention
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground font-normal mb-4">
+            Where Scent Meets Feeling
           </h2>
-          <p className="text-lg text-muted-foreground mb-6 lowercase">
-            made in pakistan, with love for your home. each candle is crafted with premium ingredients and care.
+          <p className="text-lg text-muted-foreground mb-6">
+            Every candle begins quietly — poured by hand, shaped with care, and finished with purpose. Our fragrances are designed to soften your space, slow your moments, and make home feel more like home.
           </p>
           <Link href="/our-story">
             <Button variant="default">
