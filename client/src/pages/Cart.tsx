@@ -70,7 +70,7 @@ export default function Cart() {
                         <Link href={`/product/${item.product.id}`}>{item.product.name}</Link>
                       </h3>
                       <p className="font-medium text-lg text-primary">
-                        ${(Number(item.product.price) * item.quantity).toFixed(2)}
+                        Rs.{(Number(item.product.price) * item.quantity).toLocaleString()}.00 PKR
                       </p>
                     </div>
                     <p className="text-sm text-muted-foreground capitalize">{item.product.category}</p>
@@ -104,21 +104,21 @@ export default function Cart() {
               <div className="space-y-4 mb-8">
                 <div className="flex justify-between text-muted-foreground">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>Rs.{subtotal.toLocaleString()}.00 PKR</span>
                 </div>
                 <div className="flex justify-between text-muted-foreground">
                   <span>Shipping</span>
-                  <span>{shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}</span>
+                  <span>{shipping === 0 ? "Free" : `Rs.${shipping.toLocaleString()}.00 PKR`}</span>
                 </div>
                 {shipping > 0 && (
                   <div className="text-xs text-primary/80 bg-primary/10 p-2 rounded text-center">
-                    Add ${(50 - subtotal).toFixed(2)} more for free shipping!
+                    Add Rs.{(50 - subtotal).toLocaleString()}.00 more for free shipping!
                   </div>
                 )}
                 <div className="h-px bg-border my-4" />
                 <div className="flex justify-between text-xl font-bold text-foreground">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>Rs.{total.toLocaleString()}.00 PKR</span>
                 </div>
               </div>
 

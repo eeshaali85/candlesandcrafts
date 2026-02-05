@@ -63,7 +63,7 @@ export default function Profile() {
                   </div>
                   <div className="text-right">
                     <span className="text-sm text-muted-foreground block mb-1">Total</span>
-                    <span className="font-bold text-xl text-primary">${Number(order.total).toFixed(2)}</span>
+                    <span className="font-bold text-xl text-primary">Rs.{Number(order.total).toLocaleString()}.00 PKR</span>
                   </div>
                 </div>
                 

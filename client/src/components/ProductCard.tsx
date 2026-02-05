@@ -53,7 +53,7 @@ export function ProductCard({ product }: ProductCardProps) {
           </h3>
           <div className="mt-auto pt-4 flex items-center justify-between border-t border-border/50">
             <span className="font-medium text-lg text-primary">
-              ${Number(product.price).toFixed(2)}
+              Rs.{Number(product.price).toLocaleString()}.00 PKR
             </span>
             <span className="text-sm text-muted-foreground font-hand">
               In Stock
