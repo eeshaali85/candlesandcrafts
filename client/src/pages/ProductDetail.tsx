@@ -58,6 +58,37 @@ export default function ProductDetail() {
     "serenity"
   ];
 
+  const scentDescriptions: Record<string, { notes: string; description: string }> = {
+    "flower meadows": {
+      notes: "Jasmine, Rose, Fresh Greens",
+      description: "A delicate bouquet of wildflowers dancing in a sunlit meadow. Fresh and romantic."
+    },
+    "butterscotch": {
+      notes: "Vanilla, Amber",
+      description: "Warm and indulgent with creamy vanilla swirled into rich amber. Comforting and sweet."
+    },
+    "pink chiffon": {
+      notes: "Peony, Musk, Soft Florals",
+      description: "Light and airy like delicate fabric, with soft peony and a whisper of musk."
+    },
+    "alexandria library": {
+      notes: "Aged Paper, Sandalwood, Leather",
+      description: "The scent of ancient wisdom—aged parchment, warm sandalwood, and worn leather bindings."
+    },
+    "oudh e bakhoor": {
+      notes: "Oud, Saffron, Rose",
+      description: "An opulent Middle Eastern blend of precious oud, golden saffron, and damascena rose."
+    },
+    "ocean breeze": {
+      notes: "Sea Salt, Driftwood, Coconut",
+      description: "A refreshing coastal escape with crisp sea salt, sun-bleached driftwood, and tropical coconut."
+    },
+    "serenity": {
+      notes: "Lavender, Chamomile, Eucalyptus",
+      description: "A calming sanctuary of French lavender, gentle chamomile, and fresh eucalyptus."
+    }
+  };
+
   const isJarCandle = product?.category?.toLowerCase().includes("jar");
   const isDecorativeCandle = product?.category?.toLowerCase().includes("decorative");
 
@@ -202,6 +233,18 @@ export default function ProductDetail() {
                     ))}
                   </SelectContent>
                 </Select>
+                
+                {/* Scent Notes & Description */}
+                {selectedScent && scentDescriptions[selectedScent] && (
+                  <div className="mt-3 p-3 bg-[#f5f0eb] rounded-md">
+                    <p className="text-sm font-medium text-[#8b6b5a]">
+                      Notes: {scentDescriptions[selectedScent].notes}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {scentDescriptions[selectedScent].description}
+                    </p>
+                  </div>
+                )}
               </div>
             )}
 
