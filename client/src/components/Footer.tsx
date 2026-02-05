@@ -3,12 +3,12 @@ import { SiFacebook, SiInstagram, SiWhatsapp } from "react-icons/si";
 
 export function Footer() {
   return (
-    <footer className="bg-[#a08060] text-white py-12 px-4">
+    <footer className="bg-[#555555] text-white py-12 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left mb-12">
           {/* Brand & Nav */}
           <div className="space-y-4">
-            <h3 className="text-lg font-serif uppercase tracking-widest mb-6 text-white">candlesandcrafts</h3>
+            <h3 className="text-lg font-sans uppercase tracking-widest mb-6 text-white">candlesandcrafts</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/" className="hover:underline underline-offset-4">HOME</Link></li>
               <li><Link href="/about" className="hover:underline underline-offset-4">ABOUT</Link></li>
@@ -19,7 +19,7 @@ export function Footer() {
 
           {/* Contact */}
           <div className="space-y-4">
-            <h3 className="text-lg font-serif uppercase tracking-widest mb-6 text-white">contact</h3>
+            <h3 className="text-lg font-sans uppercase tracking-widest mb-6 text-white">contact</h3>
             <ul className="space-y-2 text-sm">
               <li>candlesandcraftss@gmail.com</li>
             </ul>
@@ -38,7 +38,7 @@ export function Footer() {
 
           {/* About Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-serif uppercase tracking-widest mb-6 text-white">about</h3>
+            <h3 className="text-lg font-sans uppercase tracking-widest mb-6 text-white">about</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/faq" className="hover:underline underline-offset-4">FAQs</Link></li>
               <li><Link href="/terms" className="hover:underline underline-offset-4">TERMS</Link></li>
