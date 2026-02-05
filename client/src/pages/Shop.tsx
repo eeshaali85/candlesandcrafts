@@ -58,7 +58,7 @@ export default function Shop() {
         <div className="container mx-auto text-center">
           <h1 className="font-serif text-4xl md:text-5xl font-normal mb-4 text-foreground lowercase">{categoryTitle}</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Discover our exquisite collection of luxury hand poured candles made with 100% pure BeeSoy wax and clean fragrances that truly make your space uniquely yours.
+            Explore our collection of hand-poured candles crafted from 100% pure soy wax and clean, refined fragrances, designed to elevate your space and make it unmistakably yours.
           </p>
         </div>
       </section>
