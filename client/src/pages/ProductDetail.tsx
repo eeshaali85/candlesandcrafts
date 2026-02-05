@@ -1,5 +1,5 @@
 import { useRoute } from "wouter";
-import { useProduct } from "@/hooks/use-products";
+import { useProduct, useProducts } from "@/hooks/use-products";
 import { useAddToCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
 import { Loader2, Minus, Plus, ArrowLeft } from "lucide-react";
@@ -18,6 +18,7 @@ export default function ProductDetail() {
   const id = params ? parseInt(params.id) : 0;
   
   const { data: product, isLoading, isError } = useProduct(id);
+  const { data: allProducts } = useProducts();
   const addToCart = useAddToCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("crème");
@@ -172,6 +173,47 @@ export default function ProductDetail() {
                 warmth, fragrance, and smiles in equal measure.
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Related Products Section */}
+        <div className="mt-20">
+          <h2 className="text-2xl font-serif text-[#8b6b5a] italic mb-8">
+            more cute stuff for your liking
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {allProducts && allProducts
+              .filter((p: any) => p.id !== id)
+              .slice(0, 4)
+              .map((relatedProduct: any) => (
+                <Link key={relatedProduct.id} href={`/product/${relatedProduct.id}`}>
+                  <div className="group cursor-pointer">
+                    <div className="aspect-square overflow-hidden bg-white rounded-sm mb-3">
+                      <img
+                        src={relatedProduct.image}
+                        alt={relatedProduct.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <h3 className="text-sm text-center text-[#8b6b5a] font-medium mb-1">
+                      {relatedProduct.name}
+                    </h3>
+                    <p className="text-sm text-center text-[#c4a590]">
+                      Rs.{parseFloat(relatedProduct.price).toLocaleString()}.00 PKR
+                    </p>
+                  </div>
+                </Link>
+              ))}
+          </div>
+        </div>
+
+        {/* Customer Reviews Section */}
+        <div className="mt-20 mb-12">
+          <h2 className="text-2xl font-serif text-[#8b6b5a] text-center mb-8">
+            Customer Reviews
+          </h2>
+          <div className="text-center text-muted-foreground">
+            <p>No reviews yet. Be the first to share your thoughts!</p>
           </div>
         </div>
       </div>
