@@ -49,7 +49,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/20 text-center text-sm">
-          <p className="opacity-80">© 2025 CandlesandCrafts.</p>
+          <p className="opacity-80">© 2021 CandlesandCrafts.</p>
         </div>
       </div>
     </footer>
