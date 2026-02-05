@@ -18,6 +18,7 @@ export const products = pgTable("products", {
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   image: text("image").notNull(),
   category: text("category").notNull(), // "jar-candles" | "pillar-candles" | "bouquets" | "gift-sets"
+  series: text("series"), // For jar candles: "Mini Moments", "Aurora", "Eclipse", "Amber", "Signature Luxe"
   stock: integer("stock").default(0),
 });
 
