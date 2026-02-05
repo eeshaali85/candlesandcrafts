@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { ShoppingBag, User, Menu, ArrowRight, Search, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useUser } from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,27 @@ export function Navbar() {
   const { data: cart } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [isShopOpen, setIsShopOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY < 50) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY.current) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const cartCount = cart?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
@@ -48,7 +69,7 @@ export function Navbar() {
       </div>
 
       {/* Main Navigation */}
-      <nav className="sticky top-0 z-50 w-full bg-background border-b border-border/30">
+      <nav className={`sticky top-0 z-50 w-full bg-background border-b border-border/30 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-24">
             {/* Logo */}
