@@ -118,7 +118,7 @@ export default function ProductDetail() {
   const price = Number(product.price);
 
   return (
-    <div className="min-h-screen bg-[#f5f5f3]">
+    <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <Link href="/shop">
           <Button 
@@ -168,13 +168,13 @@ export default function ProductDetail() {
           {/* Product Info */}
           <div className="space-y-6">
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl font-serif text-[#8b6b5a]">
+            <h1 className="text-3xl md:text-4xl font-serif text-primary">
               {product.name}
             </h1>
 
             {/* Price */}
             <div>
-              <p className="text-lg text-[#8b6b5a]">
+              <p className="text-lg text-primary font-medium">
                 Rs.{price.toLocaleString()}.00
               </p>
               <p className="text-sm text-muted-foreground mt-1">
@@ -188,7 +188,7 @@ export default function ProductDetail() {
               <div>
                 <p className="text-sm text-muted-foreground mb-2">type</p>
                 <Select value={selectedType} onValueChange={setSelectedType}>
-                  <SelectTrigger className="w-full bg-[#f5f0eb] border-0" data-testid="select-type">
+                  <SelectTrigger className="w-full bg-muted border-0" data-testid="select-type">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -207,7 +207,7 @@ export default function ProductDetail() {
               <div>
                 <p className="text-sm text-muted-foreground mb-2">color</p>
                 <Select value={selectedColor} onValueChange={setSelectedColor}>
-                  <SelectTrigger className="w-full bg-[#f5f0eb] border-0" data-testid="select-color">
+                  <SelectTrigger className="w-full bg-muted border-0" data-testid="select-color">
                     <SelectValue placeholder="Select color" />
                   </SelectTrigger>
                   <SelectContent>
@@ -224,7 +224,7 @@ export default function ProductDetail() {
               <div>
                 <p className="text-sm text-muted-foreground mb-2">scent</p>
                 <Select value={selectedScent} onValueChange={setSelectedScent}>
-                  <SelectTrigger className="w-full bg-[#f5f0eb] border-0" data-testid="select-scent">
+                  <SelectTrigger className="w-full bg-muted border-0" data-testid="select-scent">
                     <SelectValue placeholder="Select scent" />
                   </SelectTrigger>
                   <SelectContent>
@@ -236,8 +236,8 @@ export default function ProductDetail() {
                 
                 {/* Scent Notes & Description */}
                 {selectedScent && scentDescriptions[selectedScent] && (
-                  <div className="mt-3 p-3 bg-[#f5f0eb] rounded-md">
-                    <p className="text-sm font-medium text-[#8b6b5a]">
+                  <div className="mt-3 p-3 bg-muted rounded-md">
+                    <p className="text-sm font-medium text-primary">
                       Notes: {scentDescriptions[selectedScent].notes}
                     </p>
                     <p className="text-sm text-muted-foreground mt-1">
@@ -251,7 +251,7 @@ export default function ProductDetail() {
             {/* Quantity Selector */}
             <div>
               <p className="text-sm text-muted-foreground mb-2">Quantity</p>
-              <div className="flex items-center border border-muted-foreground/20 rounded-sm bg-[#f5f0eb] w-fit">
+              <div className="flex items-center border border-muted-foreground/20 rounded-sm bg-muted w-fit">
                 <button 
                   onClick={() => setQuantity(q => Math.max(1, q - 1))}
                   className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"
@@ -275,7 +275,7 @@ export default function ProductDetail() {
             <Button 
               onClick={handleAddToCart}
               disabled={addToCart.isPending}
-              className="w-full py-4 rounded-full bg-[#d4b5a0] hover:bg-[#c4a590] text-[#5a4a42] font-medium text-sm"
+              className="w-full py-4 rounded-full bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium text-sm"
               data-testid="button-add-to-cart"
             >
               {addToCart.isPending ? (
@@ -298,7 +298,7 @@ export default function ProductDetail() {
 
         {/* Related Products Section */}
         <div className="mt-20">
-          <h2 className="text-2xl font-serif text-[#8b6b5a] italic mb-8 text-center">
+          <h2 className="text-2xl font-serif text-primary italic mb-8 text-center">
             more cute stuff for your liking
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -315,10 +315,10 @@ export default function ProductDetail() {
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-lg"
                       />
                     </div>
-                    <h3 className="text-sm text-center text-[#8b6b5a] font-medium mb-1">
+                    <h3 className="text-sm text-center text-primary font-medium mb-1">
                       {relatedProduct.name}
                     </h3>
-                    <p className="text-sm text-center text-[#c4a590]">
+                    <p className="text-sm text-center text-muted-foreground">
                       Rs.{parseFloat(relatedProduct.price).toLocaleString()}.00
                     </p>
                   </div>
@@ -329,14 +329,14 @@ export default function ProductDetail() {
 
         {/* Customer Reviews Section */}
         <div className="mt-20 mb-12">
-          <h2 className="text-2xl font-serif text-[#8b6b5a] text-center mb-8">
+          <h2 className="text-2xl font-serif text-primary text-center mb-8">
             Customer Reviews
           </h2>
           <div className="text-center">
             <p className="text-muted-foreground mb-6">No reviews yet. Be the first to share your thoughts!</p>
             <Button 
               variant="outline" 
-              className="border-[#8b6b5a] text-[#8b6b5a] hover:bg-[#8b6b5a] hover:text-white rounded-full px-8"
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-full px-8"
               data-testid="button-write-review"
             >
               Write a Review
