@@ -10,7 +10,7 @@ export function Footer() {
   return (
     <footer className="bg-[#555555] text-white py-12 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center mb-12">
           {/* Brand & Nav */}
           <div className="space-y-4">
             <h3 className="text-lg font-sans uppercase tracking-widest mb-6 text-white">candlesandcrafts</h3>
@@ -28,7 +28,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               <li>candlesandcraftss@gmail.com</li>
             </ul>
-            <div className="flex gap-4 justify-center md:justify-start pt-2">
+            <div className="flex gap-4 justify-center pt-2">
               <a href="#" className="hover:opacity-80 transition-opacity" data-testid="link-facebook">
                 <SiFacebook className="w-5 h-5" />
               </a>
