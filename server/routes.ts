@@ -86,54 +86,52 @@ export async function registerRoutes(
 async function seedDatabase() {
   const existing = await storage.getProducts();
   if (existing.length === 0) {
+    // Jar Candles - 5 Series
     await storage.createProduct({
-      name: "Ocean Breeze",
-      description: "A refreshing blend of honeydew and fresh citrus.",
-      price: "24.00",
+      name: "Mini Moments Series",
+      description: "Petite shot glass jar candle, perfect for small spaces. Available in 7 signature scents.",
+      price: "850.00",
       category: "jar-candles",
+      series: "Mini Moments Series",
       image: "/images/candles-collection.jpeg",
       stock: 50
     });
     await storage.createProduct({
-      name: "Toasted Vanilla",
-      description: "Warm amber and sandalwood notes.",
-      price: "24.00",
+      name: "Aurora Series",
+      description: "Elegant mini gold jar candle with a warm glow. Available in 7 signature scents.",
+      price: "1250.00",
       category: "jar-candles",
+      series: "Aurora Series",
       image: "/images/candles-collection.jpeg",
       stock: 50
     });
     await storage.createProduct({
-      name: "Espresso Shot",
-      description: "Rich coffee and tonka bean.",
-      price: "24.00",
+      name: "Eclipse Series",
+      description: "Sophisticated black jar candle for modern spaces. Available in 7 signature scents.",
+      price: "1650.00",
       category: "jar-candles",
+      series: "Eclipse Series",
       image: "/images/candles-collection.jpeg",
       stock: 50
     });
     await storage.createProduct({
-      name: "Lavender Serenity",
-      description: "Calming lavender and eucalyptus.",
-      price: "32.00",
-      category: "pillar-candles",
-      image: "/images/candles-hero.jpeg",
-      stock: 30
-    });
-    await storage.createProduct({
-      name: "Rose Garden",
-      description: "Beautiful rose petals with musk notes.",
-      price: "28.00",
-      category: "bouquets",
+      name: "Amber Series",
+      description: "Classic amber jar candle with rich, warm fragrance. Available in 7 signature scents.",
+      price: "2450.00",
+      category: "jar-candles",
+      series: "Amber Series",
       image: "/images/candles-collection.jpeg",
-      stock: 25
+      stock: 50
     });
     await storage.createProduct({
-      name: "Gift Set Trio",
-      description: "Three premium candles in beautiful packaging.",
-      price: "65.00",
-      category: "gift-sets",
-      image: "/images/candles-hero.jpeg",
-      stock: 15
+      name: "Signature Luxe Series",
+      description: "Elegant lidded jar candle for the discerning collector. Available in 7 signature scents.",
+      price: "3200.00",
+      category: "jar-candles",
+      series: "Signature Luxe Series",
+      image: "/images/candles-collection.jpeg",
+      stock: 50
     });
-    console.log("Database seeded!");
+    console.log("Database seeded with jar candle series!");
   }
 }
