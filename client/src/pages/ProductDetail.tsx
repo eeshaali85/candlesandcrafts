@@ -291,67 +291,6 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      {/* Sticky Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-muted-foreground/20 py-4 px-4 z-50">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <img 
-              src={product.image} 
-              alt={product.name}
-              className="w-12 h-12 object-cover rounded-md"
-            />
-            <div>
-              <p className="font-medium text-foreground">{product.name}</p>
-              <div className="flex items-center gap-2 text-sm">
-                <span className="text-muted-foreground line-through">Rs.{originalPrice.toLocaleString()}</span>
-                <span className="text-red-500">Rs.{salePrice.toLocaleString()}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Select value={selectedSize} onValueChange={setSelectedSize}>
-              <SelectTrigger className="w-32 border-muted-foreground/30" data-testid="select-size-bottom">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="3.5 fl oz">3.5 fl oz</SelectItem>
-                <SelectItem value="7 fl oz">7 fl oz</SelectItem>
-                <SelectItem value="12 fl oz">12 fl oz</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <div className="flex items-center border border-muted-foreground/30 rounded-md">
-              <button 
-                onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                className="p-2 hover:bg-muted transition-colors"
-                disabled={quantity <= 1}
-              >
-                <Minus className="w-4 h-4" />
-              </button>
-              <span className="w-8 text-center font-medium text-sm">{quantity}</span>
-              <button 
-                onClick={() => setQuantity(q => q + 1)}
-                className="p-2 hover:bg-muted transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
-            </div>
-
-            <Button 
-              onClick={handleAddToCart}
-              disabled={addToCart.isPending}
-              className="bg-foreground text-background hover:bg-foreground/90 uppercase tracking-wider font-medium px-8"
-              data-testid="button-add-to-cart-bottom"
-            >
-              Add to Cart
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom padding for sticky bar */}
-      <div className="h-24" />
     </div>
   );
 }
