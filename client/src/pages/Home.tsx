@@ -11,10 +11,10 @@ import homewareStock from "@assets/stock_images/modern_minimalist_ho_efcfdea8.jp
 import bouquetsStock from "@assets/stock_images/flower_bouquet_candl_69966b97.jpg";
 import vesselStock from "@assets/stock_images/vessel_candle_with_f_e840b005.jpg";
 import luxuryGiftStock from "@assets/stock_images/luxury_custom_gift_b_d50df118.jpg";
-import valueWomanOwned from "@assets/value-woman-owned.png";
-import valueHandmade from "@assets/value-handmade.png";
-import valuePakistan from "@assets/value-pakistan.png";
-import valueCharity from "@assets/value-charity.png";
+import iconNonToxic from "@assets/icon-non-toxic.png";
+import iconEcoFriendly from "@assets/icon-eco-friendly.png";
+import iconCuteCandle from "@assets/icon-cute-candle.png";
+import iconHandmadeLove from "@assets/icon-handmade-love.png";
 
 export default function Home() {
   const [api, setApi] = useState<CarouselApi>();
@@ -218,37 +218,20 @@ export default function Home() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             {[
-              { 
-                title: "woman owned business", 
-                subtitle: "empowering women every day",
-                image: valueWomanOwned
-              },
-              { 
-                title: "handmade with love", 
-                subtitle: "crafted carefully by hand",
-                image: valueHandmade
-              },
-              { 
-                title: "made in Pakistan", 
-                subtitle: "proudly local craftsmanship",
-                image: valuePakistan
-              },
-              { 
-                title: "charitable contributions", 
-                subtitle: "giving back to our community",
-                image: valueCharity
-              },
+              { title: "non-toxic", image: iconNonToxic },
+              { title: "eco-friendly", image: iconEcoFriendly },
+              { title: "cute AF", image: iconCuteCandle },
+              { title: "handmade w/ love", image: iconHandmadeLove },
             ].map((value, i) => (
               <div key={i} className="text-center group">
                 <div className="transition-transform duration-300 group-hover:scale-105">
                   <img 
                     src={value.image} 
                     alt={value.title} 
-                    className="w-28 h-28 md:w-32 md:h-32 mx-auto mb-4 object-contain"
+                    className="w-28 h-28 md:w-32 md:h-32 mx-auto mb-4 object-contain mix-blend-multiply"
                   />
                 </div>
-                <h3 className="font-serif text-base md:text-lg text-foreground mb-1 lowercase">{value.title}</h3>
-                <p className="text-xs text-muted-foreground italic lowercase">{value.subtitle}</p>
+                <h3 className="font-serif text-base md:text-lg text-foreground lowercase">{value.title}</h3>
               </div>
             ))}
           </div>
