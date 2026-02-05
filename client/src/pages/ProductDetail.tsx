@@ -178,7 +178,7 @@ export default function ProductDetail() {
 
         {/* Related Products Section */}
         <div className="mt-20">
-          <h2 className="text-2xl font-serif text-[#8b6b5a] italic mb-8">
+          <h2 className="text-2xl font-serif text-[#8b6b5a] italic mb-8 text-center">
             more cute stuff for your liking
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -212,8 +212,15 @@ export default function ProductDetail() {
           <h2 className="text-2xl font-serif text-[#8b6b5a] text-center mb-8">
             Customer Reviews
           </h2>
-          <div className="text-center text-muted-foreground">
-            <p>No reviews yet. Be the first to share your thoughts!</p>
+          <div className="text-center">
+            <p className="text-muted-foreground mb-6">No reviews yet. Be the first to share your thoughts!</p>
+            <Button 
+              variant="outline" 
+              className="border-[#8b6b5a] text-[#8b6b5a] hover:bg-[#8b6b5a] hover:text-white rounded-full px-8"
+              data-testid="button-write-review"
+            >
+              Write a Review
+            </Button>
           </div>
         </div>
       </div>
