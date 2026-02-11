@@ -13,24 +13,28 @@ import vesselStock from "@assets/stock_images/vessel_candle_with_f_e840b005.jpg"
 import luxuryGiftStock from "@assets/stock_images/luxury_custom_gift_b_d50df118.jpg";
 
 export default function Home() {
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
+  const [bestSellerPage, setBestSellerPage] = useState(0);
+  const [reviewApi, setReviewApi] = useState<CarouselApi>();
+  const [reviewCurrent, setReviewCurrent] = useState(0);
+  const [reviewCount, setReviewCount] = useState(0);
+
+  useEffect(() => {
+    if (!reviewApi) return;
+    setReviewCount(reviewApi.scrollSnapList().length);
+    setReviewCurrent(reviewApi.selectedScrollSnap());
+    reviewApi.on("select", () => {
+      setReviewCurrent(reviewApi.selectedScrollSnap());
+    });
+  }, [reviewApi]);
 
   const { data: products, isLoading } = useQuery({
     queryKey: ["/api/products"],
   });
 
-  useEffect(() => {
-    if (!api) return;
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap());
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap());
-    });
-  }, [api]);
-
   const bestSellers = Array.isArray(products) ? products : [];
+  const bestSellersPage1 = bestSellers.slice(0, 4);
+  const bestSellersPage2 = bestSellers.slice(4, 8);
+  const currentBestSellers = bestSellerPage === 0 ? bestSellersPage1 : bestSellersPage2;
 
   const categories = [
     { name: "candles", image: candlesStock, href: "/shop?category=candle", shape: "blob-1" },
@@ -79,9 +83,9 @@ export default function Home() {
           <div className="h-px w-32 bg-foreground/30 mx-auto mt-2" />
         </div>
 
-        <div className="px-12">
+        <div className="px-4 md:px-12">
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="space-y-4">
                   <Skeleton className="aspect-square rounded-md" />
@@ -91,57 +95,59 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-4">
-                {bestSellers.map((product: any) => (
-                  <CarouselItem key={product.id} className="pl-4 md:basis-1/2 lg:basis-1/4">
-                    <Link href={`/product/${product.id}`} data-testid={`link-bestseller-${product.id}`}>
-                      <div className="group cursor-pointer">
-                        <div className="aspect-square overflow-hidden bg-muted mb-4 relative rounded-lg">
-                          <img
-                            src={product.image}
-                            alt={product.name}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-lg"
-                          />
-                          {product.stock === 0 && (
-                            <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white text-[10px] px-2 py-1 rounded-full uppercase tracking-widest">
-                              Sold out
-                            </div>
-                          )}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {currentBestSellers.map((product: any) => (
+                <Link key={product.id} href={`/product/${product.id}`} data-testid={`link-bestseller-${product.id}`}>
+                  <div className="group cursor-pointer">
+                    <div className="aspect-square overflow-hidden bg-muted mb-4 relative rounded-lg">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-lg"
+                      />
+                      {product.stock === 0 && (
+                        <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white text-[10px] px-2 py-1 rounded-full uppercase tracking-widest">
+                          Sold out
                         </div>
-                        <div className="space-y-1">
-                          <h3 className="font-serif text-base text-foreground lowercase">{product.name}</h3>
-                          <p className="text-[11px] text-muted-foreground lowercase leading-tight">
-                            {product.description}
-                          </p>
-                          <p className="text-[10px] text-muted-foreground lowercase italic">
-                            scented candle
-                          </p>
-                          <p className="text-sm font-semibold text-[#c45e4c] mt-2">
-                            Rs.{parseFloat(product.price).toLocaleString()}.00
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="hidden md:flex -left-12 h-10 w-10 border-0 bg-black/5 hover:bg-black/10" />
-              <CarouselNext className="hidden md:flex -right-12 h-10 w-10 border-0 bg-black/5 hover:bg-black/10" />
-            </Carousel>
+                      )}
+                    </div>
+                    <div className="space-y-1">
+                      <h3 className="font-serif text-base text-foreground lowercase">{product.name}</h3>
+                      <p className="text-[11px] text-muted-foreground lowercase leading-tight">
+                        {product.description}
+                      </p>
+                      <p className="text-[10px] text-muted-foreground lowercase italic">
+                        scented candle
+                      </p>
+                      <p className="text-sm font-semibold text-[#c45e4c] mt-2">
+                        Rs.{parseFloat(product.price).toLocaleString()}.00
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
           )}
         </div>
 
-        {/* Line separator */}
-        <div className="flex justify-center mt-10 mb-2">
-          <div className="h-px w-80 bg-foreground/20" />
-        </div>
+        {/* Page toggle line */}
+        {bestSellersPage2.length > 0 && (
+          <div className="flex justify-center mt-10 mb-2">
+            <div className="flex w-80 cursor-pointer" data-testid="toggle-bestseller-pages">
+              <div
+                className={`h-px flex-1 transition-all duration-300 ${bestSellerPage === 0 ? 'bg-foreground/60' : 'bg-foreground/15'}`}
+                onClick={() => setBestSellerPage(0)}
+                data-testid="toggle-bestseller-page-1"
+              />
+              <div className="w-3" />
+              <div
+                className={`h-px flex-1 transition-all duration-300 ${bestSellerPage === 1 ? 'bg-foreground/60' : 'bg-foreground/15'}`}
+                onClick={() => setBestSellerPage(1)}
+                data-testid="toggle-bestseller-page-2"
+              />
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Explore More Section */}
@@ -236,7 +242,7 @@ export default function Home() {
           </div>
 
           <div className="px-4 md:px-12">
-            <Carousel setApi={setApi} className="w-full">
+            <Carousel setApi={setReviewApi} className="w-full">
               <CarouselContent className="-ml-4">
                 {[
                   {
@@ -314,11 +320,11 @@ export default function Home() {
           
           {/* Pagination dots */}
           <div className="flex justify-center gap-1.5 mt-16">
-            {Array.from({ length: count }).map((_, i) => (
+            {Array.from({ length: reviewCount }).map((_, i) => (
               <button 
                 key={i} 
-                onClick={() => api?.scrollTo(i)}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === current ? 'bg-foreground w-4' : 'bg-foreground/20'}`} 
+                onClick={() => reviewApi?.scrollTo(i)}
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === reviewCurrent ? 'bg-foreground w-4' : 'bg-foreground/20'}`} 
               />
             ))}
           </div>
