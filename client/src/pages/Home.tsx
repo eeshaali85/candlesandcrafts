@@ -147,10 +147,7 @@ export default function Home() {
       {/* Explore More Section */}
       <section className="pt-4 pb-6 md:pb-8 px-4 max-w-7xl mx-auto w-full">
         <div className="text-center mb-4">
-          <h2 className="text-2xl md:text-3xl font-serif text-foreground font-normal">Candles That Feel Like Home</h2>
-          <p className="text-sm text-muted-foreground mt-2 max-w-xl mx-auto">
-            Curate your space with our Signature Candles made with 100% pure soy wax and timeless fragrances
-          </p>
+          <h2 className="text-2xl md:text-3xl font-serif text-foreground font-normal">explore more</h2>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
