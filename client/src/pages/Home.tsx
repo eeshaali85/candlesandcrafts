@@ -132,18 +132,19 @@ export default function Home() {
 
         {/* Page toggle line */}
         {bestSellersPage2.length > 0 && (
-          <div className="flex justify-center mt-10 mb-2">
-            <div className="flex w-80 cursor-pointer" data-testid="toggle-bestseller-pages">
+          <div className="flex justify-center mt-12 mb-2">
+            <div
+              className="relative w-[420px] h-[3px] bg-foreground/15 cursor-pointer rounded-full"
+              data-testid="toggle-bestseller-pages"
+              onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                setBestSellerPage(clickX < rect.width / 2 ? 0 : 1);
+              }}
+            >
               <div
-                className={`h-px flex-1 transition-all duration-300 ${bestSellerPage === 0 ? 'bg-foreground/60' : 'bg-foreground/15'}`}
-                onClick={() => setBestSellerPage(0)}
-                data-testid="toggle-bestseller-page-1"
-              />
-              <div className="w-3" />
-              <div
-                className={`h-px flex-1 transition-all duration-300 ${bestSellerPage === 1 ? 'bg-foreground/60' : 'bg-foreground/15'}`}
-                onClick={() => setBestSellerPage(1)}
-                data-testid="toggle-bestseller-page-2"
+                className="absolute top-0 h-full w-1/2 bg-foreground/60 rounded-full transition-all duration-300"
+                style={{ left: bestSellerPage === 0 ? '0%' : '50%' }}
               />
             </div>
           </div>
