@@ -69,7 +69,7 @@ export default function Cart() {
                       <h3 className="font-serif text-lg font-bold hover:text-primary transition-colors">
                         <Link href={`/product/${item.product.id}`}>{item.product.name}</Link>
                       </h3>
-                      <p className="font-medium text-lg text-primary">
+                      <p className="font-semibold text-lg text-[#c45e4c]">
                         Rs.{(Number(item.product.price) * item.quantity).toLocaleString()}.00
                       </p>
                     </div>

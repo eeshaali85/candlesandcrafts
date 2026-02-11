@@ -31,7 +31,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className="absolute bottom-4 right-4 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
             <Button
               size="icon"
-              className="rounded-full shadow-lg bg-white text-primary hover:bg-primary hover:text-white"
+              className="rounded-full shadow-lg bg-white text-primary"
               onClick={handleAddToCart}
               disabled={addToCart.isPending}
             >
@@ -52,7 +52,7 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.name}
           </h3>
           <div className="mt-auto pt-4 flex items-center justify-between border-t border-border/50">
-            <span className="font-medium text-lg text-primary">
+            <span className="font-semibold text-lg text-[#c45e4c]">
               Rs.{Number(product.price).toLocaleString()}.00
             </span>
             <span className="text-sm text-muted-foreground font-hand">

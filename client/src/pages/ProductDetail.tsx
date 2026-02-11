@@ -174,7 +174,7 @@ export default function ProductDetail() {
 
             {/* Price */}
             <div>
-              <p className="text-lg text-primary font-medium">
+              <p className="text-lg text-[#c45e4c] font-semibold">
                 Rs.{price.toLocaleString()}.00
               </p>
               <p className="text-sm text-muted-foreground mt-1">
@@ -318,7 +318,7 @@ export default function ProductDetail() {
                     <h3 className="text-sm text-center text-primary font-medium mb-1">
                       {relatedProduct.name}
                     </h3>
-                    <p className="text-sm text-center text-muted-foreground">
+                    <p className="text-sm text-center text-[#c45e4c] font-semibold">
                       Rs.{parseFloat(relatedProduct.price).toLocaleString()}.00
                     </p>
                   </div>

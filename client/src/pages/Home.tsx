@@ -2,7 +2,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ChevronRight, Star, CheckCircle2 } from "lucide-react";
+import { ChevronRight, Star, CheckCircle2, Leaf, MapPin, Heart, HandHeart } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
@@ -11,10 +11,6 @@ import homewareStock from "@assets/stock_images/modern_minimalist_ho_efcfdea8.jp
 import bouquetsStock from "@assets/stock_images/flower_bouquet_candl_69966b97.jpg";
 import vesselStock from "@assets/stock_images/vessel_candle_with_f_e840b005.jpg";
 import luxuryGiftStock from "@assets/stock_images/luxury_custom_gift_b_d50df118.jpg";
-import iconNonToxic from "@assets/icon-non-toxic.png";
-import iconPakistan from "@assets/icon-pakistan.png";
-import iconHandmadeLove from "@assets/icon-handmade-love.png";
-import iconCharity from "@assets/icon-charity.png";
 
 export default function Home() {
   const [api, setApi] = useState<CarouselApi>();
@@ -77,7 +73,7 @@ export default function Home() {
       </section>
 
       {/* Best Sellers Section */}
-      <section className="py-6 md:py-8 px-4 max-w-7xl mx-auto w-full">
+      <section className="pt-6 md:pt-8 pb-2 px-4 max-w-7xl mx-auto w-full">
         <div className="text-center mb-6">
           <h2 className="text-3xl md:text-4xl font-serif text-foreground font-normal lowercase">best sellers</h2>
           <div className="h-px w-32 bg-foreground/30 mx-auto mt-2" />
@@ -105,7 +101,7 @@ export default function Home() {
               <CarouselContent className="-ml-4">
                 {bestSellers.map((product: any) => (
                   <CarouselItem key={product.id} className="pl-4 md:basis-1/2 lg:basis-1/4">
-                    <Link href={`/product/${product.id}`}>
+                    <Link href={`/product/${product.id}`} data-testid={`link-bestseller-${product.id}`}>
                       <div className="group cursor-pointer">
                         <div className="aspect-square overflow-hidden bg-muted mb-4 relative rounded-lg">
                           <img
@@ -127,8 +123,8 @@ export default function Home() {
                           <p className="text-[10px] text-muted-foreground lowercase italic">
                             scented candle
                           </p>
-                          <p className="text-sm font-medium text-foreground mt-2">
-                            Rs.{parseFloat(product.price).toLocaleString()}
+                          <p className="text-sm font-semibold text-[#c45e4c] mt-2">
+                            Rs.{parseFloat(product.price).toLocaleString()}.00
                           </p>
                         </div>
                       </div>
@@ -141,13 +137,20 @@ export default function Home() {
             </Carousel>
           )}
         </div>
+
+        {/* Line separator */}
+        <div className="flex justify-center mt-10 mb-2">
+          <div className="h-px w-80 bg-foreground/20" />
+        </div>
       </section>
 
       {/* Explore More Section */}
-      <section className="py-6 md:py-8 px-4 max-w-7xl mx-auto w-full">
-        <div className="text-center mb-6">
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground font-normal lowercase">explore more</h2>
-          <div className="h-px w-32 bg-foreground/30 mx-auto mt-2" />
+      <section className="pt-4 pb-6 md:pb-8 px-4 max-w-7xl mx-auto w-full">
+        <div className="text-center mb-4">
+          <h2 className="text-2xl md:text-3xl font-serif text-foreground font-normal">Candles That Feel Like Home</h2>
+          <p className="text-sm text-muted-foreground mt-2 max-w-xl mx-auto">
+            Curate your space with our Signature Candles made with 100% pure soy wax and timeless fragrances
+          </p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -157,7 +160,7 @@ export default function Home() {
             { name: "bouquets", image: "/images/candles-hero.jpeg", href: "/shop?category=bouquets" },
             { name: "gift sets", image: "/images/candles-collection.jpeg", href: "/shop?category=gift-sets" },
           ].map((cat, i) => (
-            <Link key={i} href={cat.href}>
+            <Link key={i} href={cat.href} data-testid={`link-category-${cat.name.replace(/\s+/g, '-')}`}>
               <div className="group relative aspect-[3/4] overflow-hidden rounded-md cursor-pointer">
                 <img
                   src={cat.image}
@@ -201,30 +204,26 @@ export default function Home() {
       </section>
 
       {/* Our Values Section */}
-      <section className="bg-muted py-8 md:py-12 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-8">
+      <section className="bg-muted py-10 md:py-14 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-serif text-foreground font-normal lowercase">our values</h2>
             <div className="h-px w-32 bg-foreground/30 mx-auto mt-4" />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-12">
             {[
-              { title: "non-toxic", image: iconNonToxic },
-              { title: "made in pakistan", image: iconPakistan },
-              { title: "handmade with love", image: iconHandmadeLove },
-              { title: "charitable contributions", image: iconCharity },
+              { title: "Non-Toxic", subtitle: "Clean ingredients, safe for you & your home", icon: Leaf },
+              { title: "Made in Pakistan", subtitle: "Proudly crafted with local artistry", icon: MapPin },
+              { title: "Handmade with Love", subtitle: "Every candle poured by hand, with care", icon: Heart },
+              { title: "Giving Back", subtitle: "A portion of every sale supports charity", icon: HandHeart },
             ].map((value, i) => (
-              <div key={i} className="text-center">
-                <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 flex items-center justify-center">
-                  <img 
-                    src={value.image} 
-                    alt={value.title} 
-                    className="w-full h-full object-contain"
-                    style={{ filter: 'sepia(20%) saturate(70%) brightness(0.6)' }}
-                  />
+              <div key={i} className="text-center flex flex-col items-center">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-background flex items-center justify-center mb-4 border border-border">
+                  <value.icon className="w-6 h-6 md:w-7 md:h-7 text-primary" strokeWidth={1.5} />
                 </div>
-                <h3 className="font-serif text-sm md:text-base text-foreground uppercase tracking-widest">{value.title}</h3>
+                <h3 className="font-sans text-xs md:text-sm font-semibold text-foreground uppercase tracking-[0.15em] mb-1">{value.title}</h3>
+                <p className="text-[10px] md:text-xs text-muted-foreground leading-relaxed">{value.subtitle}</p>
               </div>
             ))}
           </div>
