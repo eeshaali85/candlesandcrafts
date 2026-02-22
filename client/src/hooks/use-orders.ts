@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@shared/routes";
-import { type Order } from "@shared/schema";
+import { type Order, type CheckoutDetails } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 export function useOrders() {
@@ -20,23 +20,22 @@ export function useCreateOrder() {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: async () => {
+    mutationFn: async (details: CheckoutDetails) => {
       const res = await fetch(api.orders.create.path, {
         method: api.orders.create.method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({}), // Empty body as cart is used
+        body: JSON.stringify(details),
         credentials: "include",
       });
-      if (!res.ok) throw new Error("Failed to place order");
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to place order");
+      }
       return await res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.orders.list.path] });
       queryClient.invalidateQueries({ queryKey: [api.cart.list.path] });
-      toast({
-        title: "Order Placed!",
-        description: "Thank you for your purchase.",
-      });
     },
     onError: (error) => {
       toast({

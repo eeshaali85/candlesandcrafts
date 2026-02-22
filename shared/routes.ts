@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { insertUserSchema, insertProductSchema, insertCartItemSchema, insertOrderSchema } from './schema';
+import { insertUserSchema, insertProductSchema, insertCartItemSchema, insertOrderSchema, checkoutDetailsSchema } from './schema';
 
 export const errorSchemas = {
   validation: z.object({
@@ -48,6 +48,14 @@ export const api = {
         200: z.any(), // CartItem
       },
     },
+    updateItem: {
+      method: 'PATCH' as const,
+      path: '/api/cart/:id',
+      input: z.object({ quantity: z.number().min(1) }),
+      responses: {
+        200: z.any(),
+      },
+    },
     removeItem: {
       method: 'DELETE' as const,
       path: '/api/cart/:id',
@@ -60,7 +68,7 @@ export const api = {
     create: {
       method: 'POST' as const,
       path: '/api/orders',
-      input: z.object({}), // Usually empty body for "checkout cart"
+      input: checkoutDetailsSchema,
       responses: {
         201: z.any(), // Order
       },

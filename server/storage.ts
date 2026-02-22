@@ -1,8 +1,8 @@
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import {
   users, products, cartItems, orders, orderItems,
-  type User, type InsertUser, type Product, type CartItem, type Order, type InsertCartItem
+  type User, type InsertUser, type Product, type CartItem, type Order, type InsertCartItem, type CheckoutDetails
 } from "@shared/schema";
 
 export interface IStorage {
@@ -23,7 +23,8 @@ export interface IStorage {
   clearCart(userId: number): Promise<void>;
 
   // Orders
-  createOrder(userId: number, total: number, items: { productId: number; quantity: number; price: number }[]): Promise<Order>;
+  createOrder(userId: number, total: number, items: { productId: number; quantity: number; price: number }[], details: CheckoutDetails): Promise<Order>;
+  updateCartQuantity(id: number, quantity: number): Promise<CartItem>;
   getOrders(userId: number): Promise<(Order & { items: (typeof orderItems.$inferSelect & { product: Product })[] })[]>;
 }
 
@@ -76,8 +77,7 @@ export class DatabaseStorage implements IStorage {
     // Check if exists
     const [existing] = await db.select()
       .from(cartItems)
-      .where(eq(cartItems.userId, item.userId!)) // Assume validated
-      .where(eq(cartItems.productId, item.productId!));
+      .where(and(eq(cartItems.userId, item.userId!), eq(cartItems.productId, item.productId!)));
 
     if (existing) {
       const [updated] = await db.update(cartItems)
@@ -99,12 +99,25 @@ export class DatabaseStorage implements IStorage {
     await db.delete(cartItems).where(eq(cartItems.userId, userId));
   }
 
-  async createOrder(userId: number, total: number, items: { productId: number; quantity: number; price: number }[]): Promise<Order> {
+  async updateCartQuantity(id: number, quantity: number): Promise<CartItem> {
+    const [updated] = await db.update(cartItems)
+      .set({ quantity })
+      .where(eq(cartItems.id, id))
+      .returning();
+    return updated;
+  }
+
+  async createOrder(userId: number, total: number, items: { productId: number; quantity: number; price: number }[], details: CheckoutDetails): Promise<Order> {
     return await db.transaction(async (tx) => {
       const [order] = await tx.insert(orders).values({
         userId,
         total: total.toString(),
-        status: "completed"
+        status: "pending",
+        customerName: details.customerName,
+        phone: details.phone,
+        address: details.address,
+        city: details.city,
+        notes: details.notes || null,
       }).returning();
 
       for (const item of items) {

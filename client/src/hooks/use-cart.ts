@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, buildUrl } from "@shared/routes";
-import { type CartItem, type InsertCartItem } from "@shared/schema";
+import { type CartItem } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 export function useCart() {
@@ -8,9 +8,9 @@ export function useCart() {
     queryKey: [api.cart.list.path],
     queryFn: async () => {
       const res = await fetch(api.cart.list.path, { credentials: "include" });
-      if (res.status === 401) return []; // Guest user
+      if (res.status === 401) return [];
       if (!res.ok) throw new Error("Failed to fetch cart");
-      return await res.json() as (CartItem & { product: any })[]; // Extended type with product details
+      return await res.json() as (CartItem & { product: any })[];
     },
   });
 }
@@ -20,7 +20,7 @@ export function useAddToCart() {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: async (item: Omit<InsertCartItem, "userId">) => {
+    mutationFn: async (item: { productId: number; quantity: number }) => {
       const res = await fetch(api.cart.addItem.path, {
         method: api.cart.addItem.method,
         headers: { "Content-Type": "application/json" },
@@ -29,7 +29,7 @@ export function useAddToCart() {
       });
       
       if (res.status === 401) {
-        throw new Error("Please login to add items to cart");
+        throw new Error("LOGIN_REQUIRED");
       }
       if (!res.ok) throw new Error("Failed to add to cart");
       return await res.json();
@@ -42,15 +42,41 @@ export function useAddToCart() {
       });
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-      if (error.message.includes("login")) {
-        window.location.href = "/login";
+      if (error.message === "LOGIN_REQUIRED") {
+        toast({
+          title: "Sign in required",
+          description: "Please sign in to add items to your cart.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
       }
     }
+  });
+}
+
+export function useUpdateCartQuantity() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, quantity }: { id: number; quantity: number }) => {
+      const url = buildUrl(api.cart.updateItem.path, { id });
+      const res = await fetch(url, {
+        method: api.cart.updateItem.method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quantity }),
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Failed to update quantity");
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [api.cart.list.path] });
+    },
   });
 }
 

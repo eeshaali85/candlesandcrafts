@@ -3,6 +3,7 @@ import type { Server } from "http";
 import { setupAuth } from "./replit_integrations/auth";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
+import { checkoutDetailsSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(
@@ -42,6 +43,14 @@ export async function registerRoutes(
     }
   });
 
+  app.patch(api.cart.updateItem.path, async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    const parsed = api.cart.updateItem.input.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ message: "Invalid quantity" });
+    const item = await storage.updateCartQuantity(Number(req.params.id), parsed.data.quantity);
+    res.json(item);
+  });
+
   app.delete(api.cart.removeItem.path, async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
     await storage.removeFromCart(Number(req.params.id));
@@ -54,14 +63,17 @@ export async function registerRoutes(
     const cart = await storage.getCart(req.user!.id);
     if (cart.length === 0) return res.status(400).json({ message: "Cart empty" });
 
+    const parsed = checkoutDetailsSchema.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ message: "Please fill in all required details", errors: parsed.error.flatten() });
+
     const total = cart.reduce((sum, item) => sum + (Number(item.product.price) * item.quantity), 0);
-    const orderItems = cart.map(item => ({
+    const items = cart.map(item => ({
       productId: item.productId!,
       quantity: item.quantity,
       price: Number(item.product.price)
     }));
 
-    const order = await storage.createOrder(req.user!.id, total, orderItems);
+    const order = await storage.createOrder(req.user!.id, total, items, parsed.data);
     await storage.clearCart(req.user!.id);
     res.status(201).json(order);
   });

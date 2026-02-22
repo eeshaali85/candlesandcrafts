@@ -32,8 +32,13 @@ export const cartItems = pgTable("cart_items", {
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").references(() => users.id),
-  status: text("status").notNull().default("pending"), // pending, completed, cancelled
+  status: text("status").notNull().default("pending"),
   total: decimal("total", { precision: 10, scale: 2 }).notNull(),
+  customerName: text("customer_name").notNull(),
+  phone: text("phone").notNull(),
+  address: text("address").notNull(),
+  city: text("city").notNull(),
+  notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -88,10 +93,21 @@ export const insertCartItemSchema = createInsertSchema(cartItems).omit({ id: tru
 export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, createdAt: true });
 export const insertOrderItemSchema = createInsertSchema(orderItems).omit({ id: true });
 
+export const checkoutDetailsSchema = z.object({
+  customerName: z.string().min(2, "Name is required"),
+  phone: z.string().min(10, "Valid phone number required"),
+  address: z.string().min(5, "Address is required"),
+  city: z.string().min(2, "City is required"),
+  notes: z.string().optional(),
+});
+
+export type CheckoutDetails = z.infer<typeof checkoutDetailsSchema>;
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type Product = typeof products.$inferSelect;
+export type InsertCartItem = z.infer<typeof insertCartItemSchema>;
 export type CartItem = typeof cartItems.$inferSelect;
 export type Order = typeof orders.$inferSelect;
 export type OrderItem = typeof orderItems.$inferSelect;
