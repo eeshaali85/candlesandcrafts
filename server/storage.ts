@@ -23,7 +23,7 @@ export interface IStorage {
   clearCart(userId: number): Promise<void>;
 
   // Orders
-  createOrder(userId: number, total: number, items: { productId: number; quantity: number; price: number }[], details: CheckoutDetails): Promise<Order>;
+  createOrder(userId: number | null, total: number, items: { productId: number; quantity: number; price: number }[], details: CheckoutDetails): Promise<Order>;
   updateCartQuantity(id: number, quantity: number): Promise<CartItem>;
   getOrders(userId: number): Promise<(Order & { items: (typeof orderItems.$inferSelect & { product: Product })[] })[]>;
 }
@@ -107,7 +107,7 @@ export class DatabaseStorage implements IStorage {
     return updated;
   }
 
-  async createOrder(userId: number, total: number, items: { productId: number; quantity: number; price: number }[], details: CheckoutDetails): Promise<Order> {
+  async createOrder(userId: number | null, total: number, items: { productId: number; quantity: number; price: number }[], details: CheckoutDetails): Promise<Order> {
     return await db.transaction(async (tx) => {
       const [order] = await tx.insert(orders).values({
         userId,

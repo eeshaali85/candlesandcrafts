@@ -3,7 +3,7 @@ import type { Server } from "http";
 import { setupAuth } from "./replit_integrations/auth";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
-import { checkoutDetailsSchema } from "@shared/schema";
+import { guestCheckoutSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(
@@ -57,24 +57,25 @@ export async function registerRoutes(
     res.sendStatus(200);
   });
 
-  // Orders
+  // Orders (guest checkout supported)
   app.post(api.orders.create.path, async (req, res) => {
-    if (!req.isAuthenticated()) return res.sendStatus(401);
-    const cart = await storage.getCart(req.user!.id);
-    if (cart.length === 0) return res.status(400).json({ message: "Cart empty" });
-
-    const parsed = checkoutDetailsSchema.safeParse(req.body);
+    const parsed = guestCheckoutSchema.safeParse(req.body);
     if (!parsed.success) return res.status(400).json({ message: "Please fill in all required details", errors: parsed.error.flatten() });
 
-    const total = cart.reduce((sum, item) => sum + (Number(item.product.price) * item.quantity), 0);
-    const items = cart.map(item => ({
-      productId: item.productId!,
-      quantity: item.quantity,
-      price: Number(item.product.price)
-    }));
+    const { items: cartItems, ...details } = parsed.data;
 
-    const order = await storage.createOrder(req.user!.id, total, items, parsed.data);
-    await storage.clearCart(req.user!.id);
+    const productPrices: { productId: number; quantity: number; price: number }[] = [];
+    let total = 0;
+    for (const cartItem of cartItems) {
+      const product = await storage.getProduct(cartItem.productId);
+      if (!product) return res.status(400).json({ message: `Product #${cartItem.productId} not found` });
+      const price = Number(product.price);
+      total += price * cartItem.quantity;
+      productPrices.push({ productId: cartItem.productId, quantity: cartItem.quantity, price });
+    }
+
+    const userId = req.isAuthenticated() ? (req.user as any).id : null;
+    const order = await storage.createOrder(userId, total, productPrices, details);
     res.status(201).json(order);
   });
 

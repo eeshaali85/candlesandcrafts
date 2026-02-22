@@ -101,7 +101,15 @@ export const checkoutDetailsSchema = z.object({
   notes: z.string().optional(),
 });
 
+export const guestCheckoutSchema = checkoutDetailsSchema.extend({
+  items: z.array(z.object({
+    productId: z.number(),
+    quantity: z.number().min(1),
+  })).min(1, "Cart cannot be empty"),
+});
+
 export type CheckoutDetails = z.infer<typeof checkoutDetailsSchema>;
+export type GuestCheckoutInput = z.infer<typeof guestCheckoutSchema>;
 
 // Types
 export type User = typeof users.$inferSelect;

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { insertUserSchema, insertProductSchema, insertCartItemSchema, insertOrderSchema, checkoutDetailsSchema } from './schema';
+import { insertUserSchema, insertProductSchema, insertCartItemSchema, insertOrderSchema, guestCheckoutSchema } from './schema';
 
 export const errorSchemas = {
   validation: z.object({
@@ -68,7 +68,7 @@ export const api = {
     create: {
       method: 'POST' as const,
       path: '/api/orders',
-      input: checkoutDetailsSchema,
+      input: guestCheckoutSchema,
       responses: {
         201: z.any(), // Order
       },

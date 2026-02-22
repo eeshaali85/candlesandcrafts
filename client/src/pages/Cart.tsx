@@ -1,12 +1,11 @@
 import { useCart, useRemoveFromCart, useUpdateCartQuantity } from "@/hooks/use-cart";
 import { useCreateOrder } from "@/hooks/use-orders";
-import { useUser } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Loader2, Trash2, ArrowRight, ShoppingBag, Minus, Plus, CheckCircle, Package } from "lucide-react";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { useState } from "react";
 import { checkoutDetailsSchema, type CheckoutDetails } from "@shared/schema";
 
@@ -14,11 +13,9 @@ type CartStep = "cart" | "checkout" | "confirmation";
 
 export default function Cart() {
   const { data: cartItems, isLoading } = useCart();
-  const { data: user } = useUser();
   const removeItem = useRemoveFromCart();
   const updateQuantity = useUpdateCartQuantity();
   const createOrder = useCreateOrder();
-  const [, setLocation] = useLocation();
 
   const [step, setStep] = useState<CartStep>("cart");
   const [formData, setFormData] = useState<CheckoutDetails>({
@@ -100,9 +97,9 @@ export default function Cart() {
     );
   }
 
-  const handleQuantityChange = (itemId: number, newQty: number) => {
+  const handleQuantityChange = (productId: number, newQty: number) => {
     if (newQty < 1) return;
-    updateQuantity.mutate({ id: itemId, quantity: newQty });
+    updateQuantity.mutate({ id: productId, quantity: newQty });
   };
 
   const validateForm = () => {
@@ -121,7 +118,14 @@ export default function Cart() {
 
   const handlePlaceOrder = () => {
     if (!validateForm()) return;
-    createOrder.mutate(formData, {
+    const orderInput = {
+      ...formData,
+      items: cartItems.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      })),
+    };
+    createOrder.mutate(orderInput, {
       onSuccess: (order) => {
         setConfirmedOrder(order);
         setStep("confirmation");
@@ -142,11 +146,11 @@ export default function Cart() {
               <>
                 {cartItems.map((item) => (
                   <div
-                    key={item.id}
+                    key={item.productId}
                     className="flex gap-4 sm:gap-6 p-4 sm:p-6 bg-white dark:bg-card rounded-xl shadow-sm border border-border/40"
-                    data-testid={`cart-item-${item.id}`}
+                    data-testid={`cart-item-${item.productId}`}
                   >
-                    <Link href={`/product/${item.product.id}`}>
+                    <Link href={`/product/${item.productId}`}>
                       <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-lg overflow-hidden flex-shrink-0 border border-border cursor-pointer">
                         <img
                           src={item.product.image}
@@ -160,9 +164,9 @@ export default function Cart() {
                       <div>
                         <div className="flex justify-between items-start gap-2 mb-1">
                           <h3 className="font-serif text-base sm:text-lg font-bold truncate">
-                            <Link href={`/product/${item.product.id}`}>{item.product.name}</Link>
+                            <Link href={`/product/${item.productId}`}>{item.product.name}</Link>
                           </h3>
-                          <p className="font-semibold text-base sm:text-lg text-[#c45e4c] whitespace-nowrap" data-testid={`text-item-price-${item.id}`}>
+                          <p className="font-semibold text-base sm:text-lg text-[#c45e4c] whitespace-nowrap" data-testid={`text-item-price-${item.productId}`}>
                             Rs.{(Number(item.product.price) * item.quantity).toLocaleString()}.00
                           </p>
                         </div>
@@ -172,19 +176,19 @@ export default function Cart() {
                       <div className="flex justify-between items-center mt-3">
                         <div className="flex items-center border border-muted-foreground/20 rounded-sm bg-muted w-fit">
                           <button
-                            onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                            onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
                             className="px-2 py-1.5 transition-colors text-muted-foreground disabled:opacity-40"
                             disabled={item.quantity <= 1 || updateQuantity.isPending}
-                            data-testid={`button-decrease-${item.id}`}
+                            data-testid={`button-decrease-${item.productId}`}
                           >
                             <Minus className="w-3 h-3" />
                           </button>
-                          <span className="w-8 text-center text-sm text-foreground" data-testid={`text-quantity-${item.id}`}>{item.quantity}</span>
+                          <span className="w-8 text-center text-sm text-foreground" data-testid={`text-quantity-${item.productId}`}>{item.quantity}</span>
                           <button
-                            onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                            onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
                             className="px-2 py-1.5 transition-colors text-muted-foreground"
                             disabled={updateQuantity.isPending}
-                            data-testid={`button-increase-${item.id}`}
+                            data-testid={`button-increase-${item.productId}`}
                           >
                             <Plus className="w-3 h-3" />
                           </button>
@@ -193,9 +197,9 @@ export default function Cart() {
                           variant="ghost"
                           size="sm"
                           className="text-muted-foreground -mr-2"
-                          onClick={() => removeItem.mutate(item.id)}
+                          onClick={() => removeItem.mutate(item.productId)}
                           disabled={removeItem.isPending}
-                          data-testid={`button-remove-${item.id}`}
+                          data-testid={`button-remove-${item.productId}`}
                         >
                           <Trash2 className="w-4 h-4 mr-1" />
                           <span className="hidden sm:inline">Remove</span>
@@ -276,7 +280,7 @@ export default function Cart() {
                 <div className="mt-6 pt-4 border-t border-border">
                   <h3 className="text-sm font-medium mb-3 text-muted-foreground">Order Summary</h3>
                   {cartItems.map((item) => (
-                    <div key={item.id} className="flex justify-between items-center py-2 text-sm">
+                    <div key={item.productId} className="flex justify-between items-center py-2 text-sm">
                       <span className="text-foreground">{item.product.name} x{item.quantity}</span>
                       <span className="text-muted-foreground">Rs.{(Number(item.product.price) * item.quantity).toLocaleString()}.00</span>
                     </div>
@@ -311,17 +315,11 @@ export default function Cart() {
               {step === "cart" ? (
                 <>
                   <Button
-                    onClick={() => {
-                      if (!user) {
-                        window.location.href = "/api/login";
-                        return;
-                      }
-                      setStep("checkout");
-                    }}
+                    onClick={() => setStep("checkout")}
                     className="w-full h-12 text-base rounded-xl"
                     data-testid="button-proceed-checkout"
                   >
-                    {user ? "Proceed to Checkout" : "Sign In to Checkout"} <ArrowRight className="w-5 h-5 ml-2" />
+                    Proceed to Checkout <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                   <Link href="/shop">
                     <Button variant="ghost" className="w-full mt-3 text-muted-foreground" data-testid="button-continue-shopping-cart">

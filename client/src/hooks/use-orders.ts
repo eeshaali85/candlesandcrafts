@@ -1,7 +1,8 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { api } from "@shared/routes";
-import { type Order, type CheckoutDetails } from "@shared/schema";
+import { type Order, type GuestCheckoutInput } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
+import { clearLocalCart } from "@/hooks/use-cart";
 
 export function useOrders() {
   return useQuery({
@@ -16,15 +17,14 @@ export function useOrders() {
 }
 
 export function useCreateOrder() {
-  const queryClient = useQueryClient();
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: async (details: CheckoutDetails) => {
+    mutationFn: async (input: GuestCheckoutInput) => {
       const res = await fetch(api.orders.create.path, {
         method: api.orders.create.method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(details),
+        body: JSON.stringify(input),
         credentials: "include",
       });
       if (!res.ok) {
@@ -34,8 +34,7 @@ export function useCreateOrder() {
       return await res.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.orders.list.path] });
-      queryClient.invalidateQueries({ queryKey: [api.cart.list.path] });
+      clearLocalCart();
     },
     onError: (error) => {
       toast({
