@@ -34,10 +34,15 @@ export const orders = pgTable("orders", {
   userId: integer("user_id").references(() => users.id),
   status: text("status").notNull().default("pending"),
   total: decimal("total", { precision: 10, scale: 2 }).notNull(),
-  customerName: text("customer_name").notNull(),
+  email: text("email"),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
   phone: text("phone").notNull(),
   address: text("address").notNull(),
+  apartment: text("apartment"),
   city: text("city").notNull(),
+  postalCode: text("postal_code"),
+  paymentMethod: text("payment_method").notNull().default("cod"),
   notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -94,10 +99,15 @@ export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, cre
 export const insertOrderItemSchema = createInsertSchema(orderItems).omit({ id: true });
 
 export const checkoutDetailsSchema = z.object({
-  customerName: z.string().min(2, "Name is required"),
+  email: z.string().email("Valid email required").optional().or(z.literal("")),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
   phone: z.string().min(10, "Valid phone number required"),
   address: z.string().min(5, "Address is required"),
+  apartment: z.string().optional().or(z.literal("")),
   city: z.string().min(2, "City is required"),
+  postalCode: z.string().optional().or(z.literal("")),
+  paymentMethod: z.enum(["cod", "bank_deposit"]),
   notes: z.string().optional(),
 });
 

@@ -113,10 +113,15 @@ export class DatabaseStorage implements IStorage {
         userId,
         total: total.toString(),
         status: "pending",
-        customerName: details.customerName,
+        email: details.email || null,
+        firstName: details.firstName,
+        lastName: details.lastName,
         phone: details.phone,
         address: details.address,
+        apartment: details.apartment || null,
         city: details.city,
+        postalCode: details.postalCode || null,
+        paymentMethod: details.paymentMethod,
         notes: details.notes || null,
       }).returning();
 

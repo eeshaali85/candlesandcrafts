@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { CartDrawer } from "@/components/CartDrawer";
 import logoUrl from "@assets/WhatsApp_Image_2025-12-29_at_7.27.13_PM_1767018467380.jpeg";
 
 export function Navbar() {
@@ -18,6 +19,7 @@ export function Navbar() {
   const { data: user } = useUser();
   const { data: cart } = useCart();
   const [isOpen, setIsOpen] = useState(false);
+  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
 
@@ -129,30 +131,36 @@ export function Navbar() {
                 </Button>
               )}
               
-              <Link href="/cart">
-                <Button variant="ghost" size="icon" className="relative hover:bg-secondary">
-                  <ShoppingBag className="w-5 h-5" />
-                  {cartCount > 0 && (
-                    <span className="absolute top-1 right-1 w-4 h-4 bg-foreground text-background text-[10px] font-bold rounded-full flex items-center justify-center">
-                      {cartCount}
-                    </span>
-                  )}
-                </Button>
-              </Link>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative hover:bg-secondary"
+                onClick={() => setCartDrawerOpen(true)}
+                data-testid="button-open-cart"
+              >
+                <ShoppingBag className="w-5 h-5" />
+                {cartCount > 0 && (
+                  <span className="absolute top-1 right-1 w-4 h-4 bg-foreground text-background text-[10px] font-bold rounded-full flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </Button>
             </div>
 
             {/* Mobile Menu */}
             <div className="lg:hidden flex items-center gap-4">
-              <Link href="/cart">
-                <div className="relative p-2">
-                  <ShoppingBag className="w-5 h-5 text-foreground" />
-                  {cartCount > 0 && (
-                    <span className="absolute top-0 right-0 w-4 h-4 bg-foreground text-background text-[10px] font-bold rounded-full flex items-center justify-center">
-                      {cartCount}
-                    </span>
-                  )}
-                </div>
-              </Link>
+              <button
+                onClick={() => setCartDrawerOpen(true)}
+                className="relative p-2"
+                data-testid="button-open-cart-mobile"
+              >
+                <ShoppingBag className="w-5 h-5 text-foreground" />
+                {cartCount > 0 && (
+                  <span className="absolute top-0 right-0 w-4 h-4 bg-foreground text-background text-[10px] font-bold rounded-full flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
               
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
@@ -209,6 +217,8 @@ export function Navbar() {
           </div>
         </div>
       </nav>
+
+      <CartDrawer open={cartDrawerOpen} onOpenChange={setCartDrawerOpen} />
     </>
   );
 }
