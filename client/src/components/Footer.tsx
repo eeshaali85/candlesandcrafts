@@ -44,7 +44,7 @@ export function Footer() {
           {/* Newsletter */}
           <div className="space-y-4">
             <h3 className="text-lg font-sans uppercase tracking-widest mb-6 text-background">newsletter</h3>
-            <p className="text-sm opacity-80 mb-4">5% off your first order when you sign up</p>
+            <p className="text-sm opacity-80 mb-4">Subscribe to our newsletter</p>
             <div className="flex flex-col gap-2">
               <Input
                 type="email"

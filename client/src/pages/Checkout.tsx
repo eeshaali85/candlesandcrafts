@@ -84,7 +84,7 @@ export default function Checkout() {
         {formData.paymentMethod === "bank_deposit" && (
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 w-full max-w-sm text-sm">
             <p className="font-medium mb-1">Please transfer the amount and share receipt via WhatsApp</p>
-            <p className="text-muted-foreground">+92 322 4226665</p>
+            <p className="text-muted-foreground">+92 3379229966</p>
           </div>
         )}
         <Link href="/shop">
