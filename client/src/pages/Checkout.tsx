@@ -4,7 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Loader2, ShoppingBag, CheckCircle, Package, ArrowLeft } from "lucide-react";
+import {
+  Loader2,
+  ShoppingBag,
+  CheckCircle,
+  Package,
+  ArrowLeft,
+} from "lucide-react";
 import { Link } from "wouter";
 import { useState } from "react";
 import { checkoutDetailsSchema, type CheckoutDetails } from "@shared/schema";
@@ -30,10 +36,11 @@ export default function Checkout() {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [confirmedOrder, setConfirmedOrder] = useState<any>(null);
 
-  const subtotal = cartItems?.reduce(
-    (acc, item) => acc + Number(item.product.price) * item.quantity,
-    0
-  ) || 0;
+  const subtotal =
+    cartItems?.reduce(
+      (acc, item) => acc + Number(item.product.price) * item.quantity,
+      0,
+    ) || 0;
   const total = subtotal + SHIPPING_COST;
 
   if (isLoading) {
@@ -52,11 +59,12 @@ export default function Checkout() {
         </div>
         <h1 className="font-serif text-3xl font-bold mb-2">Order Confirmed!</h1>
         <p className="text-muted-foreground mb-2 text-center max-w-md">
-          Thank you, {formData.firstName}! Your order #{confirmedOrder.id} has been placed successfully.
+          Thank you, {formData.firstName}! Your order #{confirmedOrder.id} has
+          been placed successfully.
         </p>
         <p className="text-muted-foreground mb-8 text-center max-w-md text-sm">
-          We'll reach out to you at {formData.phone} to confirm delivery details.
-          Please allow 7-10 days for dispatch.
+          We'll reach out to you at {formData.phone} to confirm delivery
+          details. Please allow 7-10 days for dispatch.
         </p>
         <div className="bg-muted rounded-xl p-6 mb-8 w-full max-w-sm">
           <div className="flex justify-between mb-2">
@@ -72,7 +80,11 @@ export default function Checkout() {
           </div>
           <div className="flex justify-between mb-2">
             <span className="text-muted-foreground text-sm">Payment</span>
-            <span className="text-sm">{formData.paymentMethod === "cod" ? "Cash on Delivery" : "Bank Deposit"}</span>
+            <span className="text-sm">
+              {formData.paymentMethod === "cod"
+                ? "Cash on Delivery"
+                : "Bank Deposit"}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground text-sm">Status</span>
@@ -83,12 +95,20 @@ export default function Checkout() {
         </div>
         {formData.paymentMethod === "bank_deposit" && (
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 w-full max-w-sm text-sm">
-            <p className="font-medium mb-1">Please transfer the amount and share receipt via WhatsApp</p>
+            <p className="font-medium mb-1">
+              Please transfer the amount and share receipt via WhatsApp
+            </p>
             <p className="text-muted-foreground">+92 3379229966</p>
           </div>
         )}
         <Link href="/shop">
-          <Button size="lg" className="rounded-full px-8" data-testid="button-continue-shopping">Continue Shopping</Button>
+          <Button
+            size="lg"
+            className="rounded-full px-8"
+            data-testid="button-continue-shopping"
+          >
+            Continue Shopping
+          </Button>
         </Link>
       </div>
     );
@@ -100,12 +120,20 @@ export default function Checkout() {
         <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mb-6">
           <ShoppingBag className="w-10 h-10 text-muted-foreground" />
         </div>
-        <h1 className="font-serif text-3xl font-bold mb-2">Nothing to check out</h1>
+        <h1 className="font-serif text-3xl font-bold mb-2">
+          Nothing to check out
+        </h1>
         <p className="text-muted-foreground mb-8 text-center max-w-md">
           Add some items to your cart first.
         </p>
         <Link href="/shop">
-          <Button size="lg" className="rounded-full px-8" data-testid="button-start-shopping">Start Shopping</Button>
+          <Button
+            size="lg"
+            className="rounded-full px-8"
+            data-testid="button-start-shopping"
+          >
+            Start Shopping
+          </Button>
         </Link>
       </div>
     );
@@ -153,7 +181,10 @@ export default function Checkout() {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Link href="/cart" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6">
+        <Link
+          href="/cart"
+          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6"
+        >
           <ArrowLeft className="w-4 h-4" /> Back to cart
         </Link>
 
@@ -169,7 +200,11 @@ export default function Checkout() {
                   className={`h-12 rounded-md border-border ${formErrors.email ? "border-destructive" : ""}`}
                   data-testid="input-email"
                 />
-                {formErrors.email && <p className="text-xs text-destructive mt-1">{formErrors.email}</p>}
+                {formErrors.email && (
+                  <p className="text-xs text-destructive mt-1">
+                    {formErrors.email}
+                  </p>
+                )}
               </div>
             </section>
 
@@ -178,7 +213,9 @@ export default function Checkout() {
               <div className="space-y-3">
                 <div className="h-12 px-3 rounded-md border border-border flex items-center bg-muted/30">
                   <div className="flex flex-col">
-                    <span className="text-[10px] text-muted-foreground leading-tight">Country/Region</span>
+                    <span className="text-[10px] text-muted-foreground leading-tight">
+                      Country/Region
+                    </span>
                     <span className="text-sm font-medium">Pakistan</span>
                   </div>
                 </div>
@@ -192,7 +229,11 @@ export default function Checkout() {
                       className={`h-12 rounded-md border-border ${formErrors.firstName ? "border-destructive" : ""}`}
                       data-testid="input-first-name"
                     />
-                    {formErrors.firstName && <p className="text-xs text-destructive mt-1">{formErrors.firstName}</p>}
+                    {formErrors.firstName && (
+                      <p className="text-xs text-destructive mt-1">
+                        {formErrors.firstName}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <Input
@@ -202,7 +243,11 @@ export default function Checkout() {
                       className={`h-12 rounded-md border-border ${formErrors.lastName ? "border-destructive" : ""}`}
                       data-testid="input-last-name"
                     />
-                    {formErrors.lastName && <p className="text-xs text-destructive mt-1">{formErrors.lastName}</p>}
+                    {formErrors.lastName && (
+                      <p className="text-xs text-destructive mt-1">
+                        {formErrors.lastName}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -214,7 +259,11 @@ export default function Checkout() {
                     className={`h-12 rounded-md border-border ${formErrors.address ? "border-destructive" : ""}`}
                     data-testid="input-address"
                   />
-                  {formErrors.address && <p className="text-xs text-destructive mt-1">{formErrors.address}</p>}
+                  {formErrors.address && (
+                    <p className="text-xs text-destructive mt-1">
+                      {formErrors.address}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -236,13 +285,19 @@ export default function Checkout() {
                       className={`h-12 rounded-md border-border ${formErrors.city ? "border-destructive" : ""}`}
                       data-testid="input-city"
                     />
-                    {formErrors.city && <p className="text-xs text-destructive mt-1">{formErrors.city}</p>}
+                    {formErrors.city && (
+                      <p className="text-xs text-destructive mt-1">
+                        {formErrors.city}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <Input
                       placeholder="Postal code (optional)"
                       value={formData.postalCode || ""}
-                      onChange={(e) => updateField("postalCode", e.target.value)}
+                      onChange={(e) =>
+                        updateField("postalCode", e.target.value)
+                      }
                       className="h-12 rounded-md border-border"
                       data-testid="input-postal-code"
                     />
@@ -257,14 +312,20 @@ export default function Checkout() {
                     className={`h-12 rounded-md border-border ${formErrors.phone ? "border-destructive" : ""}`}
                     data-testid="input-phone"
                   />
-                  {formErrors.phone && <p className="text-xs text-destructive mt-1">{formErrors.phone}</p>}
+                  {formErrors.phone && (
+                    <p className="text-xs text-destructive mt-1">
+                      {formErrors.phone}
+                    </p>
+                  )}
                 </div>
               </div>
             </section>
 
             <section>
               <h2 className="text-lg font-bold mb-1">Payment</h2>
-              <p className="text-xs text-muted-foreground mb-4">All transactions are secure and encrypted.</p>
+              <p className="text-xs text-muted-foreground mb-4">
+                All transactions are secure and encrypted.
+              </p>
               <div className="border border-border rounded-md overflow-hidden">
                 <label
                   className={`flex items-center gap-3 px-4 py-3.5 cursor-pointer border-b border-border ${formData.paymentMethod === "cod" ? "bg-muted/30" : ""}`}
@@ -278,7 +339,9 @@ export default function Checkout() {
                     onChange={() => updateField("paymentMethod", "cod")}
                     className="w-4 h-4 accent-foreground"
                   />
-                  <span className="text-sm font-medium">Cash on Delivery (COD)</span>
+                  <span className="text-sm font-medium">
+                    Cash on Delivery (COD)
+                  </span>
                 </label>
 
                 <label
@@ -290,7 +353,9 @@ export default function Checkout() {
                     name="paymentMethod"
                     value="bank_deposit"
                     checked={formData.paymentMethod === "bank_deposit"}
-                    onChange={() => updateField("paymentMethod", "bank_deposit")}
+                    onChange={() =>
+                      updateField("paymentMethod", "bank_deposit")
+                    }
                     className="w-4 h-4 accent-foreground mt-0.5"
                   />
                   <span className="text-sm font-medium">Bank Deposit</span>
@@ -300,18 +365,23 @@ export default function Checkout() {
                   <div className="px-4 py-4 bg-muted/20 border-t border-border text-sm space-y-3">
                     <div className="space-y-1">
                       <p className="font-semibold">Bank Transfer Details:</p>
-                      <p>Bank Name: Faysal Bank</p>
-                      <p>IBAN: PK35FAYS0233006000002630</p>
-                      <p>Account Number: 0233006000002630</p>
-                      <p>Account Title: Candles and Crafts</p>
+                      <p>Bank Name: Faysal Bank Limited</p>
+                      <p>IBAN: PK80FAYS3565383000002240</p>
+                      <p>Account Number: 3565383000002240</p>
+                      <p>Account Title: Eesha Ali</p>
                     </div>
                     <div className="space-y-1 text-muted-foreground">
-                      <p>After making the payment, please share a screenshot of your payment receipt via:</p>
-                      <p>WhatsApp: +92 322 4226665</p>
+                      <p>
+                        After making the payment, please share a screenshot of
+                        your payment receipt via:
+                      </p>
+                      <p>WhatsApp: +92 3379229966</p>
                       <p>Email: info@candlesandcrafts.com</p>
                     </div>
                     <p className="text-muted-foreground italic">
-                      We'll process your order as soon as we receive your confirmation. Thank you for shopping with Candles & Crafts!
+                      We'll process your order as soon as we receive your
+                      confirmation. Thank you for shopping with Candles &
+                      Crafts!
                     </p>
                   </div>
                 )}
@@ -319,7 +389,12 @@ export default function Checkout() {
             </section>
 
             <section>
-              <Label htmlFor="notes" className="text-sm text-muted-foreground mb-1.5 block">Order Notes (optional)</Label>
+              <Label
+                htmlFor="notes"
+                className="text-sm text-muted-foreground mb-1.5 block"
+              >
+                Order Notes (optional)
+              </Label>
               <Textarea
                 id="notes"
                 placeholder="Any special instructions for your order..."
@@ -369,7 +444,12 @@ export default function Checkout() {
   );
 }
 
-function OrderSummary({ cartItems, subtotal, shipping, total }: {
+function OrderSummary({
+  cartItems,
+  subtotal,
+  shipping,
+  total,
+}: {
   cartItems: { productId: number; quantity: number; product: any }[];
   subtotal: number;
   shipping: number;
@@ -393,10 +473,17 @@ function OrderSummary({ cartItems, subtotal, shipping, total }: {
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{item.product.name}</p>
-              <p className="text-xs text-muted-foreground capitalize">{item.product.category?.replace(/-/g, " ")}</p>
+              <p className="text-sm font-medium truncate">
+                {item.product.name}
+              </p>
+              <p className="text-xs text-muted-foreground capitalize">
+                {item.product.category?.replace(/-/g, " ")}
+              </p>
             </div>
-            <p className="text-sm font-medium whitespace-nowrap">Rs {(Number(item.product.price) * item.quantity).toLocaleString()}.00</p>
+            <p className="text-sm font-medium whitespace-nowrap">
+              Rs {(Number(item.product.price) * item.quantity).toLocaleString()}
+              .00
+            </p>
           </div>
         ))}
       </div>
@@ -416,7 +503,9 @@ function OrderSummary({ cartItems, subtotal, shipping, total }: {
         <span className="text-base font-bold">Total</span>
         <div className="text-right">
           <span className="text-xs text-muted-foreground mr-2">PKR</span>
-          <span className="text-xl font-bold">Rs {total.toLocaleString()}.00</span>
+          <span className="text-xl font-bold">
+            Rs {total.toLocaleString()}.00
+          </span>
         </div>
       </div>
     </div>

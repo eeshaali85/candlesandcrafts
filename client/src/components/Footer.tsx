@@ -15,10 +15,9 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-sans uppercase tracking-widest mb-6 text-background">candlesandcrafts</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/" className="hover:underline underline-offset-4">HOME</Link></li>
-              <li><Link href="/about" className="hover:underline underline-offset-4">ABOUT</Link></li>
-              <li><Link href="/shop" className="hover:underline underline-offset-4">SHOP</Link></li>
-              <li><Link href="/contact" className="hover:underline underline-offset-4">CONTACT</Link></li>
+              <li><Link href="/" className="hover:underline underline-offset-4 uppercase">Home</Link></li>
+              <li><Link href="/shop" className="hover:underline underline-offset-4 uppercase">Shop</Link></li>
+              <li><Link href="/our-story" className="hover:underline underline-offset-4 uppercase">Our Story</Link></li>
             </ul>
           </div>
 
@@ -32,10 +31,10 @@ export function Footer() {
               <a href="#" className="hover:opacity-80 transition-opacity" data-testid="link-facebook">
                 <SiFacebook className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:opacity-80 transition-opacity" data-testid="link-instagram">
+              <a href="https://www.instagram.com/candlesandcraftss/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-instagram">
                 <SiInstagram className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:opacity-80 transition-opacity" data-testid="link-whatsapp">
+              <a href="https://wa.me/923379229966" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-whatsapp">
                 <SiWhatsapp className="w-5 h-5" />
               </a>
             </div>
