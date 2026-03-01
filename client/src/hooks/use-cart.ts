@@ -59,6 +59,7 @@ export function useAddToCart() {
         cart.push({ productId: input.productId, quantity: input.quantity, product });
       }
       saveCart(cart);
+      window.dispatchEvent(new Event("open-cart-drawer"));
       toast({
         title: "Added to cart",
         description: "Your item has been added successfully.",

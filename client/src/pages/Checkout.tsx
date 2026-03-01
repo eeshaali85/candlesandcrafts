@@ -340,7 +340,8 @@ export default function Checkout() {
                     className="w-4 h-4 accent-foreground"
                   />
                   <span className="text-sm font-medium">
-                    Cash on Delivery (COD)
+                    Cash on Delivery (COD) ("8% Tax will be applicable on COD
+                    orders")
                   </span>
                 </label>
 
@@ -376,7 +377,7 @@ export default function Checkout() {
                         your payment receipt via:
                       </p>
                       <p>WhatsApp: +92 3379229966</p>
-                      <p>Email: info@candlesandcrafts.com</p>
+                      <p>Email: candlesandcraftss@mail.com</p>
                     </div>
                     <p className="text-muted-foreground italic">
                       We'll process your order as soon as we receive your

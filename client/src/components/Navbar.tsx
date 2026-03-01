@@ -24,6 +24,12 @@ export function Navbar() {
   const lastScrollY = useRef(0);
 
   useEffect(() => {
+    const handleOpenDrawer = () => setCartDrawerOpen(true);
+    window.addEventListener("open-cart-drawer", handleOpenDrawer);
+    return () => window.removeEventListener("open-cart-drawer", handleOpenDrawer);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
