@@ -16,81 +16,149 @@ import {
 export default function ProductDetail() {
   const [, params] = useRoute("/product/:id");
   const id = params ? parseInt(params.id) : 0;
-  
+
   const { data: product, isLoading, isError } = useProduct(id);
   const { data: allProducts } = useProducts();
   const addToCart = useAddToCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("crème");
   const [selectedScent, setSelectedScent] = useState("flower meadows");
-  const [selectedType, setSelectedType] = useState("");
+  const [selectedScented, setSelectedScented] = useState<"scented" | "unscented">("scented");
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
+  // ── Pillar candle products with individual pricing ────────────────────────
+  const pillarCandles: Record<
+    string,
+    { displayName: string; scented: number; unscented: number; weight?: string }
+  > = {
+    "sakura-candle":         { displayName: "Sakura Candle",                  scented: 1000, unscented: 850,  weight: "90g"  },
+    "body-candle":           { displayName: "Body Candle",                     scented: 1000, unscented: 850,  weight: "90g"  },
+    "knot-candle":           { displayName: "Knot Candle",                     scented: 1000, unscented: 850,  weight: "90g"  },
+    "short-ribbed-pierre":   { displayName: "Ribbed Pierre Candle 300ml",      scented: 1800, unscented: 1300, weight: "300g" },
+    "long-ribbed-pierre":    { displayName: "Ribbed Pierre Candle 600ml",      scented: 2700, unscented: 1700, weight: "600g" },
+    "cylinder-ribbed-thin":  { displayName: "Cylinder Ribbed Candle (Thin)",   scented: 1100, unscented: 900,  weight: "135g" },
+    "cylinder-ribbed-thick": { displayName: "Cylinder Ribbed Candle (Thick)",  scented: 1800, unscented: 1300, weight: "315g" },
+    "mini-bubble-candle":    { displayName: "Mini Bubble Candle",              scented: 600,  unscented: 550  },
+    "rose-heart-candle":     { displayName: "Rose Heart Candle",               scented: 700,  unscented: 650  },
+    "cloud-candle":          { displayName: "Cloud Candle",                    scented: 600,  unscented: 550  },
+    "arch-candle":           { displayName: "Arch Candle",                     scented: 1450, unscented: 1100, weight: "230g" },
+    "heart-bubble-candle":   { displayName: "Heart Bubble Candle",             scented: 1250, unscented: 1000 },
+    "bubble-candle":         { displayName: "Bubble Candle",                   scented: 1250, unscented: 1000 },
+    "seashell-candle":       { displayName: "Seashell Candle",                 scented: 1250, unscented: 1000 },
+    "puffy-candle":          { displayName: "Puffy Candle",                    scented: 1250, unscented: 1000 },
+    "rose-bear-candle":      { displayName: "Rose Bear Candle",                scented: 1250, unscented: 1000 },
+    "dog-candle":            { displayName: "Dog Candle",                      scented: 1250, unscented: 1000 },
+    "twisted-candle":        { displayName: "Twisted Candle",                  scented: 850,  unscented: 750  },
+    "spiral-candle":         { displayName: "Spiral Candle",                   scented: 850,  unscented: 750  },
+    "mini-seashell-candle":  { displayName: "Mini Seashell Candle",            scented: 600,  unscented: 550  },
+    "small-peony-candle":    { displayName: "Small Peony Candle",              scented: 750,  unscented: 700  },
+    "rose-bud-candle":       { displayName: "Rose Bud Candle",                 scented: 850,  unscented: 750  },
+    "mini-bear-candle":      { displayName: "Mini Bear Candle",                scented: 375,  unscented: 350  },
+    "daisy-candle":          { displayName: "Daisy Candle",                    scented: 375,  unscented: 350  },
+    "peony-bud-candle":      { displayName: "Peony Bud Candle",                scented: 400,  unscented: 350  },
+    "tulip-candle":          { displayName: "Tulip Candle",                    scented: 375,  unscented: 350  },
+    "peony-candle":          { displayName: "Peony Candle",                    scented: 900,  unscented: 800, weight: "70g" },
+    "sun-moon-candle":       { displayName: "Sun & Moon Candle",               scented: 850,  unscented: 750  },
+    "aromatic-rose-candle":  { displayName: "Aromatic Rose Candle",            scented: 900,  unscented: 800  },
+    "tapered-candle":        { displayName: "Tapered Candle",                  scented: 850,  unscented: 750  },
+    "big-bear-candle":       { displayName: "Big Bear Candle",                 scented: 850,  unscented: 750  },
+    "rose-candle":           { displayName: "Rose Candle",                     scented: 900,  unscented: 800  },
+    "3d-heart-candle":       { displayName: "3D Heart Candle",                 scented: 900,  unscented: 800, weight: "80g" },
+  };
 
-  const decorativeTypes = [
-    { name: "Sakura/Body/Knot", weight: "90g" },
-    { name: "Short Ribbed", weight: "300g" },
-    { name: "Long Pierre", weight: "600g" },
-    { name: "Cylinder Ribbed", weight: "135g" },
-    { name: "Cylinder Ribbed Thick", weight: "315g" },
-    { name: "Mini Bubble/Rose Heart/Cloud", weight: "40g" },
-    { name: "Arch", weight: "230g" },
-    { name: "Bubble Heart/Bubble/Seashell/Puffy/Rose Bear/Dog", weight: "140g" },
-    { name: "Twisted", weight: "35g" },
-    { name: "Spirals/Mini Seashell/Small Peony/Twisted/Rose Bud", weight: "45g" },
-    { name: "Mini Bear", weight: "15g" },
-    { name: "Daisy/Peony Bud/Tulip", weight: "20g" },
-    { name: "Peony", weight: "70g" },
-    { name: "Sun/Aromatic Rose/Tapered/Big Bear/Rose", weight: "55g" },
-    { name: "3D Heart", weight: "80g" }
-  ];
+  // ── Jar candle series ─────────────────────────────────────────────────────
+  const jarSeries: Record<string, { displayName: string; subtitle: string; price: number; weight: string }> = {
+    "mini-moments":    { displayName: "Mini Moments Series",   subtitle: "Shot Glass Candle", price: 800,  weight: "60g"  },
+    "aurora":          { displayName: "Aurora Series",         subtitle: "Mini Gold Candle",  price: 1700, weight: "100g" },
+    "eclipse":         { displayName: "Eclipse Series",        subtitle: "Black Jar Candle",  price: 2300, weight: "—"   },
+    "amber":           { displayName: "Amber Series",          subtitle: "Amber Jar Candle",  price: 2700, weight: "240g" },
+    "signature-luxe":  { displayName: "Signature Luxe Series", subtitle: "Lidded Candle",     price: 3200, weight: "300g" },
+  };
 
+  // ── Scents with correct notes from scent list ─────────────────────────────
   const scents = [
     "flower meadows",
-    "butterscotch", 
+    "butterscotch",
     "pink chiffon",
     "alexandria library",
     "oudh e bakhoor",
     "ocean breeze",
-    "serenity"
+    "serenity",
   ];
 
   const scentDescriptions: Record<string, { notes: string; description: string }> = {
     "flower meadows": {
-      notes: "Jasmine, Rose, Fresh Greens",
-      description: "A delicate bouquet of wildflowers dancing in a sunlit meadow. Fresh and romantic."
+      notes: "Honeysuckle, Jasmine",
+      description: "A delicate bouquet of wildflowers dancing in a sunlit meadow. Fresh and romantic.",
     },
     "butterscotch": {
-      notes: "Vanilla, Amber",
-      description: "Warm and indulgent with creamy vanilla swirled into rich amber. Comforting and sweet."
+      notes: "Toasted Vanilla, Sandalwood",
+      description: "Warm and indulgent with creamy toasted vanilla swirled into rich sandalwood. Comforting and sweet.",
     },
     "pink chiffon": {
-      notes: "Peony, Musk, Soft Florals",
-      description: "Light and airy like delicate fabric, with soft peony and a whisper of musk."
+      notes: "Sparkling Pear, Vanilla",
+      description: "Light and airy like delicate fabric, with sparkling pear and a whisper of warm vanilla.",
     },
     "alexandria library": {
-      notes: "Aged Paper, Sandalwood, Leather",
-      description: "The scent of ancient wisdom—aged parchment, warm sandalwood, and worn leather bindings."
+      notes: "Orange Blossom, Leather",
+      description: "The scent of ancient wisdom — bright orange blossom softened by rich, worn leather.",
     },
     "oudh e bakhoor": {
-      notes: "Oud, Saffron, Rose",
-      description: "An opulent Middle Eastern blend of precious oud, golden saffron, and damascena rose."
+      notes: "Agarwood, Violet Leaves",
+      description: "An opulent Middle Eastern blend of precious agarwood and delicate violet leaves.",
     },
     "ocean breeze": {
-      notes: "Sea Salt, Driftwood, Coconut",
-      description: "A refreshing coastal escape with crisp sea salt, sun-bleached driftwood, and tropical coconut."
+      notes: "Citrus, Bergamot, Sea Salt",
+      description: "A refreshing coastal escape with zesty citrus, aromatic bergamot, and crisp sea salt.",
     },
     "serenity": {
-      notes: "Lavender, Chamomile, Eucalyptus",
-      description: "A calming sanctuary of French lavender, gentle chamomile, and fresh eucalyptus."
-    }
+      notes: "Lavender, Balsam Trees",
+      description: "A calming sanctuary of soft lavender and grounding balsam trees.",
+    },
   };
 
+  // ── Color options for pillar candles ──────────────────────────────────────
+  const pillarColors = [
+    { value: "crème",      label: "Crème"      },
+    { value: "rose",       label: "Rose"        },
+    { value: "sage",       label: "Sage"        },
+    { value: "white",      label: "White"       },
+    { value: "black",      label: "Black"       },
+    { value: "blush pink", label: "Blush Pink"  },
+    { value: "lilac",      label: "Lilac"       },
+    { value: "dusty blue", label: "Dusty Blue"  },
+    { value: "terracotta", label: "Terracotta"  },
+    { value: "caramel",    label: "Caramel"     },
+  ];
+
+  const slug = product?.slug ?? "";
   const isJarCandle = product?.category?.toLowerCase().includes("jar");
-  const isDecorativeCandle = product?.category?.toLowerCase().includes("decorative");
+  const isDecorativeCandle =
+    product?.category?.toLowerCase().includes("decorative") ||
+    product?.category?.toLowerCase().includes("pillar");
+
+  const jarSeriesKey = Object.keys(jarSeries).find(
+    (k) =>
+      slug.includes(k) ||
+      product?.name?.toLowerCase().includes(jarSeries[k].displayName.toLowerCase().split(" ")[0]),
+  );
+  const matchedJarSeries = jarSeriesKey ? jarSeries[jarSeriesKey] : null;
+
+  const pillarKey = Object.keys(pillarCandles).find(
+    (k) =>
+      slug.includes(k) ||
+      product?.name?.toLowerCase().replace(/\s+/g, "-").includes(k),
+  );
+  const matchedPillar = pillarKey ? pillarCandles[pillarKey] : null;
+
+  const basePrice = matchedJarSeries
+    ? matchedJarSeries.price
+    : matchedPillar
+    ? matchedPillar[selectedScented]
+    : Number(product?.price ?? 0);
 
   if (isLoading) {
     return (
@@ -115,14 +183,12 @@ export default function ProductDetail() {
     addToCart.mutate({ productId: product.id, quantity });
   };
 
-  const price = Number(product.price);
-
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <Link href="/shop">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             className="mb-6 hover:bg-transparent p-0 flex items-center gap-2 text-muted-foreground"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Shop
@@ -133,34 +199,21 @@ export default function ProductDetail() {
           {/* Product Images */}
           <div className="space-y-4">
             <div className="aspect-square bg-white rounded-lg overflow-hidden">
-              <img 
-                src={product.image} 
-                alt={product.name} 
+              <img
+                src={product.image}
+                alt={product.name}
                 className="w-full h-full object-cover rounded-lg"
               />
             </div>
-            {/* Thumbnail Gallery */}
             <div className="flex gap-3">
               <div className="w-20 h-20 bg-white rounded-lg overflow-hidden border-2 border-muted-foreground/20">
-                <img 
-                  src={product.image} 
-                  alt={product.name}
-                  className="w-full h-full object-cover rounded-lg"
-                />
+                <img src={product.image} alt={product.name} className="w-full h-full object-cover rounded-lg" />
               </div>
               <div className="w-20 h-20 bg-white rounded-lg overflow-hidden border border-muted-foreground/10">
-                <img 
-                  src={product.image} 
-                  alt={product.name}
-                  className="w-full h-full object-cover opacity-70 rounded-lg"
-                />
+                <img src={product.image} alt={product.name} className="w-full h-full object-cover opacity-70 rounded-lg" />
               </div>
               <div className="w-20 h-20 bg-white rounded-lg overflow-hidden border border-muted-foreground/10">
-                <img 
-                  src={product.image} 
-                  alt={product.name}
-                  className="w-full h-full object-cover opacity-70 rounded-lg"
-                />
+                <img src={product.image} alt={product.name} className="w-full h-full object-cover opacity-70 rounded-lg" />
               </div>
             </div>
           </div>
@@ -168,41 +221,63 @@ export default function ProductDetail() {
           {/* Product Info */}
           <div className="space-y-6">
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl font-serif text-primary">
-              {product.name}
-            </h1>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-serif text-primary">
+                {matchedJarSeries
+                  ? matchedJarSeries.displayName
+                  : matchedPillar
+                  ? matchedPillar.displayName
+                  : product.name}
+              </h1>
+              {matchedJarSeries && (
+                <p className="text-muted-foreground text-sm mt-1">
+                  {matchedJarSeries.subtitle} · {matchedJarSeries.weight}
+                </p>
+              )}
+              {matchedPillar?.weight && (
+                <p className="text-muted-foreground text-sm mt-1">{matchedPillar.weight}</p>
+              )}
+            </div>
 
             {/* Price */}
             <div>
               <p className="text-lg text-[#c45e4c] font-semibold">
-                Rs.{price.toLocaleString()}.00
+                Rs.{basePrice.toLocaleString()}.00
               </p>
+              {matchedPillar && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  Scented: Rs.{matchedPillar.scented.toLocaleString()} &nbsp;·&nbsp; Unscented: Rs.{matchedPillar.unscented.toLocaleString()}
+                </p>
+              )}
               <p className="text-sm text-muted-foreground mt-1">
                 <span className="underline cursor-pointer">Shipping</span> calculated at checkout.
               </p>
             </div>
 
-
-            {/* Type/Weight Selector - for decorative candles */}
-            {isDecorativeCandle && (
+            {/* ── Scented / Unscented dropdown — pillar candles only ── */}
+            {isDecorativeCandle && matchedPillar && (
               <div>
-                <p className="text-sm text-muted-foreground mb-2">type</p>
-                <Select value={selectedType} onValueChange={setSelectedType}>
-                  <SelectTrigger className="w-full bg-muted border-0" data-testid="select-type">
+                <p className="text-sm text-muted-foreground mb-2">scented or unscented</p>
+                <Select
+                  value={selectedScented}
+                  onValueChange={(val) => setSelectedScented(val as "scented" | "unscented")}
+                >
+                  <SelectTrigger className="w-full bg-muted border-0" data-testid="select-scented">
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                   <SelectContent>
-                    {decorativeTypes.map((type) => (
-                      <SelectItem key={type.name} value={type.name}>
-                        {type.name} ({type.weight})
-                      </SelectItem>
-                    ))}
+                    <SelectItem value="scented">
+                      Scented — Rs.{matchedPillar.scented.toLocaleString()}
+                    </SelectItem>
+                    <SelectItem value="unscented">
+                      Unscented — Rs.{matchedPillar.unscented.toLocaleString()}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             )}
 
-            {/* Color Selector - for decorative candles only */}
+            {/* ── Color dropdown — pillar candles ── */}
             {isDecorativeCandle && (
               <div>
                 <p className="text-sm text-muted-foreground mb-2">color</p>
@@ -211,16 +286,18 @@ export default function ProductDetail() {
                     <SelectValue placeholder="Select color" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="crème">crème</SelectItem>
-                    <SelectItem value="rose">rose</SelectItem>
-                    <SelectItem value="sage">sage</SelectItem>
+                    {pillarColors.map((c) => (
+                      <SelectItem key={c.value} value={c.value}>
+                        {c.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
             )}
 
-            {/* Scent Selector - for jar candles and decorative candles */}
-            {(isJarCandle || isDecorativeCandle) && (
+            {/* ── Scent dropdown — jar candles always, pillar candles when scented ── */}
+            {(isJarCandle || (isDecorativeCandle && selectedScented === "scented")) && (
               <div>
                 <p className="text-sm text-muted-foreground mb-2">scent</p>
                 <Select value={selectedScent} onValueChange={setSelectedScent}>
@@ -229,12 +306,14 @@ export default function ProductDetail() {
                   </SelectTrigger>
                   <SelectContent>
                     {scents.map((scent) => (
-                      <SelectItem key={scent} value={scent}>{scent}</SelectItem>
+                      <SelectItem key={scent} value={scent}>
+                        {scent}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                
-                {/* Scent Notes & Description */}
+
+                {/* Scent notes card */}
                 {selectedScent && scentDescriptions[selectedScent] && (
                   <div className="mt-3 p-3 bg-muted rounded-md">
                     <p className="text-sm font-medium text-primary">
@@ -248,12 +327,12 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Quantity Selector */}
+            {/* Quantity */}
             <div>
               <p className="text-sm text-muted-foreground mb-2">Quantity</p>
               <div className="flex items-center border border-muted-foreground/20 rounded-sm bg-muted w-fit">
-                <button 
-                  onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                <button
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                   className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"
                   disabled={quantity <= 1}
                   data-testid="button-decrease-quantity"
@@ -261,8 +340,8 @@ export default function ProductDetail() {
                   <Minus className="w-3 h-3" />
                 </button>
                 <span className="w-8 text-center text-sm text-foreground">{quantity}</span>
-                <button 
-                  onClick={() => setQuantity(q => q + 1)}
+                <button
+                  onClick={() => setQuantity((q) => q + 1)}
                   className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"
                   data-testid="button-increase-quantity"
                 >
@@ -271,71 +350,70 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* Add to Cart Button */}
-            <Button 
+            {/* Add to Cart */}
+            <Button
               onClick={handleAddToCart}
               disabled={addToCart.isPending}
               className="w-full py-4 rounded-full bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium text-sm"
               data-testid="button-add-to-cart"
             >
-              {addToCart.isPending ? (
-                <Loader2 className="w-4 h-4 animate-spin mr-2" />
-              ) : null}
+              {addToCart.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
               Add to cart
             </Button>
 
-            {/* Product Description */}
+            {/* Description */}
             <div className="space-y-4 text-muted-foreground pt-4">
               <p>{product.description}</p>
               <p>
-                Expertly hand-poured with care, this charming candle combines luxury with love. 
-                Whether you're planning a romantic evening or gifting your BFF, this candle brings 
+                Expertly hand-poured with care, this charming candle combines luxury with love.
+                Whether you're planning a romantic evening or gifting your BFF, this candle brings
                 warmth, fragrance, and smiles in equal measure.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Related Products Section */}
+        {/* Related Products */}
         <div className="mt-20">
           <h2 className="text-2xl font-serif text-primary italic mb-8 text-center">
             more cute stuff for your liking
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {allProducts && allProducts
-              .filter((p: any) => p.id !== id)
-              .slice(0, 4)
-              .map((relatedProduct: any) => (
-                <Link key={relatedProduct.id} href={`/product/${relatedProduct.id}`}>
-                  <div className="group cursor-pointer">
-                    <div className="aspect-square overflow-hidden bg-white rounded-lg mb-3">
-                      <img
-                        src={relatedProduct.image}
-                        alt={relatedProduct.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-lg"
-                      />
+            {allProducts &&
+              allProducts
+                .filter((p: any) => p.id !== id)
+                .slice(0, 4)
+                .map((relatedProduct: any) => (
+                  <Link key={relatedProduct.id} href={`/product/${relatedProduct.id}`}>
+                    <div className="group cursor-pointer">
+                      <div className="aspect-square overflow-hidden bg-white rounded-lg mb-3">
+                        <img
+                          src={relatedProduct.image}
+                          alt={relatedProduct.name}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 rounded-lg"
+                        />
+                      </div>
+                      <h3 className="text-sm text-center text-primary font-medium mb-1">
+                        {relatedProduct.name}
+                      </h3>
+                      <p className="text-sm text-center text-[#c45e4c] font-semibold">
+                        Rs.{parseFloat(relatedProduct.price).toLocaleString()}.00
+                      </p>
                     </div>
-                    <h3 className="text-sm text-center text-primary font-medium mb-1">
-                      {relatedProduct.name}
-                    </h3>
-                    <p className="text-sm text-center text-[#c45e4c] font-semibold">
-                      Rs.{parseFloat(relatedProduct.price).toLocaleString()}.00
-                    </p>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
           </div>
         </div>
 
-        {/* Customer Reviews Section */}
+        {/* Reviews */}
         <div className="mt-20 mb-12">
-          <h2 className="text-2xl font-serif text-primary text-center mb-8">
-            Customer Reviews
-          </h2>
+          <h2 className="text-2xl font-serif text-primary text-center mb-8">Customer Reviews</h2>
           <div className="text-center">
-            <p className="text-muted-foreground mb-6">No reviews yet. Be the first to share your thoughts!</p>
-            <Button 
-              variant="outline" 
+            <p className="text-muted-foreground mb-6">
+              No reviews yet. Be the first to share your thoughts!
+            </p>
+            <Button
+              variant="outline"
               className="border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-full px-8"
               data-testid="button-write-review"
             >

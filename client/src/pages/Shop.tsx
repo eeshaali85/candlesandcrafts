@@ -6,10 +6,68 @@ import { useLocation } from "wouter";
 
 const SORT_OPTIONS = [
   { value: "best-selling", label: "Best selling" },
-  { value: "price-low", label: "Price: Low to High" },
-  { value: "price-high", label: "Price: High to Low" },
-  { value: "newest", label: "Newest" },
+  { value: "price-low",    label: "Price: Low to High" },
+  { value: "price-high",   label: "Price: High to Low" },
+  { value: "newest",       label: "Newest" },
 ];
+
+// ── Jar candle series ─────────────────────────────────────────────────────────
+export const JAR_CANDLE_SERIES = [
+  { key: "mini-moments",   displayName: "Mini Moments Series",   subtitle: "Shot Glass Candle", price: 800,  weight: "60g"  },
+  { key: "aurora",         displayName: "Aurora Series",         subtitle: "Mini Gold Candle",  price: 1700, weight: "100g" },
+  { key: "eclipse",        displayName: "Eclipse Series",        subtitle: "Black Jar Candle",  price: 2300, weight: "—"   },
+  { key: "amber",          displayName: "Amber Series",          subtitle: "Amber Jar Candle",  price: 2700, weight: "240g" },
+  { key: "signature-luxe", displayName: "Signature Luxe Series", subtitle: "Lidded Candle",     price: 3200, weight: "300g" },
+];
+
+// ── Individual pillar / decorative candles ────────────────────────────────────
+export const PILLAR_CANDLES = [
+  { key: "sakura-candle",         displayName: "Sakura Candle",                  scented: 1000, unscented: 850,  weight: "90g"  },
+  { key: "body-candle",           displayName: "Body Candle",                    scented: 1000, unscented: 850,  weight: "90g"  },
+  { key: "knot-candle",           displayName: "Knot Candle",                    scented: 1000, unscented: 850,  weight: "90g"  },
+  { key: "short-ribbed-pierre",   displayName: "Ribbed Pierre Candle 300ml",     scented: 1800, unscented: 1300, weight: "300g" },
+  { key: "long-ribbed-pierre",    displayName: "Ribbed Pierre Candle 600ml",     scented: 2700, unscented: 1700, weight: "600g" },
+  { key: "cylinder-ribbed-thin",  displayName: "Cylinder Ribbed Candle (Thin)",  scented: 1100, unscented: 900,  weight: "135g" },
+  { key: "cylinder-ribbed-thick", displayName: "Cylinder Ribbed Candle (Thick)", scented: 1800, unscented: 1300, weight: "315g" },
+  { key: "mini-bubble-candle",    displayName: "Mini Bubble Candle",             scented: 600,  unscented: 550  },
+  { key: "rose-heart-candle",     displayName: "Rose Heart Candle",              scented: 700,  unscented: 650  },
+  { key: "cloud-candle",          displayName: "Cloud Candle",                   scented: 600,  unscented: 550  },
+  { key: "arch-candle",           displayName: "Arch Candle",                    scented: 1450, unscented: 1100, weight: "230g" },
+  { key: "heart-bubble-candle",   displayName: "Heart Bubble Candle",            scented: 1250, unscented: 1000 },
+  { key: "bubble-candle",         displayName: "Bubble Candle",                  scented: 1250, unscented: 1000 },
+  { key: "seashell-candle",       displayName: "Seashell Candle",                scented: 1250, unscented: 1000 },
+  { key: "puffy-candle",          displayName: "Puffy Candle",                   scented: 1250, unscented: 1000 },
+  { key: "rose-bear-candle",      displayName: "Rose Bear Candle",               scented: 1250, unscented: 1000 },
+  { key: "dog-candle",            displayName: "Dog Candle",                     scented: 1250, unscented: 1000 },
+  { key: "twisted-candle",        displayName: "Twisted Candle",                 scented: 850,  unscented: 750  },
+  { key: "spiral-candle",         displayName: "Spiral Candle",                  scented: 850,  unscented: 750  },
+  { key: "mini-seashell-candle",  displayName: "Mini Seashell Candle",           scented: 600,  unscented: 550  },
+  { key: "small-peony-candle",    displayName: "Small Peony Candle",             scented: 750,  unscented: 700  },
+  { key: "rose-bud-candle",       displayName: "Rose Bud Candle",                scented: 850,  unscented: 750  },
+  { key: "mini-bear-candle",      displayName: "Mini Bear Candle",               scented: 375,  unscented: 350  },
+  { key: "daisy-candle",          displayName: "Daisy Candle",                   scented: 375,  unscented: 350  },
+  { key: "peony-bud-candle",      displayName: "Peony Bud Candle",               scented: 400,  unscented: 350  },
+  { key: "tulip-candle",          displayName: "Tulip Candle",                   scented: 375,  unscented: 350  },
+  { key: "peony-candle",          displayName: "Peony Candle",                   scented: 900,  unscented: 800, weight: "70g" },
+  { key: "sun-moon-candle",       displayName: "Sun & Moon Candle",              scented: 850,  unscented: 750  },
+  { key: "aromatic-rose-candle",  displayName: "Aromatic Rose Candle",           scented: 900,  unscented: 800  },
+  { key: "tapered-candle",        displayName: "Tapered Candle",                 scented: 850,  unscented: 750  },
+  { key: "big-bear-candle",       displayName: "Big Bear Candle",                scented: 850,  unscented: 750  },
+  { key: "rose-candle",           displayName: "Rose Candle",                    scented: 900,  unscented: 800  },
+  { key: "3d-heart-candle",       displayName: "3D Heart Candle",                scented: 900,  unscented: 800, weight: "80g" },
+];
+
+// Helper: does the current category filter match the decorative/pillar section?
+function isDecorativeFilter(cat: string | null) {
+  if (!cat) return true; // show all
+  return ["decorative", "pillar", "decorative-candles", "pillar-candles"].includes(cat);
+}
+
+// Helper: does the current category filter match the jar section?
+function isJarFilter(cat: string | null) {
+  if (!cat) return true; // show all
+  return cat === "jar";
+}
 
 export default function Shop() {
   const { data: products, isLoading } = useProducts();
@@ -17,7 +75,10 @@ export default function Shop() {
   const [sortBy, setSortBy] = useState("best-selling");
   const [location] = useLocation();
 
-  const queryParams = useMemo(() => new URLSearchParams(window.location.search), [location]);
+  const queryParams = useMemo(
+    () => new URLSearchParams(window.location.search),
+    [location],
+  );
   const categoryFilter = queryParams.get("category");
 
   useEffect(() => {
@@ -26,43 +87,54 @@ export default function Shop() {
 
   const categoryTitle = useMemo(() => {
     if (!categoryFilter) return "All Candles";
-    return categoryFilter
-      .split("-")
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ") + (categoryFilter.toLowerCase().includes("set") || categoryFilter.toLowerCase().includes("ceramic") ? "" : " Candles");
+    if (isDecorativeFilter(categoryFilter)) return "Decorative Candles";
+    if (isJarFilter(categoryFilter)) return "Jar Candles";
+    return (
+      categoryFilter
+        .split("-")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ") +
+      (categoryFilter.toLowerCase().includes("set") ||
+      categoryFilter.toLowerCase().includes("ceramic")
+        ? ""
+        : " Candles")
+    );
   }, [categoryFilter]);
 
   const filteredProducts = useMemo(() => {
     if (!products) return [];
     let filtered = [...products];
-
     if (categoryFilter) {
-      filtered = filtered.filter(p => {
+      filtered = filtered.filter((p) => {
         const cat = p.category?.toLowerCase() || "";
-        if (categoryFilter === "jar") return cat.includes("jar");
-        if (categoryFilter === "bouquet") return cat.includes("bouquet");
-        if (categoryFilter === "decorative") return cat.includes("decorative");
-        if (categoryFilter === "gift-sets") return cat.includes("gift") || cat.includes("set");
-        if (categoryFilter === "ceramics") return cat.includes("ceramic");
+        if (isJarFilter(categoryFilter))       return cat.includes("jar");
+        if (isDecorativeFilter(categoryFilter)) return cat.includes("decorative") || cat.includes("pillar");
+        if (categoryFilter === "bouquet")       return cat.includes("bouquet");
+        if (categoryFilter === "gift-sets")     return cat.includes("gift") || cat.includes("set");
+        if (categoryFilter === "ceramics")      return cat.includes("ceramic");
         return cat.includes(categoryFilter.toLowerCase());
       });
     }
-
-    // Sorting logic
     if (sortBy === "price-low") filtered.sort((a, b) => Number(a.price) - Number(b.price));
     if (sortBy === "price-high") filtered.sort((a, b) => Number(b.price) - Number(a.price));
-    
     return filtered;
   }, [products, categoryFilter, sortBy]);
 
+  const gridClass = viewMode === "grid"
+    ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+    : "space-y-4";
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="bg-secondary py-12 px-4">
         <div className="container mx-auto text-center">
-          <h1 className="font-serif text-4xl md:text-5xl font-normal mb-4 text-foreground lowercase">{categoryTitle}</h1>
+          <h1 className="font-serif text-4xl md:text-5xl font-normal mb-4 text-foreground lowercase">
+            {categoryTitle}
+          </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Explore our collection of hand-poured candles crafted from 100% pure soy wax and clean, refined fragrances, designed to elevate your space and make it unmistakably yours.
+            Explore our collection of hand-poured candles crafted from 100% pure soy wax and clean,
+            refined fragrances, designed to elevate your space and make it unmistakably yours.
           </p>
         </div>
       </section>
@@ -71,14 +143,11 @@ export default function Shop() {
       <div className="container mx-auto px-4 py-12">
         {/* Controls */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          {/* View Mode Toggle */}
           <div className="hidden md:flex items-center gap-2">
             <button
               onClick={() => setViewMode("grid")}
               className={`p-2 rounded transition-colors ${
-                viewMode === "grid" 
-                  ? "bg-foreground text-background" 
-                  : "text-muted-foreground hover:text-foreground"
+                viewMode === "grid" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <Grid3x3 className="w-5 h-5" />
@@ -86,22 +155,18 @@ export default function Shop() {
             <button
               onClick={() => setViewMode("list")}
               className={`p-2 rounded transition-colors ${
-                viewMode === "list" 
-                  ? "bg-foreground text-background" 
-                  : "text-muted-foreground hover:text-foreground"
+                viewMode === "list" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <List className="w-5 h-5" />
             </button>
           </div>
-
-          {/* Sort Dropdown */}
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
             className="px-4 py-2 border border-border rounded-md bg-background text-foreground hover:bg-secondary transition-colors lowercase"
           >
-            {SORT_OPTIONS.map(option => (
+            {SORT_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label.toLowerCase()}
               </option>
@@ -109,26 +174,149 @@ export default function Shop() {
           </select>
         </div>
 
-        {/* Product Grid */}
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
             <Loader2 className="w-10 h-10 text-foreground animate-spin" />
           </div>
         ) : (
-          <div className={`${viewMode === "grid" 
-            ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" 
-            : "space-y-4"}`}
-          >
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map(product => (
-                <ProductCard key={product.id} product={product} />
-              ))
-            ) : (
-              <div className="col-span-full text-center py-20 text-muted-foreground">
-                <p className="text-lg lowercase">no products found in this category.</p>
+          <div className="space-y-16">
+
+            {/* ── Jar Candles Section ── */}
+            {isJarFilter(categoryFilter) && (
+              <div>
+                {!categoryFilter && (
+                  <h2 className="font-serif text-2xl text-foreground mb-6 lowercase">jar candles</h2>
+                )}
+                <div className={gridClass}>
+                  {JAR_CANDLE_SERIES.map((series) => {
+                    const dbProduct = products?.find(
+                      (p) =>
+                        p.slug?.includes(series.key) ||
+                        p.name?.toLowerCase().includes(series.displayName.split(" ")[0].toLowerCase()),
+                    );
+                    return dbProduct ? (
+                      <ProductCard
+                        key={series.key}
+                        product={{ ...dbProduct, name: series.displayName, price: String(series.price) }}
+                      />
+                    ) : (
+                      <StaticProductCard
+                        key={series.key}
+                        name={series.displayName}
+                        subtitle={`${series.subtitle} · ${series.weight}`}
+                        price={series.price}
+                        viewMode={viewMode}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             )}
+
+            {/* ── Decorative / Pillar Candles Section ── */}
+            {isDecorativeFilter(categoryFilter) && (
+              <div>
+                {!categoryFilter && (
+                  <h2 className="font-serif text-2xl text-foreground mb-6 lowercase">decorative candles</h2>
+                )}
+                <div className={gridClass}>
+                  {PILLAR_CANDLES.map((candle) => {
+                    const dbProduct = products?.find(
+                      (p) =>
+                        p.slug?.includes(candle.key) ||
+                        p.name?.toLowerCase().replace(/\s+/g, "-").includes(candle.key),
+                    );
+                    return dbProduct ? (
+                      <ProductCard
+                        key={candle.key}
+                        product={{ ...dbProduct, name: candle.displayName, price: String(candle.scented) }}
+                      />
+                    ) : (
+                      <StaticProductCard
+                        key={candle.key}
+                        name={candle.displayName}
+                        priceLine={`Rs.${candle.scented.toLocaleString()} scented · Rs.${candle.unscented.toLocaleString()} unscented`}
+                        weight={candle.weight}
+                        viewMode={viewMode}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* ── Other categories (bouquet, gift-sets, ceramics etc.) ── */}
+            {categoryFilter && !isJarFilter(categoryFilter) && !isDecorativeFilter(categoryFilter) && (
+              <div className={gridClass}>
+                {filteredProducts.length > 0 ? (
+                  filteredProducts.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))
+                ) : (
+                  <div className="col-span-full text-center py-20 text-muted-foreground">
+                    <p className="text-lg lowercase">no products found in this category.</p>
+                  </div>
+                )}
+              </div>
+            )}
+
           </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Static Product Card ───────────────────────────────────────────────────────
+
+function StaticProductCard({
+  name,
+  subtitle,
+  price,
+  priceLine,
+  weight,
+  viewMode,
+}: {
+  name: string;
+  subtitle?: string;
+  price?: number;
+  priceLine?: string;
+  weight?: string;
+  viewMode: "grid" | "list";
+}) {
+  if (viewMode === "list") {
+    return (
+      <div className="flex items-center gap-6 p-4 border border-border rounded-lg bg-background">
+        <div className="w-20 h-20 bg-secondary rounded-lg flex-shrink-0" />
+        <div className="flex-1">
+          <h3 className="font-medium text-foreground">{name}</h3>
+          {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
+          {weight && <p className="text-xs text-muted-foreground">{weight}</p>}
+        </div>
+        <div className="text-right">
+          {priceLine ? (
+            <p className="text-sm text-[#c45e4c] font-semibold">{priceLine}</p>
+          ) : (
+            <p className="text-sm text-[#c45e4c] font-semibold">Rs.{price?.toLocaleString()}.00</p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="group cursor-pointer">
+      <div className="aspect-square bg-secondary rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+        <span className="text-muted-foreground text-xs lowercase">coming soon</span>
+      </div>
+      <div className="text-center space-y-1">
+        <h3 className="text-sm font-medium text-foreground">{name}</h3>
+        {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
+        {weight && !subtitle && <p className="text-xs text-muted-foreground">{weight}</p>}
+        {priceLine ? (
+          <p className="text-sm text-[#c45e4c] font-semibold">{priceLine}</p>
+        ) : (
+          <p className="text-sm text-[#c45e4c] font-semibold">Rs.{price?.toLocaleString()}.00</p>
         )}
       </div>
     </div>
