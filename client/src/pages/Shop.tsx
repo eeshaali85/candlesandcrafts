@@ -69,15 +69,40 @@ function isJarFilter(cat: string | null) {
   return cat === "jar";
 }
 
+// ── Bouquet candles ────────────────────────────────────────────────────────────
+export const BOUQUET_CANDLES = [
+  { key: "mini-bouquet",   displayName: "Mini Bouquet",   price: 1850 },
+  { key: "small-bouquet",  displayName: "Small Bouquet",  price: 2800 },
+  { key: "medium-bouquet", displayName: "Medium Bouquet", price: 5500 },
+];
+
 export default function Shop() {
   const { data: products, isLoading } = useProducts();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState("best-selling");
   const [location] = useLocation();
+  const [search, setSearch] = useState(window.location.search);
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setSearch(window.location.search);
+    };
+    window.addEventListener("popstate", handleLocationChange);
+    // Also listen for internal navigation
+    const originalPushState = window.history.pushState;
+    window.history.pushState = function(...args) {
+      originalPushState.apply(window.history, args);
+      handleLocationChange();
+    };
+    return () => {
+      window.removeEventListener("popstate", handleLocationChange);
+      window.history.pushState = originalPushState;
+    };
+  }, []);
 
   const queryParams = useMemo(
-    () => new URLSearchParams(window.location.search),
-    [location],
+    () => new URLSearchParams(search),
+    [search],
   );
   const categoryFilter = queryParams.get("category");
 
@@ -245,8 +270,36 @@ export default function Shop() {
               </div>
             )}
 
-            {/* ── Other categories (bouquet, gift-sets, ceramics etc.) ── */}
-            {categoryFilter && !isJarFilter(categoryFilter) && !isDecorativeFilter(categoryFilter) && (
+            {/* ── Bouquet Section ── */}
+            {categoryFilter === "bouquet" && (
+              <div>
+                <div className={gridClass}>
+                  {BOUQUET_CANDLES.map((bouquet) => {
+                    const dbProduct = products?.find(
+                      (p) =>
+                        p.slug?.includes(bouquet.key) ||
+                        p.name?.toLowerCase().includes(bouquet.displayName.toLowerCase()),
+                    );
+                    return dbProduct ? (
+                      <ProductCard
+                        key={bouquet.key}
+                        product={{ ...dbProduct, name: bouquet.displayName, price: String(bouquet.price) }}
+                      />
+                    ) : (
+                      <StaticProductCard
+                        key={bouquet.key}
+                        name={bouquet.displayName}
+                        price={bouquet.price}
+                        viewMode={viewMode}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* ── Other categories (gift-sets, ceramics etc.) ── */}
+            {categoryFilter && !isJarFilter(categoryFilter) && !isDecorativeFilter(categoryFilter) && categoryFilter !== "bouquet" && (
               <div className={gridClass}>
                 {filteredProducts.length > 0 ? (
                   filteredProducts.map((product) => (
