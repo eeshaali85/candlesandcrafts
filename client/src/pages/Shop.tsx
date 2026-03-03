@@ -1,4 +1,5 @@
 import { useProducts } from "@/hooks/use-products";
+import { useAddToCart } from "@/hooks/use-cart";
 import { ProductCard } from "@/components/ProductCard";
 import { Loader2, Grid3x3, List } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
