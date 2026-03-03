@@ -19,7 +19,12 @@ function Router() {
       <Navbar />
       <main className="flex-grow">
         <Switch>
-          <Route path="/" component={Home} />
+          <Route path="/">
+            {(params) => {
+              // Force home page if we are at root
+              return <Home />;
+            }}
+          </Route>
           <Route path="/shop" component={Shop} />
           <Route path="/our-story" component={OurStory} />
           <Route path="/product/:id" component={ProductDetail} />

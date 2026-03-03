@@ -19,6 +19,13 @@ export default function Home() {
   const [reviewCount, setReviewCount] = useState(0);
 
   useEffect(() => {
+    // Ensure we are on the root path when Home is mounted
+    if (window.location.pathname !== "/") {
+      window.history.replaceState(null, "", "/");
+    }
+  }, []);
+
+  useEffect(() => {
     if (!reviewApi) return;
     setReviewCount(reviewApi.scrollSnapList().length);
     setReviewCurrent(reviewApi.selectedScrollSnap());
