@@ -22,39 +22,36 @@ export const JAR_CANDLE_SERIES = [
 
 // ── Individual pillar / decorative candles ────────────────────────────────────
 export const PILLAR_CANDLES = [
-  { key: "sakura-candle",         displayName: "Sakura Candle",                  scented: 1000, unscented: 850,  weight: "90g"  },
-  { key: "body-candle",           displayName: "Body Candle",                    scented: 1000, unscented: 850,  weight: "90g"  },
-  { key: "knot-candle",           displayName: "Knot Candle",                    scented: 1000, unscented: 850,  weight: "90g"  },
-  { key: "short-ribbed-pierre",   displayName: "Ribbed Pierre Candle 300ml",     scented: 1800, unscented: 1300, weight: "300g" },
-  { key: "long-ribbed-pierre",    displayName: "Ribbed Pierre Candle 600ml",     scented: 2700, unscented: 1700, weight: "600g" },
-  { key: "cylinder-ribbed-thin",  displayName: "Cylinder Ribbed Candle (Thin)",  scented: 1100, unscented: 900,  weight: "135g" },
-  { key: "cylinder-ribbed-thick", displayName: "Cylinder Ribbed Candle (Thick)", scented: 1800, unscented: 1300, weight: "315g" },
-  { key: "mini-bubble-candle",    displayName: "Mini Bubble Candle",             scented: 600,  unscented: 550  },
-  { key: "rose-heart-candle",     displayName: "Rose Heart Candle",              scented: 700,  unscented: 650  },
-  { key: "cloud-candle",          displayName: "Cloud Candle",                   scented: 600,  unscented: 550  },
-  { key: "arch-candle",           displayName: "Arch Candle",                    scented: 1450, unscented: 1100, weight: "230g" },
   { key: "heart-bubble-candle",   displayName: "Heart Bubble Candle",            scented: 1250, unscented: 1000 },
   { key: "bubble-candle",         displayName: "Bubble Candle",                  scented: 1250, unscented: 1000 },
   { key: "seashell-candle",       displayName: "Seashell Candle",                scented: 1250, unscented: 1000 },
   { key: "puffy-candle",          displayName: "Puffy Candle",                   scented: 1250, unscented: 1000 },
-  { key: "rose-bear-candle",      displayName: "Rose Bear Candle",               scented: 1250, unscented: 1000 },
   { key: "dog-candle",            displayName: "Dog Candle",                     scented: 1250, unscented: 1000 },
-  { key: "twisted-candle",        displayName: "Twisted Candle",                 scented: 850,  unscented: 750  },
-  { key: "spiral-candle",         displayName: "Spiral Candle",                  scented: 850,  unscented: 750  },
-  { key: "mini-seashell-candle",  displayName: "Mini Seashell Candle",           scented: 600,  unscented: 550  },
-  { key: "small-peony-candle",    displayName: "Small Peony Candle",             scented: 750,  unscented: 700  },
-  { key: "rose-bud-candle",       displayName: "Rose Bud Candle",                scented: 850,  unscented: 750  },
-  { key: "mini-bear-candle",      displayName: "Mini Bear Candle",               scented: 375,  unscented: 350  },
-  { key: "daisy-candle",          displayName: "Daisy Candle",                   scented: 375,  unscented: 350  },
-  { key: "peony-bud-candle",      displayName: "Peony Bud Candle",               scented: 400,  unscented: 350  },
-  { key: "tulip-candle",          displayName: "Tulip Candle",                   scented: 375,  unscented: 350  },
   { key: "peony-candle",          displayName: "Peony Candle",                   scented: 900,  unscented: 800, weight: "70g" },
-  { key: "sun-moon-candle",       displayName: "Sun & Moon Candle",              scented: 850,  unscented: 750  },
-  { key: "aromatic-rose-candle",  displayName: "Aromatic Rose Candle",           scented: 900,  unscented: 800  },
-  { key: "tapered-candle",        displayName: "Tapered Candle",                 scented: 850,  unscented: 750  },
-  { key: "big-bear-candle",       displayName: "Big Bear Candle",                scented: 850,  unscented: 750  },
-  { key: "rose-candle",           displayName: "Rose Candle",                    scented: 900,  unscented: 800  },
+  { key: "peony-bud-candle",      displayName: "Peony Bud Candle",               scented: 400,  unscented: 350 },
+  { key: "cloud-candle",          displayName: "Cloud Candle",                   scented: 600,  unscented: 550 },
   { key: "3d-heart-candle",       displayName: "3D Heart Candle",                scented: 900,  unscented: 800, weight: "80g" },
+  { key: "sun-moon-candle",       displayName: "Sun & Moon Candle",              scented: 850,  unscented: 750 },
+  { key: "body-candle",           displayName: "Body Candle",                    scented: 1000, unscented: 850,  weight: "90g" },
+  { key: "arch-candle",           displayName: "Arch Candle",                    scented: 1450, unscented: 1100, weight: "230g" },
+  { key: "tapered-candle",        displayName: "Tapered Candle",                 scented: 850,  unscented: 750 },
+  { key: "spiral-twisted-candle", displayName: "Spiral or Twisted Candle",       scented: 850,  unscented: 750 },
+  { key: "mini-bear-candle",      displayName: "Mini Bear Candle",               scented: 375,  unscented: 350 },
+  { key: "knot-candle",           displayName: "Knot Candle",                    scented: 1000, unscented: 850,  weight: "90g" },
+  { key: "daisy-candle",          displayName: "Daisy Candle",                   scented: 375,  unscented: 350 },
+  { key: "mini-bubble-candle",    displayName: "Mini Bubble Candle",             scented: 600,  unscented: 550 },
+  { key: "tulip-candle",          displayName: "Tulip Candle",                   scented: 375,  unscented: 350 },
+  { key: "rose-bear-candle",      displayName: "Rose Bear Candle",               scented: 1250, unscented: 1000 },
+  { key: "rose-heart-candle",     displayName: "Rose Heart Candle",              scented: 700,  unscented: 650 },
+  { key: "mini-seashell-candle",  displayName: "Mini Seashell Candle",           scented: 600,  unscented: 550 },
+  { key: "small-peony-candle",    displayName: "Small Peony Candle",             scented: 750,  unscented: 700 },
+  { key: "big-bear-candle",       displayName: "Big Bear Candle",                scented: 850,  unscented: 750 },
+  { key: "cylinder-ribbed-thin",  displayName: "Cylinder Ribbed Candle (Thin)",  scented: 1100, unscented: 900,  weight: "130ml" },
+  { key: "ribbed-pierre-300ml",   displayName: "Ribbed Pierre Candle 300ml",     scented: 1800, unscented: 1300, weight: "300ml" },
+  { key: "ribbed-pierre-600ml",   displayName: "Ribbed Pierre Candle 600ml",     scented: 2700, unscented: 1700, weight: "600ml" },
+  { key: "cylinder-ribbed-thick", displayName: "Cylinder Ribbed Candle (Thick)", scented: 1800, unscented: 1300, weight: "320ml" },
+  { key: "sakura-candle",         displayName: "Sakura Candle",                  scented: 1000, unscented: 850,  weight: "90g" },
+  { key: "rose-candle",           displayName: "Rose Candle",                    scented: 900,  unscented: 800 },
 ];
 
 // Helper: does the current category filter match the decorative/pillar section?
@@ -337,40 +334,41 @@ function StaticProductCard({
   weight?: string;
   viewMode: "grid" | "list";
 }) {
-  if (viewMode === "list") {
-    return (
-      <div className="flex items-center gap-6 p-4 border border-border rounded-lg bg-background">
-        <div className="w-20 h-20 bg-secondary rounded-lg flex-shrink-0" />
-        <div className="flex-1">
-          <h3 className="font-medium text-foreground">{name}</h3>
-          {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
-          {weight && <p className="text-xs text-muted-foreground">{weight}</p>}
-        </div>
-        <div className="text-right">
-          {priceLine ? (
-            <p className="text-sm text-[#c45e4c] font-semibold">{priceLine}</p>
-          ) : (
-            <p className="text-sm text-[#c45e4c] font-semibold">Rs.{price?.toLocaleString()}.00</p>
-          )}
-        </div>
-      </div>
-    );
-  }
+  const addToCart = useAddToCart();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // For static cards, we don't have a real DB ID, but we can't add to cart without one
+    // In a real app, these should be in the DB. For now, we'll just show a toast or nothing.
+  };
 
   return (
-    <div className="group cursor-pointer">
-      <div className="aspect-square bg-secondary rounded-lg mb-4 flex items-center justify-center overflow-hidden">
-        <span className="text-muted-foreground text-xs lowercase">coming soon</span>
-      </div>
-      <div className="text-center space-y-1">
-        <h3 className="text-sm font-medium text-foreground">{name}</h3>
-        {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
-        {weight && !subtitle && <p className="text-xs text-muted-foreground">{weight}</p>}
-        {priceLine ? (
-          <p className="text-sm text-[#c45e4c] font-semibold">{priceLine}</p>
-        ) : (
-          <p className="text-sm text-[#c45e4c] font-semibold">Rs.{price?.toLocaleString()}.00</p>
-        )}
+    <div className="group block h-full">
+      <div className="h-full flex flex-col bg-card rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-border/50 hover:border-primary/20">
+        <div className="relative aspect-[4/5] overflow-hidden bg-muted rounded-lg">
+          <div className="w-full h-full flex items-center justify-center bg-secondary/30">
+            <span className="text-muted-foreground text-xs lowercase">coming soon</span>
+          </div>
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
+        </div>
+
+        <div className="p-5 flex flex-col flex-grow text-center">
+          <div className="mb-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+            {subtitle || "Decorative-Candles"}
+          </div>
+          <h3 className="font-serif text-lg font-bold text-foreground mb-2 leading-tight group-hover:text-primary transition-colors lowercase">
+            {name}
+          </h3>
+          <div className="mt-auto pt-4 flex flex-col items-center gap-1 border-t border-border/50">
+            {priceLine ? (
+              <p className="text-sm text-[#c45e4c] font-semibold">{priceLine}</p>
+            ) : (
+              <p className="text-sm text-[#c45e4c] font-semibold">Rs.{price?.toLocaleString()}.00</p>
+            )}
+            {weight && <p className="text-[10px] text-muted-foreground">{weight}</p>}
+          </div>
+        </div>
       </div>
     </div>
   );
