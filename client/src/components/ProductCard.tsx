@@ -45,9 +45,6 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
         
         <div className="p-5 flex flex-col flex-grow">
-          <div className="mb-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-            {product.series || product.category}
-          </div>
           <h3 className="font-serif text-lg font-bold text-foreground mb-2 leading-tight group-hover:text-primary transition-colors">
             {product.name}
           </h3>

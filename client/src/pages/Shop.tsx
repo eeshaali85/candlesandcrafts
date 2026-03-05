@@ -252,7 +252,11 @@ export default function Shop() {
                     return dbProduct ? (
                       <ProductCard
                         key={candle.key}
-                        product={{ ...dbProduct, name: candle.displayName, price: String(candle.scented) }}
+                        product={{ 
+                          ...dbProduct, 
+                          name: candle.displayName, 
+                          price: String(candle.scented) 
+                        }}
                       />
                     ) : (
                       <StaticProductCard
@@ -355,9 +359,6 @@ function StaticProductCard({
         </div>
 
         <div className="p-5 flex flex-col flex-grow text-center">
-          <div className="mb-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-            {subtitle || "Decorative-Candles"}
-          </div>
           <h3 className="font-serif text-lg font-bold text-foreground mb-2 leading-tight group-hover:text-primary transition-colors lowercase">
             {name}
           </h3>
