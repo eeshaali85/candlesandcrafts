@@ -39,8 +39,9 @@ export default function Home() {
   });
 
   const bestSellers = Array.isArray(products) ? products : [];
-  const bestSellersPage1 = bestSellers.slice(0, 4);
-  const bestSellersPage2 = bestSellers.slice(4, 8);
+  const jarCandles = bestSellers.filter((p: any) => p.category === "jar-candles");
+  const bestSellersPage1 = jarCandles.slice(0, 4);
+  const bestSellersPage2 = jarCandles.slice(4, 8);
   const currentBestSellers = bestSellerPage === 0 ? bestSellersPage1 : bestSellersPage2;
 
   const categories = [
