@@ -14,8 +14,13 @@ import {
 } from "@/components/ui/select";
 
 export default function ProductDetail() {
-  const [, params] = useRoute("/product/:id");
-  const id = params ? parseInt(params.id) : 0;
+  const [, idParams] = useRoute("/product/:id");
+  const [, slugParams] = useRoute("/product/candle/:slug");
+
+  // Slug-based route (decorative/static candles)
+  const candleSlug = slugParams?.slug ?? null;
+  // ID-based route (jar candles from DB)
+  const id = idParams && !candleSlug ? parseInt(idParams.id) : 0;
 
   const { data: product, isLoading, isError } = useProduct(id);
   const { data: allProducts } = useProducts();
@@ -27,7 +32,7 @@ export default function ProductDetail() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [id]);
+  }, [id, candleSlug]);
 
   // ── Pillar candle products with individual pricing ────────────────────────
   const pillarCandles: Record<
@@ -67,7 +72,11 @@ export default function ProductDetail() {
     "big-bear-candle":       { displayName: "Big Bear Candle",                 scented: 850,  unscented: 750  },
     "rose-candle":           { displayName: "Rose Candle",                     scented: 900,  unscented: 800  },
     "3d-heart-candle":       { displayName: "3D Heart Candle",                 scented: 900,  unscented: 800, weight: "80g" },
+    "butterfly-candle":      { displayName: "Butterfly Candle",                scented: 600,  unscented: 525 },
   };
+
+  // Static candle from slug route
+  const staticCandle = candleSlug ? (pillarCandles[candleSlug] ?? null) : null;
 
   // ── Jar candle series ─────────────────────────────────────────────────────
   const jarSeries: Record<string, { displayName: string; subtitle: string; price: number; weight: string }> = {
@@ -159,6 +168,96 @@ export default function ProductDetail() {
     : matchedPillar
     ? matchedPillar[selectedScented]
     : Number(product?.price ?? 0);
+
+  // For slug-based static candle routes — no DB fetch needed
+  if (staticCandle) {
+    const basePrice = staticCandle[selectedScented];
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <Link href="/shop?category=decorative-candles">
+            <Button variant="ghost" className="mb-6 hover:bg-transparent p-0 flex items-center gap-2 text-muted-foreground">
+              <ArrowLeft className="w-4 h-4" /> Back to Shop
+            </Button>
+          </Link>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+            {/* Placeholder image */}
+            <div className="aspect-square bg-secondary/30 rounded-2xl flex items-center justify-center">
+              <span className="text-muted-foreground text-sm">coming soon</span>
+            </div>
+            {/* Info */}
+            <div className="space-y-6">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-serif text-primary">{staticCandle.displayName}</h1>
+                {staticCandle.weight && <p className="text-muted-foreground text-sm mt-1">{staticCandle.weight}</p>}
+              </div>
+              <div>
+                <p className="text-lg text-[#c45e4c] font-semibold">Rs.{basePrice.toLocaleString()}.00</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Scented: Rs.{staticCandle.scented.toLocaleString()} &nbsp;·&nbsp; Unscented: Rs.{staticCandle.unscented.toLocaleString()}
+                </p>
+              </div>
+              {/* Scented/Unscented */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">scented or unscented</p>
+                <Select value={selectedScented} onValueChange={(val) => setSelectedScented(val as "scented" | "unscented")}>
+                  <SelectTrigger className="w-full bg-muted border-0"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="scented">Scented — Rs.{staticCandle.scented.toLocaleString()}</SelectItem>
+                    <SelectItem value="unscented">Unscented — Rs.{staticCandle.unscented.toLocaleString()}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              {/* Color */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">color</p>
+                <Select value={selectedColor} onValueChange={setSelectedColor}>
+                  <SelectTrigger className="w-full bg-muted border-0"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {pillarColors.map((c) => <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+              {/* Scent (when scented) */}
+              {selectedScented === "scented" && (
+                <div>
+                  <p className="text-sm text-muted-foreground mb-2">scent</p>
+                  <Select value={selectedScent} onValueChange={setSelectedScent}>
+                    <SelectTrigger className="w-full bg-muted border-0"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {scents.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                  {scentDescriptions[selectedScent] && (
+                    <div className="mt-3 p-3 bg-muted rounded-md">
+                      <p className="text-sm font-medium text-primary">Notes: {scentDescriptions[selectedScent].notes}</p>
+                      <p className="text-sm text-muted-foreground mt-1">{scentDescriptions[selectedScent].description}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+              {/* Quantity */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">Quantity</p>
+                <div className="flex items-center border border-muted-foreground/20 rounded-sm bg-muted w-fit">
+                  <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} disabled={quantity <= 1} className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"><Minus className="w-3 h-3" /></button>
+                  <span className="w-8 text-center text-sm text-foreground">{quantity}</span>
+                  <button onClick={() => setQuantity((q) => q + 1)} className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"><Plus className="w-3 h-3" /></button>
+                </div>
+              </div>
+              <Button disabled className="w-full py-4 rounded-full bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium text-sm">
+                coming soon — contact us to order
+              </Button>
+              <p className="text-sm text-muted-foreground">
+                To order, please contact us via{" "}
+                <a href="https://wa.me/923379229966" target="_blank" rel="noreferrer" className="underline text-primary">WhatsApp</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (

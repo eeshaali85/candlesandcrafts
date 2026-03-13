@@ -3,7 +3,7 @@ import { useAddToCart } from "@/hooks/use-cart";
 import { ProductCard } from "@/components/ProductCard";
 import { Loader2, Grid3x3, List } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 
 const SORT_OPTIONS = [
   { value: "best-selling", label: "Best selling" },
@@ -468,34 +468,16 @@ export default function Shop() {
                   </h2>
                 )}
                 <div className={gridClass}>
-                  {PILLAR_CANDLES.map((candle) => {
-                    const dbProduct = products?.find(
-                      (p) =>
-                        p.slug?.includes(candle.key) ||
-                        p.name
-                          ?.toLowerCase()
-                          .replace(/\s+/g, "-")
-                          .includes(candle.key),
-                    );
-                    return dbProduct ? (
-                      <ProductCard
-                        key={candle.key}
-                        product={{
-                          ...dbProduct,
-                          name: candle.displayName,
-                          price: String(candle.scented),
-                        }}
-                      />
-                    ) : (
-                      <StaticProductCard
-                        key={candle.key}
-                        name={candle.displayName}
-                        price={candle.scented}
-                        weight={candle.weight}
-                        viewMode={viewMode}
-                      />
-                    );
-                  })}
+                  {PILLAR_CANDLES.map((candle) => (
+                    <StaticProductCard
+                      key={candle.key}
+                      name={candle.displayName}
+                      price={candle.scented}
+                      weight={candle.weight}
+                      viewMode={viewMode}
+                      href={`/product/candle/${candle.key}`}
+                    />
+                  ))}
                 </div>
               </div>
             )}
@@ -569,6 +551,7 @@ function StaticProductCard({
   priceLine,
   weight,
   viewMode,
+  href,
 }: {
   name: string;
   subtitle?: string;
@@ -576,22 +559,12 @@ function StaticProductCard({
   priceLine?: string;
   weight?: string;
   viewMode: "grid" | "list";
+  href?: string;
 }) {
-  const addToCart = useAddToCart();
-
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    // For static cards, we don't have a real DB ID, but we can't add to cart without one
-    // In a real app, these should be in the DB. For now, we'll just show a toast or nothing.
-  };
-
-  return (
-    <div className="group block">
+  const inner = (
+    <div className="group block cursor-pointer">
       <div className="relative rounded-2xl overflow-hidden aspect-[4/5] bg-secondary/30 mb-3 flex items-center justify-center">
-        <span className="text-muted-foreground text-xs lowercase">
-          coming soon
-        </span>
+        <span className="text-muted-foreground text-xs lowercase">coming soon</span>
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
       </div>
       <div className="text-center mt-3">
@@ -604,4 +577,7 @@ function StaticProductCard({
       </div>
     </div>
   );
+
+  if (href) return <Link href={href}>{inner}</Link>;
+  return inner;
 }
