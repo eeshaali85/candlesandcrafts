@@ -144,7 +144,7 @@ export default function Shop() {
   }, [products, categoryFilter, sortBy]);
 
   const gridClass = viewMode === "grid"
-    ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+    ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4"
     : "space-y-4";
 
   return (
