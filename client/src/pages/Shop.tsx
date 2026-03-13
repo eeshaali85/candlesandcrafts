@@ -349,28 +349,18 @@ function StaticProductCard({
   };
 
   return (
-    <div className="group block h-full">
-      <div className="h-full flex flex-col bg-card rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-border/50 hover:border-primary/20">
-        <div className="relative aspect-[4/5] overflow-hidden bg-muted rounded-lg">
-          <div className="w-full h-full flex items-center justify-center bg-secondary/30">
-            <span className="text-muted-foreground text-xs lowercase">coming soon</span>
-          </div>
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
-        </div>
-
-        <div className="p-5 flex flex-col flex-grow text-center">
-          <h3 className="font-serif text-lg font-bold text-foreground mb-2 leading-tight group-hover:text-primary transition-colors lowercase">
-            {name}
-          </h3>
-          <div className="mt-auto pt-4 flex flex-col items-center gap-1 border-t border-border/50">
-            {priceLine ? (
-              <p className="text-sm text-[#c45e4c] font-semibold">{priceLine}</p>
-            ) : (
-              <p className="text-sm text-[#c45e4c] font-semibold">Rs.{price?.toLocaleString()}.00</p>
-            )}
-            {weight && <p className="text-[10px] text-muted-foreground">{weight}</p>}
-          </div>
-        </div>
+    <div className="group block">
+      <div className="relative rounded-2xl overflow-hidden aspect-[4/5] bg-secondary/30 mb-3 flex items-center justify-center">
+        <span className="text-muted-foreground text-xs lowercase">coming soon</span>
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
+      </div>
+      <div>
+        <h3 className="text-sm text-foreground leading-snug group-hover:text-primary transition-colors">
+          {name}
+        </h3>
+        <p className="mt-1 text-sm font-semibold text-[#c45e4c]">
+          {priceLine ? priceLine : `Rs.${price?.toLocaleString()}.00`}
+        </p>
       </div>
     </div>
   );
