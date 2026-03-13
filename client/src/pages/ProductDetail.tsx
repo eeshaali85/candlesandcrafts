@@ -196,6 +196,9 @@ export default function ProductDetail() {
                 <p className="text-xs text-muted-foreground mt-1">
                   Scented: Rs.{staticCandle.scented.toLocaleString()} &nbsp;·&nbsp; Unscented: Rs.{staticCandle.unscented.toLocaleString()}
                 </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  <span className="underline cursor-pointer">Shipping</span> calculated at checkout.
+                </p>
               </div>
               {/* Scented/Unscented */}
               <div>
