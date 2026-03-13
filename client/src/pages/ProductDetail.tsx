@@ -82,7 +82,7 @@ export default function ProductDetail() {
   const jarSeries: Record<string, { displayName: string; subtitle: string; price: number; weight: string }> = {
     "mini-moments":    { displayName: "Mini Moments Series",   subtitle: "Shot Glass Candle", price: 800,  weight: "60g"  },
     "aurora":          { displayName: "Aurora Series",         subtitle: "Mini Gold Candle",  price: 1700, weight: "100g" },
-    "eclipse":         { displayName: "Eclipse Series",        subtitle: "Black Jar Candle",  price: 2300, weight: "—"   },
+    "eclipse":         { displayName: "Eclipse Series",        subtitle: "Black Jar Candle",  price: 2200, weight: "—"   },
     "amber":           { displayName: "Amber Series",          subtitle: "Amber Jar Candle",  price: 2700, weight: "240g" },
     "signature-luxe":  { displayName: "Signature Luxe Series", subtitle: "Lidded Candle",     price: 3200, weight: "300g" },
   };

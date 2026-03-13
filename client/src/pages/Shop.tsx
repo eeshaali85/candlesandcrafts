@@ -32,7 +32,7 @@ export const JAR_CANDLE_SERIES = [
     key: "eclipse",
     displayName: "Eclipse Series",
     subtitle: "Black Jar Candle",
-    price: 2300,
+    price: 2200,
     weight: "—",
   },
   {

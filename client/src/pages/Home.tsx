@@ -121,7 +121,7 @@ export default function Home() {
                     </div>
                     <div className="text-center mt-3">
                       <h3 className="text-base font-medium text-foreground leading-snug">{product.name}</h3>
-                      <p className="text-[10px] text-muted-foreground lowercase italic mt-0.5">scented candle</p>
+                      <p className="text-xs text-muted-foreground lowercase italic mt-0.5">scented candle</p>
                       <p className="mt-1.5 text-base font-semibold text-[#c45e4c]">
                         Rs.{parseFloat(product.price).toLocaleString()}.00
                       </p>
