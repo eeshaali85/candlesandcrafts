@@ -38,7 +38,7 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </button>
       </div>
-      <div>
+      <div className="text-center">
         <h3 className="text-sm text-foreground leading-snug group-hover:text-primary transition-colors">
           {product.name}
         </h3>

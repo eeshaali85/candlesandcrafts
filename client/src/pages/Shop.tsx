@@ -354,7 +354,7 @@ function StaticProductCard({
         <span className="text-muted-foreground text-xs lowercase">coming soon</span>
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
       </div>
-      <div>
+      <div className="text-center">
         <h3 className="text-sm text-foreground leading-snug group-hover:text-primary transition-colors">
           {name}
         </h3>
