@@ -354,11 +354,11 @@ function StaticProductCard({
         <span className="text-muted-foreground text-xs lowercase">coming soon</span>
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
       </div>
-      <div className="text-center">
-        <h3 className="text-sm text-foreground leading-snug group-hover:text-primary transition-colors">
+      <div className="text-center mt-3">
+        <h3 className="text-base font-medium text-foreground leading-snug group-hover:text-primary transition-colors">
           {name}
         </h3>
-        <p className="mt-1 text-sm font-semibold text-[#c45e4c]">
+        <p className="mt-1.5 text-base font-semibold text-[#c45e4c]">
           {priceLine ? priceLine : `Rs.${price?.toLocaleString()}.00`}
         </p>
       </div>

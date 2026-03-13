@@ -38,11 +38,11 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </button>
       </div>
-      <div className="text-center">
-        <h3 className="text-sm text-foreground leading-snug group-hover:text-primary transition-colors">
+      <div className="text-center mt-3">
+        <h3 className="text-base font-medium text-foreground leading-snug group-hover:text-primary transition-colors">
           {product.name}
         </h3>
-        <p className="mt-1 text-sm font-semibold text-[#c45e4c]">
+        <p className="mt-1.5 text-base font-semibold text-[#c45e4c]">
           Rs.{Number(product.price).toLocaleString()}.00
         </p>
       </div>
