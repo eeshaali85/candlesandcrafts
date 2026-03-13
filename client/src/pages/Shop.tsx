@@ -2,7 +2,7 @@ import { useProducts } from "@/hooks/use-products";
 import { useAddToCart } from "@/hooks/use-cart";
 import { ProductCard } from "@/components/ProductCard";
 import { Loader2, Grid3x3, List } from "lucide-react";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useLocation, Link } from "wouter";
 
 const SORT_OPTIONS = [
@@ -287,20 +287,43 @@ export default function Shop() {
   const [sortBy, setSortBy] = useState("best-selling");
   const [location] = useLocation();
   const [search, setSearch] = useState(window.location.search);
+  const prevCategoryRef = useRef<string | null>(undefined as any);
+  const isBackNavRef = useRef(false);
 
   useEffect(() => {
+    // Detect if this is a back navigation
+    isBackNavRef.current = performance.navigation?.type === 2 ||
+      (window.history.state && window.history.state.__back === true);
+
     const handleLocationChange = () => {
       setSearch(window.location.search);
     };
     window.addEventListener("popstate", handleLocationChange);
-    // Also listen for internal navigation
     const originalPushState = window.history.pushState;
     window.history.pushState = function (...args) {
       originalPushState.apply(window.history, args);
       handleLocationChange();
     };
+
+    // Save scroll position when leaving the shop
+    const saveScroll = () => {
+      sessionStorage.setItem("shop-scroll", String(window.scrollY));
+    };
+    window.addEventListener("beforeunload", saveScroll);
+
+    // Restore scroll if returning via back
+    const savedScroll = sessionStorage.getItem("shop-scroll");
+    if (savedScroll) {
+      requestAnimationFrame(() => {
+        window.scrollTo(0, parseInt(savedScroll));
+        sessionStorage.removeItem("shop-scroll");
+      });
+    }
+
     return () => {
+      saveScroll();
       window.removeEventListener("popstate", handleLocationChange);
+      window.removeEventListener("beforeunload", saveScroll);
       window.history.pushState = originalPushState;
     };
   }, []);
@@ -308,8 +331,16 @@ export default function Shop() {
   const queryParams = useMemo(() => new URLSearchParams(search), [search]);
   const categoryFilter = queryParams.get("category");
 
+  // Only scroll to top when user actively changes category, not on initial mount/back nav
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (prevCategoryRef.current === (undefined as any)) {
+      prevCategoryRef.current = categoryFilter;
+      return;
+    }
+    if (prevCategoryRef.current !== categoryFilter) {
+      prevCategoryRef.current = categoryFilter;
+      window.scrollTo(0, 0);
+    }
   }, [categoryFilter]);
 
   const categoryTitle = useMemo(() => {

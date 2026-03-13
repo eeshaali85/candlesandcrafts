@@ -175,11 +175,9 @@ export default function ProductDetail() {
     return (
       <div className="min-h-screen bg-background">
         <div className="max-w-6xl mx-auto px-4 py-8">
-          <Link href="/shop?category=decorative-candles">
-            <Button variant="ghost" className="mb-6 hover:bg-transparent p-0 flex items-center gap-2 text-muted-foreground">
-              <ArrowLeft className="w-4 h-4" /> Back to Shop
-            </Button>
-          </Link>
+          <Button variant="ghost" onClick={() => window.history.back()} className="mb-6 hover:bg-transparent p-0 flex items-center gap-2 text-muted-foreground">
+            <ArrowLeft className="w-4 h-4" /> Back to Shop
+          </Button>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             {/* Placeholder image */}
             <div className="aspect-square bg-secondary/30 rounded-2xl flex items-center justify-center">
@@ -288,14 +286,13 @@ export default function ProductDetail() {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <Link href="/shop">
-          <Button
-            variant="ghost"
-            className="mb-6 hover:bg-transparent p-0 flex items-center gap-2 text-muted-foreground"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Shop
-          </Button>
-        </Link>
+        <Button
+          variant="ghost"
+          onClick={() => window.history.back()}
+          className="mb-6 hover:bg-transparent p-0 flex items-center gap-2 text-muted-foreground"
+        >
+          <ArrowLeft className="w-4 h-4" /> Back to Shop
+        </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Product Images */}
