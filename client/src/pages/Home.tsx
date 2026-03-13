@@ -2,6 +2,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ChevronRight, Star, CheckCircle2, Leaf, MapPin, Heart, HandHeart } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -342,23 +343,43 @@ export default function Home() {
           <div className="h-px w-32 bg-foreground/30 mx-auto mt-4" />
         </div>
 
-        <div className="space-y-3">
+        <Accordion type="single" collapsible className="space-y-3">
           {[
-            "What is your delivery timeline?",
-            "What are your payment modes?",
-            "What are your shipping charges?",
-            "Do you ship worldwide?",
-            "What's the best way to care for your products?",
-            "Do you make custom candles?",
-          ].map((question, i) => (
-            <Card key={i} className="p-4 cursor-pointer hover-elevate transition-all">
-              <button className="w-full text-left font-medium text-foreground flex items-center justify-between">
-                {question}
-                <ChevronRight className="w-5 h-5 text-muted-foreground" />
-              </button>
-            </Card>
+            {
+              q: "What is your delivery timeline?",
+              a: "Our standard delivery timeline is 7–15 working days, as all our products are made to order. If you need your order sooner, urgent delivery can be arranged — please reach out to us on Instagram before placing your order.",
+            },
+            {
+              q: "What are your payment modes?",
+              a: "We accept Cash on Delivery (COD) and Bank Deposit. For bank deposit orders, payment details will be shared with you at checkout. Orders are confirmed once payment is received.",
+            },
+            {
+              q: "What are your shipping charges?",
+              a: "A flat shipping fee of Rs. 300 applies to all orders across Pakistan.",
+            },
+            {
+              q: "Do you ship worldwide?",
+              a: "Currently we ship within Pakistan only. We hope to expand internationally in the future — stay tuned!",
+            },
+            {
+              q: "What's the best way to care for your products?",
+              a: "For the best experience: trim the wick to 5mm before each burn, allow the wax to melt to the edges on the first burn, keep away from drafts and direct sunlight, and never burn for more than 4 hours at a time.",
+            },
+            {
+              q: "Do you make custom candles?",
+              a: "Yes! We love creating custom and personalised candles for events, giveaways, and gifting. Visit our Custom Giveaways page or reach out to us on Instagram or WhatsApp to discuss your requirements.",
+            },
+          ].map((item, i) => (
+            <AccordionItem key={i} value={`faq-${i}`} className="border border-border/50 rounded-xl px-4 bg-card">
+              <AccordionTrigger className="text-left font-medium text-foreground hover:no-underline py-4">
+                {item.q}
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground pb-4 leading-relaxed">
+                {item.a}
+              </AccordionContent>
+            </AccordionItem>
           ))}
-        </div>
+        </Accordion>
       </section>
     </div>
   );
