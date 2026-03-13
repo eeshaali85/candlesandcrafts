@@ -26,7 +26,7 @@ export default function ProductDetail() {
   const { data: allProducts } = useProducts();
   const addToCart = useAddToCart();
   const [quantity, setQuantity] = useState(1);
-  const [selectedColor, setSelectedColor] = useState("crème");
+  const [selectedColor, setSelectedColor] = useState("blue");
   const [selectedScent, setSelectedScent] = useState("flower meadows");
   const [selectedScented, setSelectedScented] = useState<"scented" | "unscented">("scented");
 
@@ -131,16 +131,16 @@ export default function ProductDetail() {
 
   // ── Color options for pillar candles ──────────────────────────────────────
   const pillarColors = [
-    { value: "crème",      label: "Crème"      },
-    { value: "rose",       label: "Rose"        },
-    { value: "sage",       label: "Sage"        },
-    { value: "white",      label: "White"       },
-    { value: "black",      label: "Black"       },
-    { value: "blush pink", label: "Blush Pink"  },
-    { value: "lilac",      label: "Lilac"       },
-    { value: "dusty blue", label: "Dusty Blue"  },
-    { value: "terracotta", label: "Terracotta"  },
-    { value: "caramel",    label: "Caramel"     },
+    { value: "blue",   label: "Blue"   },
+    { value: "pink",   label: "Pink"   },
+    { value: "green",  label: "Green"  },
+    { value: "purple", label: "Purple" },
+    { value: "grey",   label: "Grey"   },
+    { value: "white",  label: "White"  },
+    { value: "yellow", label: "Yellow" },
+    { value: "red",    label: "Red"    },
+    { value: "orange", label: "Orange" },
+    { value: "brown",  label: "Brown"  },
   ];
 
   const slug = product?.slug ?? "";
