@@ -119,15 +119,9 @@ export default function Home() {
                         </div>
                       )}
                     </div>
-                    <div className="space-y-1">
-                      <h3 className="font-serif text-base text-foreground lowercase">{product.name}</h3>
-                      <p className="text-[11px] text-muted-foreground lowercase leading-tight">
-                        {product.description}
-                      </p>
-                      <p className="text-[10px] text-muted-foreground lowercase italic">
-                        scented candle
-                      </p>
-                      <p className="text-sm font-semibold text-[#c45e4c] mt-2">
+                    <div className="text-center mt-3">
+                      <h3 className="text-base font-medium text-foreground leading-snug">{product.name}</h3>
+                      <p className="mt-1.5 text-base font-semibold text-[#c45e4c]">
                         Rs.{parseFloat(product.price).toLocaleString()}.00
                       </p>
                     </div>
