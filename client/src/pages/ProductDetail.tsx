@@ -213,7 +213,7 @@ export default function ProductDetail() {
                 <p className="text-sm text-muted-foreground mb-2">color</p>
                 <Select value={selectedColor} onValueChange={setSelectedColor}>
                   <SelectTrigger className="w-full bg-muted border-0"><SelectValue /></SelectTrigger>
-                  <SelectContent>
+                  <SelectContent side="bottom">
                     {pillarColors.map((c) => <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>)}
                   </SelectContent>
                 </Select>
@@ -384,7 +384,7 @@ export default function ProductDetail() {
                   <SelectTrigger className="w-full bg-muted border-0" data-testid="select-color">
                     <SelectValue placeholder="Select color" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent side="bottom">
                     {pillarColors.map((c) => (
                       <SelectItem key={c.value} value={c.value}>
                         {c.label}
