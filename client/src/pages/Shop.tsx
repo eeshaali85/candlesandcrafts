@@ -161,6 +161,12 @@ export const PILLAR_CANDLES = [
     weight: "90g",
   },
   {
+    key: "butterfly-candle",
+    displayName: "Butterfly Candle",
+    scented: 600,
+    unscented: 525,
+  },
+  {
     key: "daisy-candle",
     displayName: "Daisy Candle",
     scented: 375,
