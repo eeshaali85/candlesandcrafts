@@ -367,7 +367,7 @@ export default function Checkout() {
     city: "",
     postalCode: "",
     paymentMethod: "cod",
-    notes: "",
+    notes: localStorage.getItem("checkout_special_instructions") || "",
     billingSameAsShipping: true,
     billingAddress: "",
     billingCity: "",

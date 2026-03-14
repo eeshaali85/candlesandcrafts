@@ -30,6 +30,8 @@ export default function ProductDetail() {
   const [selectedScent, setSelectedScent] = useState("flower meadows");
   const [selectedScented, setSelectedScented] = useState<"scented" | "unscented">("scented");
   const [giftPackaging, setGiftPackaging] = useState(false);
+  const [specialInstructions, setSpecialInstructions] = useState("");
+  const [activeTab, setActiveTab] = useState<"details" | "how-to-use" | "shipping">("details");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -129,6 +131,68 @@ export default function ProductDetail() {
       description: "A calming sanctuary of soft lavender and grounding balsam trees.",
     },
   };
+
+  // ── Per-product descriptions & details ────────────────────────────────────
+  const productInfo: Record<string, { story: string; details: { label: string; value: string }[] }> = {
+    "butterfly-candle": {
+      story: "Delicate and dreamy, the Butterfly Candle flutters into any space with its sculpted wings and soft pastel hues. Whether placed on a vanity, shelf, or gifted to someone special, this candle brings a whimsical touch to everyday moments.",
+      details: [
+        { label: "Dimensions", value: "—" },
+        { label: "Net Weight", value: "—" },
+        { label: "Burn Time", value: "—" },
+      ],
+    },
+    "mini-moments": {
+      story: "Big fragrance in a tiny vessel — the Mini Moments Series is perfect for gifting or filling small spaces with warm, lasting scent. Hand-poured into a charming shot glass jar, each candle is a pocket-sized luxury.",
+      details: [
+        { label: "Container", value: "Shot Glass Jar" },
+        { label: "Net Weight", value: "60g" },
+        { label: "Burn Time", value: "~10–12 hours" },
+      ],
+    },
+    "aurora": {
+      story: "The Aurora Series radiates gentle warmth with its elegant mini gold jar. Inspired by the soft glow of the northern lights, each candle is a luminous centrepiece for your home.",
+      details: [
+        { label: "Container", value: "Mini Gold Jar" },
+        { label: "Net Weight", value: "100g" },
+        { label: "Burn Time", value: "~20–25 hours" },
+      ],
+    },
+    "eclipse": {
+      story: "Bold, mysterious, and utterly captivating — the Eclipse Series is for those who embrace the dark side of luxury. Encased in a sleek black jar, this candle commands every corner of the room.",
+      details: [
+        { label: "Container", value: "Black Jar" },
+        { label: "Net Weight", value: "—" },
+        { label: "Burn Time", value: "—" },
+      ],
+    },
+    "amber": {
+      story: "Warm and inviting, the Amber Series captures the rich glow of golden hour in every burn. The amber-toned jar adds an earthy elegance to any shelf, desk, or bedside table.",
+      details: [
+        { label: "Container", value: "Amber Jar" },
+        { label: "Net Weight", value: "240g" },
+        { label: "Burn Time", value: "~45–50 hours" },
+      ],
+    },
+    "signature-luxe": {
+      story: "Our most indulgent creation — the Signature Luxe Series is crafted for those who refuse to compromise. Housed in a lidded vessel, this candle is as stunning unlit as it is burning.",
+      details: [
+        { label: "Container", value: "Lidded Jar" },
+        { label: "Net Weight", value: "300g" },
+        { label: "Burn Time", value: "~55–60 hours" },
+      ],
+    },
+  };
+
+  // ── How to use & shipping content (shared) ────────────────────────────────
+  const howToUse = [
+    "Trim the wick to 5mm before each burn.",
+    "On the first burn, allow the wax to melt all the way to the edges of the container.",
+    "Never burn for more than 4 hours at a time.",
+    "Keep away from drafts, children, and pets.",
+    "Never leave a burning candle unattended.",
+    "Stop use when only 1cm of wax remains.",
+  ];
 
   // ── Color options for pillar candles ──────────────────────────────────────
   const pillarColors = [
@@ -267,9 +331,21 @@ export default function ProductDetail() {
                   <span className="text-xs text-muted-foreground font-normal ml-1">(incl. gift packaging)</span>
                 </p>
               )}
+              {/* Special Instructions */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">Special Instructions <span className="text-xs">(optional)</span></p>
+                <textarea
+                  value={specialInstructions}
+                  onChange={(e) => setSpecialInstructions(e.target.value)}
+                  placeholder="e.g. specific shade of color, personalised message, packaging preference..."
+                  rows={3}
+                  className="w-full rounded-md bg-muted border-0 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 resize-none focus:outline-none focus:ring-1 focus:ring-border"
+                />
+              </div>
+
               <a
                 href={`https://wa.me/923379229966?text=${encodeURIComponent(
-                  `Hi! I'd like to order:\n\n*${staticCandle.displayName}*\nScented/Unscented: ${selectedScented}\nColor: ${selectedColor}${selectedScented === "scented" ? `\nScent: ${selectedScent}` : ""}\nQuantity: ${quantity}${giftPackaging ? "\nGift Packaging: Yes (+Rs. 150)" : ""}\n\nTotal (excl. shipping): Rs.${(basePrice * quantity + (giftPackaging ? 150 : 0)).toLocaleString()}.00`
+                  `Hi! I'd like to order:\n\n*${staticCandle.displayName}*\nScented/Unscented: ${selectedScented}\nColor: ${selectedColor}${selectedScented === "scented" ? `\nScent: ${selectedScent}` : ""}\nQuantity: ${quantity}${giftPackaging ? "\nGift Packaging: Yes (+Rs. 150)" : ""}${specialInstructions ? `\nSpecial Instructions: ${specialInstructions}` : ""}\n\nTotal (excl. shipping): Rs.${(basePrice * quantity + (giftPackaging ? 150 : 0)).toLocaleString()}.00`
                 )}`}
                 target="_blank"
                 rel="noreferrer"
@@ -282,6 +358,67 @@ export default function ProductDetail() {
             </div>
           </div>
         </div>
+
+        {/* ── Product Info Tabs ─────────────────────────────────────────── */}
+        {(() => {
+          const info = productInfo[candleSlug ?? ""];
+          return (
+            <div className="mt-14 border-t border-border/40 pt-10">
+              <div className="flex gap-2 mb-8 flex-wrap">
+                {(["details", "how-to-use", "shipping"] as const).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-5 py-2 rounded-full text-sm font-medium border transition-colors ${
+                      activeTab === tab
+                        ? "bg-foreground text-background border-foreground"
+                        : "bg-transparent text-muted-foreground border-border hover:border-foreground/40"
+                    }`}
+                  >
+                    {tab === "details" ? "Product Details" : tab === "how-to-use" ? "How to Use" : "Shipping & Return"}
+                  </button>
+                ))}
+              </div>
+
+              {activeTab === "details" && (
+                <div className="space-y-6 max-w-2xl">
+                  {info?.story && <p className="text-muted-foreground leading-relaxed">{info.story}</p>}
+                  {info?.details && info.details.length > 0 && (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      {info.details.map((d) => (
+                        <div key={d.label} className="bg-muted/40 rounded-lg p-3">
+                          <p className="text-xs text-muted-foreground">{d.label}</p>
+                          <p className="text-sm font-medium text-foreground mt-0.5">{d.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {!info && <p className="text-muted-foreground text-sm">Product details coming soon.</p>}
+                </div>
+              )}
+
+              {activeTab === "how-to-use" && (
+                <ul className="space-y-3 max-w-xl">
+                  {howToUse.map((tip, i) => (
+                    <li key={i} className="flex gap-3 text-sm text-muted-foreground">
+                      <span className="text-foreground font-semibold shrink-0">{i + 1}.</span>
+                      {tip}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {activeTab === "shipping" && (
+                <div className="space-y-4 max-w-xl text-sm text-muted-foreground leading-relaxed">
+                  <p><span className="font-medium text-foreground">Delivery Timeline:</span> 7–15 working days. Urgent delivery can be arranged — contact us on Instagram.</p>
+                  <p><span className="font-medium text-foreground">Shipping Charges:</span> Flat Rs. 300 across Pakistan.</p>
+                  <p><span className="font-medium text-foreground">Returns & Exchanges:</span> We prioritize quality. If you receive a damaged or defective product, email <a href="mailto:candlesandcraftss@mail.com" className="underline text-foreground">candlesandcraftss@mail.com</a> with photos. Replacements are dispatched at no extra shipping cost.</p>
+                  <p><span className="font-medium text-foreground">Exchanges for Other Reasons:</span> Item must be unused. Shipping charges apply for return and new delivery.</p>
+                </div>
+              )}
+            </div>
+          );
+        })()}
       </div>
     );
   }
@@ -475,9 +612,28 @@ export default function ProductDetail() {
               </div>
             </div>
 
+            {/* Special Instructions */}
+            <div>
+              <p className="text-sm text-muted-foreground mb-2">Special Instructions <span className="text-xs">(optional)</span></p>
+              <textarea
+                value={specialInstructions}
+                onChange={(e) => setSpecialInstructions(e.target.value)}
+                placeholder="e.g. personalised message, gifting note, packaging preference..."
+                rows={3}
+                className="w-full rounded-md bg-muted border-0 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 resize-none focus:outline-none focus:ring-1 focus:ring-border"
+              />
+            </div>
+
             {/* Add to Cart */}
             <Button
-              onClick={handleAddToCart}
+              onClick={() => {
+                if (specialInstructions.trim()) {
+                  localStorage.setItem("checkout_special_instructions", specialInstructions.trim());
+                } else {
+                  localStorage.removeItem("checkout_special_instructions");
+                }
+                handleAddToCart();
+              }}
               disabled={addToCart.isPending}
               className="w-full py-4 rounded-full bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium text-sm"
               data-testid="button-add-to-cart"
@@ -485,18 +641,79 @@ export default function ProductDetail() {
               {addToCart.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
               Add to cart
             </Button>
-
-            {/* Description */}
-            <div className="space-y-4 text-muted-foreground pt-4">
-              <p>{product.description}</p>
-              <p>
-                Expertly hand-poured with care, this charming candle combines luxury with love.
-                Whether you're planning a romantic evening or gifting your BFF, this candle brings
-                warmth, fragrance, and smiles in equal measure.
-              </p>
-            </div>
           </div>
         </div>
+
+        {/* ── Product Info Tabs ──────────────────────────────────────────── */}
+        {(() => {
+          const infoKey = matchedJarSeries
+            ? Object.keys(productInfo).find((k) =>
+                product?.name?.toLowerCase().includes(k.replace(/-/g, " ").split(" ")[0])
+              )
+            : matchedPillar
+            ? slug
+            : null;
+          const info = infoKey ? productInfo[infoKey] : null;
+          return (
+            <div className="mt-14 border-t border-border/40 pt-10">
+              <div className="flex gap-2 mb-8 flex-wrap">
+                {(["details", "how-to-use", "shipping"] as const).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-5 py-2 rounded-full text-sm font-medium border transition-colors ${
+                      activeTab === tab
+                        ? "bg-foreground text-background border-foreground"
+                        : "bg-transparent text-muted-foreground border-border hover:border-foreground/40"
+                    }`}
+                  >
+                    {tab === "details" ? "Product Details" : tab === "how-to-use" ? "How to Use" : "Shipping & Return"}
+                  </button>
+                ))}
+              </div>
+
+              {activeTab === "details" && (
+                <div className="space-y-6 max-w-2xl">
+                  {(info?.story || product.description) && (
+                    <p className="text-muted-foreground leading-relaxed">{info?.story || product.description}</p>
+                  )}
+                  {info?.details && info.details.length > 0 && (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      {info.details.map((d) => (
+                        <div key={d.label} className="bg-muted/40 rounded-lg p-3">
+                          <p className="text-xs text-muted-foreground">{d.label}</p>
+                          <p className="text-sm font-medium text-foreground mt-0.5">{d.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {!info && <p className="text-muted-foreground text-sm">Product details coming soon.</p>}
+                </div>
+              )}
+
+              {activeTab === "how-to-use" && (
+                <ul className="space-y-3 max-w-xl">
+                  {howToUse.map((tip, i) => (
+                    <li key={i} className="flex gap-3 text-sm text-muted-foreground">
+                      <span className="text-foreground font-semibold shrink-0">{i + 1}.</span>
+                      {tip}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {activeTab === "shipping" && (
+                <div className="space-y-4 max-w-xl text-sm text-muted-foreground leading-relaxed">
+                  <p><span className="font-medium text-foreground">Delivery Timeline:</span> 7–15 working days. Urgent delivery can be arranged — contact us on Instagram.</p>
+                  <p><span className="font-medium text-foreground">Shipping Charges:</span> Flat Rs. 300 across Pakistan.</p>
+                  <p><span className="font-medium text-foreground">COD Tax:</span> An 8% tax applies to all Cash on Delivery orders.</p>
+                  <p><span className="font-medium text-foreground">Returns & Exchanges:</span> We prioritize quality. If you receive a damaged or defective product, email <a href="mailto:candlesandcraftss@mail.com" className="underline text-foreground">candlesandcraftss@mail.com</a> with photos. Replacements are dispatched at no extra shipping cost.</p>
+                  <p><span className="font-medium text-foreground">Exchanges for Other Reasons:</span> Item must be unused. Shipping charges apply for return and new delivery.</p>
+                </div>
+              )}
+            </div>
+          );
+        })()}
 
         {/* Related Products */}
         <div className="mt-20">
