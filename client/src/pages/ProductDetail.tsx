@@ -364,7 +364,7 @@ export default function ProductDetail() {
           const info = productInfo[candleSlug ?? ""];
           return (
             <div className="mt-14 border-t border-border/40 pt-10">
-              <div className="flex gap-2 mb-8 flex-wrap">
+              <div className="flex gap-2 mb-8 flex-wrap justify-center">
                 {(["details", "how-to-use", "shipping"] as const).map((tab) => (
                   <button
                     key={tab}
@@ -381,7 +381,7 @@ export default function ProductDetail() {
               </div>
 
               {activeTab === "details" && (
-                <div className="space-y-6 max-w-2xl">
+                <div className="space-y-6 max-w-2xl mx-auto">
                   {info?.story && <p className="text-muted-foreground leading-relaxed">{info.story}</p>}
                   {info?.details && info.details.length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -398,7 +398,7 @@ export default function ProductDetail() {
               )}
 
               {activeTab === "how-to-use" && (
-                <ul className="space-y-3 max-w-xl">
+                <ul className="space-y-3 max-w-xl mx-auto">
                   {howToUse.map((tip, i) => (
                     <li key={i} className="flex gap-3 text-sm text-muted-foreground">
                       <span className="text-foreground font-semibold shrink-0">{i + 1}.</span>
@@ -409,7 +409,7 @@ export default function ProductDetail() {
               )}
 
               {activeTab === "shipping" && (
-                <div className="space-y-4 max-w-xl text-sm text-muted-foreground leading-relaxed">
+                <div className="space-y-4 max-w-xl mx-auto text-sm text-muted-foreground leading-relaxed">
                   <p><span className="font-medium text-foreground">Delivery Timeline:</span> 7–15 working days. Urgent delivery can be arranged — contact us on Instagram.</p>
                   <p><span className="font-medium text-foreground">Shipping Charges:</span> Flat Rs. 300 across Pakistan.</p>
                   <p><span className="font-medium text-foreground">Returns & Exchanges:</span> We prioritize quality. If you receive a damaged or defective product, email <a href="mailto:candlesandcraftss@mail.com" className="underline text-foreground">candlesandcraftss@mail.com</a> with photos. Replacements are dispatched at no extra shipping cost.</p>
@@ -656,7 +656,7 @@ export default function ProductDetail() {
           const info = infoKey ? productInfo[infoKey] : null;
           return (
             <div className="mt-14 border-t border-border/40 pt-10">
-              <div className="flex gap-2 mb-8 flex-wrap">
+              <div className="flex gap-2 mb-8 flex-wrap justify-center">
                 {(["details", "how-to-use", "shipping"] as const).map((tab) => (
                   <button
                     key={tab}
@@ -673,7 +673,7 @@ export default function ProductDetail() {
               </div>
 
               {activeTab === "details" && (
-                <div className="space-y-6 max-w-2xl">
+                <div className="space-y-6 max-w-2xl mx-auto">
                   {(info?.story || product.description) && (
                     <p className="text-muted-foreground leading-relaxed">{info?.story || product.description}</p>
                   )}
@@ -692,7 +692,7 @@ export default function ProductDetail() {
               )}
 
               {activeTab === "how-to-use" && (
-                <ul className="space-y-3 max-w-xl">
+                <ul className="space-y-3 max-w-xl mx-auto">
                   {howToUse.map((tip, i) => (
                     <li key={i} className="flex gap-3 text-sm text-muted-foreground">
                       <span className="text-foreground font-semibold shrink-0">{i + 1}.</span>
@@ -703,7 +703,7 @@ export default function ProductDetail() {
               )}
 
               {activeTab === "shipping" && (
-                <div className="space-y-4 max-w-xl text-sm text-muted-foreground leading-relaxed">
+                <div className="space-y-4 max-w-xl mx-auto text-sm text-muted-foreground leading-relaxed">
                   <p><span className="font-medium text-foreground">Delivery Timeline:</span> 7–15 working days. Urgent delivery can be arranged — contact us on Instagram.</p>
                   <p><span className="font-medium text-foreground">Shipping Charges:</span> Flat Rs. 300 across Pakistan.</p>
                   <p><span className="font-medium text-foreground">COD Tax:</span> An 8% tax applies to all Cash on Delivery orders.</p>
