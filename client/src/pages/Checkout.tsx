@@ -381,7 +381,8 @@ export default function Checkout() {
       (acc, item) => acc + Number(item.product.price) * item.quantity,
       0,
     ) || 0;
-  const total = subtotal + SHIPPING_COST;
+  const codTax = formData.paymentMethod === "cod" ? Math.round(subtotal * 0.08) : 0;
+  const total = subtotal + SHIPPING_COST + codTax;
 
   if (isLoading) {
     return (
@@ -881,6 +882,7 @@ export default function Checkout() {
                   cartItems={cartItems}
                   subtotal={subtotal}
                   shipping={SHIPPING_COST}
+                  tax={codTax}
                   total={total}
                 />
               </div>
@@ -906,6 +908,7 @@ export default function Checkout() {
                   cartItems={cartItems}
                   subtotal={subtotal}
                   shipping={SHIPPING_COST}
+                  tax={codTax}
                   total={total}
                 />
               </div>
@@ -926,11 +929,13 @@ function OrderSummary({
   cartItems,
   subtotal,
   shipping,
+  tax,
   total,
 }: {
   cartItems: { productId: number; quantity: number; product: any }[];
   subtotal: number;
   shipping: number;
+  tax: number;
   total: number;
 }) {
   return (
@@ -975,6 +980,12 @@ function OrderSummary({
           <span className="text-muted-foreground">Shipping</span>
           <span>Rs {shipping.toLocaleString()}.00</span>
         </div>
+        {tax > 0 && (
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">COD Tax (8%)</span>
+            <span>Rs {tax.toLocaleString()}.00</span>
+          </div>
+        )}
       </div>
 
       <div className="border-t border-border pt-4 flex justify-between items-baseline">

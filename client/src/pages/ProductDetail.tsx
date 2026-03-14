@@ -29,6 +29,7 @@ export default function ProductDetail() {
   const [selectedColor, setSelectedColor] = useState("blue");
   const [selectedScent, setSelectedScent] = useState("flower meadows");
   const [selectedScented, setSelectedScented] = useState<"scented" | "unscented">("scented");
+  const [giftPackaging, setGiftPackaging] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -246,13 +247,38 @@ export default function ProductDetail() {
                   <button onClick={() => setQuantity((q) => q + 1)} className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"><Plus className="w-3 h-3" /></button>
                 </div>
               </div>
-              <Button disabled className="w-full py-4 rounded-full bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium text-sm">
-                coming soon — contact us to order
-              </Button>
-              <p className="text-sm text-muted-foreground">
-                To order, please contact us via{" "}
-                <a href="https://wa.me/923379229966" target="_blank" rel="noreferrer" className="underline text-primary">WhatsApp</a>.
-              </p>
+              {/* Gift Packaging */}
+              <label className="flex items-center gap-3 cursor-pointer p-3 rounded-lg border border-border/50 bg-muted/30 hover:bg-muted/50 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={giftPackaging}
+                  onChange={(e) => setGiftPackaging(e.target.checked)}
+                  className="w-4 h-4 accent-foreground"
+                />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-foreground">Gift Packaging</p>
+                  <p className="text-xs text-muted-foreground">Beautifully wrapped for gifting</p>
+                </div>
+                <span className="text-sm font-semibold text-[#c45e4c]">+Rs. 150</span>
+              </label>
+              {giftPackaging && (
+                <p className="text-sm text-[#c45e4c] font-medium">
+                  Total: Rs.{(basePrice * quantity + 150).toLocaleString()}.00
+                  <span className="text-xs text-muted-foreground font-normal ml-1">(incl. gift packaging)</span>
+                </p>
+              )}
+              <a
+                href={`https://wa.me/923379229966?text=${encodeURIComponent(
+                  `Hi! I'd like to order:\n\n*${staticCandle.displayName}*\nScented/Unscented: ${selectedScented}\nColor: ${selectedColor}${selectedScented === "scented" ? `\nScent: ${selectedScent}` : ""}\nQuantity: ${quantity}${giftPackaging ? "\nGift Packaging: Yes (+Rs. 150)" : ""}\n\nTotal (excl. shipping): Rs.${(basePrice * quantity + (giftPackaging ? 150 : 0)).toLocaleString()}.00`
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+                className="block w-full"
+              >
+                <Button className="w-full py-4 rounded-full bg-foreground hover:bg-foreground/90 text-background font-medium text-sm">
+                  Order via WhatsApp
+                </Button>
+              </a>
             </div>
           </div>
         </div>
