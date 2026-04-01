@@ -265,7 +265,11 @@ export default function ProductDetail() {
             <div className="space-y-6">
               <div>
                 <h1 className="text-3xl md:text-4xl font-serif text-primary">{staticCandle.displayName}</h1>
-                {staticCandle.weight && <p className="text-muted-foreground text-sm mt-1">{staticCandle.weight}</p>}
+                {staticCandle.weight && (
+                  <p className="text-muted-foreground text-sm mt-1">
+                    <span className="font-medium text-foreground/70">Net weight</span> &nbsp;{staticCandle.weight}
+                  </p>
+                )}
               </div>
               <div>
                 <p className="text-lg text-[#c45e4c] font-semibold">Rs.{basePrice.toLocaleString()}.00</p>
@@ -369,16 +373,6 @@ export default function ProductDetail() {
                 </Button>
               </a>
 
-              {/* ── Inline description + specs ────────────────────────────── */}
-              <div className="border-t border-border/40 pt-6 space-y-5">
-                {candleDescription && (
-                  <p className="text-sm text-muted-foreground leading-relaxed">{candleDescription}</p>
-                )}
-                <div className="space-y-2">
-                  <p className="text-sm text-foreground font-medium">Net weight</p>
-                  <p className="text-sm text-muted-foreground">{staticCandle.weight}</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
