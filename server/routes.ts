@@ -1,10 +1,22 @@
-import type { Express } from "express";
+import type { Express, RequestHandler } from "express";
 import type { Server } from "http";
 import { setupAuth } from "./replit_integrations/auth";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { guestCheckoutSchema } from "@shared/schema";
 import { z } from "zod";
+
+const isAdmin: RequestHandler = (req, res, next) => {
+  const user = req.user as any;
+  if (!req.isAuthenticated() || !user?.claims?.sub) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  const adminId = process.env.ADMIN_USER_ID;
+  if (!adminId || user.claims.sub !== adminId) {
+    return res.status(403).json({ message: "Forbidden", yourId: user.claims.sub });
+  }
+  next();
+};
 
 export async function registerRoutes(
   httpServer: Server,
@@ -88,6 +100,67 @@ export async function registerRoutes(
   // Auth user endpoint for frontend
   app.get(api.auth.me.path, (req, res) => {
     res.json(req.user || null);
+  });
+
+  // ── Admin: current session info (used by frontend to check access) ──────────
+  app.get("/api/admin/me", (req, res) => {
+    const user = req.user as any;
+    if (!req.isAuthenticated() || !user?.claims?.sub) {
+      return res.status(401).json({ authenticated: false });
+    }
+    const adminId = process.env.ADMIN_USER_ID;
+    const isAdminUser = !!adminId && user.claims.sub === adminId;
+    res.json({ authenticated: true, isAdmin: isAdminUser, userId: user.claims.sub });
+  });
+
+  // ── Admin: Products ──────────────────────────────────────────────────────────
+  app.get("/api/admin/products", isAdmin, async (req, res) => {
+    const prods = await storage.getProducts();
+    res.json(prods);
+  });
+
+  app.post("/api/admin/products", isAdmin, async (req, res) => {
+    try {
+      const product = await storage.createProduct(req.body);
+      res.status(201).json(product);
+    } catch (e: any) {
+      res.status(400).json({ message: e.message });
+    }
+  });
+
+  app.patch("/api/admin/products/:id", isAdmin, async (req, res) => {
+    try {
+      const product = await storage.updateProduct(Number(req.params.id), req.body);
+      res.json(product);
+    } catch (e: any) {
+      res.status(400).json({ message: e.message });
+    }
+  });
+
+  app.delete("/api/admin/products/:id", isAdmin, async (req, res) => {
+    try {
+      await storage.deleteProduct(Number(req.params.id));
+      res.sendStatus(204);
+    } catch (e: any) {
+      res.status(400).json({ message: e.message });
+    }
+  });
+
+  // ── Admin: Orders ────────────────────────────────────────────────────────────
+  app.get("/api/admin/orders", isAdmin, async (req, res) => {
+    const allOrders = await storage.getAllOrders();
+    res.json(allOrders);
+  });
+
+  app.patch("/api/admin/orders/:id", isAdmin, async (req, res) => {
+    try {
+      const { status } = req.body;
+      if (!status) return res.status(400).json({ message: "status required" });
+      await storage.updateOrderStatus(Number(req.params.id), status);
+      res.json({ ok: true });
+    } catch (e: any) {
+      res.status(400).json({ message: e.message });
+    }
   });
 
   // Seed Data

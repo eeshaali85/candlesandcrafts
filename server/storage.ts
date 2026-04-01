@@ -14,7 +14,9 @@ export interface IStorage {
   // Products
   getProducts(): Promise<Product[]>;
   getProduct(id: number): Promise<Product | undefined>;
-  createProduct(product: Partial<Product>): Promise<Product>; // For seeding
+  createProduct(product: Partial<Product>): Promise<Product>;
+  updateProduct(id: number, product: Partial<Product>): Promise<Product>;
+  deleteProduct(id: number): Promise<void>;
 
   // Cart
   getCart(userId: number): Promise<(CartItem & { product: Product })[]>;
@@ -26,6 +28,7 @@ export interface IStorage {
   createOrder(userId: number | null, total: number, items: { productId: number; quantity: number; price: number }[], details: CheckoutDetails): Promise<Order>;
   updateCartQuantity(id: number, quantity: number): Promise<CartItem>;
   getOrders(userId: number): Promise<(Order & { items: (typeof orderItems.$inferSelect & { product: Product })[] })[]>;
+  getAllOrders(): Promise<(Order & { items: (typeof orderItems.$inferSelect & { product: Product })[] })[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -56,6 +59,15 @@ export class DatabaseStorage implements IStorage {
   async createProduct(product: Partial<Product>): Promise<Product> {
     const [newProduct] = await db.insert(products).values(product as any).returning();
     return newProduct;
+  }
+
+  async updateProduct(id: number, product: Partial<Product>): Promise<Product> {
+    const [updated] = await db.update(products).set(product as any).where(eq(products.id, id)).returning();
+    return updated;
+  }
+
+  async deleteProduct(id: number): Promise<void> {
+    await db.delete(products).where(eq(products.id, id));
   }
 
   async getCart(userId: number): Promise<(CartItem & { product: Product })[]> {
@@ -140,9 +152,17 @@ export class DatabaseStorage implements IStorage {
 
   async getOrders(userId: number): Promise<(Order & { items: (typeof orderItems.$inferSelect & { product: Product })[] })[]> {
     const userOrders = await db.select().from(orders).where(eq(orders.userId, userId));
-    
+    return this._populateOrderItems(userOrders);
+  }
+
+  async getAllOrders(): Promise<(Order & { items: (typeof orderItems.$inferSelect & { product: Product })[] })[]> {
+    const allOrders = await db.select().from(orders).orderBy(orders.createdAt);
+    return this._populateOrderItems(allOrders);
+  }
+
+  private async _populateOrderItems(orderList: Order[]) {
     const result = [];
-    for (const order of userOrders) {
+    for (const order of orderList) {
       const items = await db.select({
         id: orderItems.id,
         orderId: orderItems.orderId,
@@ -154,10 +174,8 @@ export class DatabaseStorage implements IStorage {
       .from(orderItems)
       .innerJoin(products, eq(orderItems.productId, products.id))
       .where(eq(orderItems.orderId, order.id));
-      
       result.push({ ...order, items });
     }
-    
     return result;
   }
 }
