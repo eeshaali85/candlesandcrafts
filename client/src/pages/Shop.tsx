@@ -229,6 +229,20 @@ export default function Shop() {
     return filtered;
   }, [products, categoryFilter, sortBy]);
 
+  const sortedPillarCandles = useMemo(() => {
+    const arr = [...PILLAR_CANDLES];
+    if (sortBy === "price-low") arr.sort((a, b) => a.unscented - b.unscented);
+    if (sortBy === "price-high") arr.sort((a, b) => b.unscented - a.unscented);
+    return arr;
+  }, [sortBy]);
+
+  const sortedJarSeries = useMemo(() => {
+    const arr = [...JAR_CANDLE_SERIES];
+    if (sortBy === "price-low") arr.sort((a, b) => a.price - b.price);
+    if (sortBy === "price-high") arr.sort((a, b) => b.price - a.price);
+    return arr;
+  }, [sortBy]);
+
   const gridClass =
     viewMode === "grid"
       ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4"
@@ -304,7 +318,7 @@ export default function Shop() {
                   </h2>
                 )}
                 <div className={gridClass}>
-                  {JAR_CANDLE_SERIES.map((series) => {
+                  {sortedJarSeries.map((series) => {
                     const dbProduct = products?.find(
                       (p) =>
                         p.slug?.includes(series.key) ||
@@ -346,7 +360,7 @@ export default function Shop() {
                   </h2>
                 )}
                 <div className={gridClass}>
-                  {PILLAR_CANDLES.map((candle) => (
+                  {sortedPillarCandles.map((candle) => (
                     <StaticProductCard
                       key={candle.key}
                       name={candle.displayName}
