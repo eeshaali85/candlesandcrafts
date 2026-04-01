@@ -12,6 +12,7 @@ import ProductDetail from "@/pages/ProductDetail";
 import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
 import Profile from "@/pages/Profile";
+import CustomGiveaways from "@/pages/CustomGiveaways";
 
 function Router() {
   return (
@@ -32,6 +33,7 @@ function Router() {
           <Route path="/cart" component={Cart} />
           <Route path="/checkout" component={Checkout} />
           <Route path="/profile" component={Profile} />
+          <Route path="/giveaways" component={CustomGiveaways} />
           <Route component={NotFound} />
         </Switch>
       </main>
