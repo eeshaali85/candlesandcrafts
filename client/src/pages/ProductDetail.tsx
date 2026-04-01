@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PILLAR_CANDLES } from "./Shop";
 
 export default function ProductDetail() {
   const [, idParams] = useRoute("/product/:id");
@@ -37,45 +38,54 @@ export default function ProductDetail() {
     window.scrollTo(0, 0);
   }, [id, candleSlug]);
 
-  // ── Pillar candle products with individual pricing ────────────────────────
-  const pillarCandles: Record<
-    string,
-    { displayName: string; scented: number; unscented: number; weight?: string }
-  > = {
-    "sakura-candle":         { displayName: "Sakura Candle",                  scented: 1000, unscented: 850,  weight: "90g"  },
-    "body-candle":           { displayName: "Body Candle",                     scented: 1000, unscented: 850,  weight: "90g"  },
-    "knot-candle":           { displayName: "Knot Candle",                     scented: 1000, unscented: 850,  weight: "90g"  },
-    "short-ribbed-pierre":   { displayName: "Ribbed Pierre Candle 300ml",      scented: 1800, unscented: 1300, weight: "300g" },
-    "long-ribbed-pierre":    { displayName: "Ribbed Pierre Candle 600ml",      scented: 2700, unscented: 1700, weight: "600g" },
-    "cylinder-ribbed-thin":  { displayName: "Cylinder Ribbed Candle (Thin)",   scented: 1100, unscented: 900,  weight: "135g" },
-    "cylinder-ribbed-thick": { displayName: "Cylinder Ribbed Candle (Thick)",  scented: 1800, unscented: 1300, weight: "315g" },
-    "mini-bubble-candle":    { displayName: "Mini Bubble Candle",              scented: 600,  unscented: 550  },
-    "rose-heart-candle":     { displayName: "Rose Heart Candle",               scented: 700,  unscented: 650  },
-    "cloud-candle":          { displayName: "Cloud Candle",                    scented: 600,  unscented: 550  },
-    "arch-candle":           { displayName: "Arch Candle",                     scented: 1450, unscented: 1100, weight: "230g" },
-    "heart-bubble-candle":   { displayName: "Heart Bubble Candle",             scented: 1250, unscented: 1000 },
-    "bubble-candle":         { displayName: "Bubble Candle",                   scented: 1250, unscented: 1000 },
-    "seashell-candle":       { displayName: "Seashell Candle",                 scented: 1250, unscented: 1000 },
-    "puffy-candle":          { displayName: "Puffy Candle",                    scented: 1250, unscented: 1000 },
-    "rose-bear-candle":      { displayName: "Rose Bear Candle",                scented: 1250, unscented: 1000 },
-    "dog-candle":            { displayName: "Dog Candle",                      scented: 1250, unscented: 1000 },
-    "twisted-candle":        { displayName: "Twisted Candle",                  scented: 850,  unscented: 750  },
-    "spiral-candle":         { displayName: "Spiral Candle",                   scented: 850,  unscented: 750  },
-    "mini-seashell-candle":  { displayName: "Mini Seashell Candle",            scented: 600,  unscented: 550  },
-    "small-peony-candle":    { displayName: "Small Peony Candle",              scented: 750,  unscented: 700  },
-    "rose-bud-candle":       { displayName: "Rose Bud Candle",                 scented: 850,  unscented: 750  },
-    "mini-bear-candle":      { displayName: "Mini Bear Candle",                scented: 375,  unscented: 350  },
-    "daisy-candle":          { displayName: "Daisy Candle",                    scented: 375,  unscented: 350  },
-    "peony-bud-candle":      { displayName: "Peony Bud Candle",                scented: 400,  unscented: 350  },
-    "tulip-candle":          { displayName: "Tulip Candle",                    scented: 375,  unscented: 350  },
-    "peony-candle":          { displayName: "Peony Candle",                    scented: 900,  unscented: 800, weight: "70g" },
-    "sun-moon-candle":       { displayName: "Sun & Moon Candle",               scented: 850,  unscented: 750  },
-    "aromatic-rose-candle":  { displayName: "Aromatic Rose Candle",            scented: 900,  unscented: 800  },
-    "tapered-candle":        { displayName: "Tapered Candle",                  scented: 850,  unscented: 750  },
-    "big-bear-candle":       { displayName: "Big Bear Candle",                 scented: 850,  unscented: 750  },
-    "rose-candle":           { displayName: "Rose Candle",                     scented: 900,  unscented: 800  },
-    "3d-heart-candle":       { displayName: "3D Heart Candle",                 scented: 900,  unscented: 800, weight: "80g" },
-    "butterfly-candle":      { displayName: "Butterfly Candle",                scented: 600,  unscented: 525 },
+  // ── Pillar candle products — built from PILLAR_CANDLES (single source of truth) ──
+  const pillarCandles = Object.fromEntries(
+    PILLAR_CANDLES.map((c) => [
+      c.key,
+      { displayName: c.displayName, scented: c.scented, unscented: c.unscented, weight: c.weight },
+    ])
+  );
+
+  // ── Short descriptions shown in the right product panel ───────────────────
+  const pillarDescriptions: Record<string, string> = {
+    "bubble-candle":         "A chunky, sculptural candle with a satisfying clustered bubble texture. Looks stunning on shelves and coffee tables, and makes for a thoughtful gift.",
+    "seashell-candle":       "Inspired by the ocean floor, this delicately detailed seashell candle brings coastal serenity into your space. Beautiful both lit and unlit.",
+    "heart-bubble-candle":   "Soft, romantic, and endlessly charming — this heart-shaped bubble candle is a perfect gift for someone you love.",
+    "rose-bear-candle":      "A sweet floral bear crafted in wax. Playful, decorative, and utterly giftable — especially for birthdays and Valentine's Day.",
+    "puffy-candle":          "Pillowy and plush in form, this candle adds a soft, modern aesthetic to any surface. A minimalist favourite.",
+    "dog-candle":            "For the dog lover in your life — this adorable handcrafted pup candle is as charming as it is fragrant.",
+    "cylinder-ribbed-thin":  "Sleek ribbed texture meets a slim silhouette. This tall cylinder candle adds height and sophistication to any arrangement.",
+    "sakura-candle":         "Delicate cherry blossom-inspired form with a soft, feminine silhouette. A beautiful seasonal decor piece.",
+    "body-candle":           "A graceful, abstract body-form candle — modern art meets candlelight. Striking as a centrepiece or gift.",
+    "knot-candle":           "Sculptural and architectural, the knot candle is a statement piece that looks like it belongs in a design gallery.",
+    "moon-candle":           "A crescent moon in wax — peaceful, mystical, and perfect for a calming bedside or shelf display.",
+    "serra-ribbed-candle":   "A compact ribbed pillar candle with a premium look. The subtle texture catches and scatters light beautifully.",
+    "3d-heart-candle":       "A dimensional heart candle with depth and personality. The ideal romantic gift or self-love treat.",
+    "peony-candle":          "Full-bloom peony sculpted in wax — lush, layered, and breathtakingly realistic. A floral lover's dream.",
+    "sun-moon-candle":       "Celestial duality in one candle — a sun on one side, a moon on the other. Perfect for the cosmic soul.",
+    "rose-candle":           "A timeless rose blossom rendered in smooth wax. Classic, romantic, and always in style.",
+    "tapered-candle":        "Slim and elegant, this tapered candle adds a classic candlelight feel to dinner tables and mantelpieces.",
+    "big-bear-candle":       "A cuddly bear candle that makes an instant mood-lifter. Adorable for nurseries, gifts, and shelfies.",
+    "rose-bud-candle":       "A tight, delicate rosebud captured in wax — petite, pretty, and perfect as a standalone accent or gift add-on.",
+    "cloud-candle":          "Fluffy cloud form in smooth wax. Dreamy and whimsical, this candle brings softness to any corner.",
+    "twisted-candle":        "Bold twist form with a modern, artistic feel. Inspired by contemporary sculpture — a statement on any surface.",
+    "spiral-candle":         "A continuous spiral form that plays with light and shadow as it burns. Elegant and architectural.",
+    "butterfly-candle":      "Delicate and dreamy, the Butterfly Candle flutters into any space with its sculpted wings and soft pastel hues.",
+    "mini-seashell-candle":  "A miniature seashell candle — sweet, detailed, and perfect as a standalone accent or in a set.",
+    "mini-bubble-candle":    "Tiny clustered bubbles in a compact form. Cute, contemporary, and perfect for gifting or decorating small spaces.",
+    "rose-heart-candle":     "A romantic fusion of rose petals and heart shape — a dreamy gift for any occasion.",
+    "small-peony-candle":    "A petite peony in full bloom. All the beauty of our full-sized Peony Candle in a compact, giftable size.",
+    "eid-candle":            "Crafted to mark special moments during Eid — a meaningful, fragrant gift that adds warmth and celebration to the occasion.",
+    "cat-paw-candle":        "An irresistibly cute cat paw candle. Perfect for cat lovers, gift hampers, and desk decor.",
+    "arch-candle":           "A bold architectural arch form — dramatic, statement-making, and unlike any candle you've seen.",
+    "ribbed-pierre-300ml":   "A short, wide ribbed pillar candle with a luxurious feel. The ribbed texture creates beautiful light play as it burns.",
+    "cylinder-ribbed-thick": "A substantial thick cylinder with a satisfying ribbed texture. Makes a grand centrepiece on dining tables or sideboards.",
+    "ribbed-pierre-600ml":   "Our grandest pillar candle — a tall ribbed column that burns for hours and commands any room with quiet luxury.",
+    "daisy-candle":          "A tiny daisy in wax — cheerful, sweet, and perfect as a gift tag candle or tray accent.",
+    "peony-bud-candle":      "A peony bud mid-bloom, captured in miniature. Delicate and beautiful for gifting and styling.",
+    "tulip-candle":          "A slender tulip candle for bringing a touch of spring indoors. Charming as a single piece or in a group.",
+    "mini-bear-candle":      "The tiniest bear candle in our collection — adorably small, surprisingly detailed, and perfect as a gift add-on.",
+    "macaroon-candle":       "Inspired by the French macaron — pastel, sweet, and impossibly cute. A dessert-lover's favourite candle.",
   };
 
   // Static candle from slug route
@@ -237,23 +247,29 @@ export default function ProductDetail() {
   // For slug-based static candle routes — no DB fetch needed
   if (staticCandle) {
     const basePrice = staticCandle[selectedScented];
+    const candleDescription = candleSlug ? pillarDescriptions[candleSlug] : undefined;
     return (
       <div className="min-h-screen bg-background">
         <div className="max-w-6xl mx-auto px-4 py-8">
           <Button variant="ghost" onClick={() => window.history.back()} className="mb-6 hover:bg-transparent p-0 flex items-center gap-2 text-muted-foreground">
             <ArrowLeft className="w-4 h-4" /> Back to Shop
           </Button>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* Placeholder image */}
-            <div className="aspect-square bg-secondary/30 rounded-2xl flex items-center justify-center">
-              <span className="text-muted-foreground text-sm">coming soon</span>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+            {/* Sticky image */}
+            <div className="lg:sticky lg:top-24 space-y-3">
+              <div className="aspect-square bg-secondary/30 rounded-2xl flex items-center justify-center">
+                <span className="text-muted-foreground text-sm">coming soon</span>
+              </div>
             </div>
-            {/* Info */}
+            {/* Scrollable Info */}
             <div className="space-y-6">
               <div>
                 <h1 className="text-3xl md:text-4xl font-serif text-primary">{staticCandle.displayName}</h1>
                 {staticCandle.weight && <p className="text-muted-foreground text-sm mt-1">{staticCandle.weight}</p>}
               </div>
+              {candleDescription && (
+                <p className="text-muted-foreground leading-relaxed text-sm">{candleDescription}</p>
+              )}
               <div>
                 <p className="text-lg text-[#c45e4c] font-semibold">Rs.{basePrice.toLocaleString()}.00</p>
                 <p className="text-xs text-muted-foreground mt-1">
@@ -457,9 +473,9 @@ export default function ProductDetail() {
           <ArrowLeft className="w-4 h-4" /> Back to Shop
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* Product Images */}
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          {/* Product Images — sticky on desktop */}
+          <div className="space-y-4 lg:sticky lg:top-24">
             <div className="aspect-square bg-white rounded-lg overflow-hidden">
               <img
                 src={product.image}
