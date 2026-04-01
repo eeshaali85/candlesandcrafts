@@ -267,9 +267,6 @@ export default function ProductDetail() {
                 <h1 className="text-3xl md:text-4xl font-serif text-primary">{staticCandle.displayName}</h1>
                 {staticCandle.weight && <p className="text-muted-foreground text-sm mt-1">{staticCandle.weight}</p>}
               </div>
-              {candleDescription && (
-                <p className="text-muted-foreground leading-relaxed text-sm">{candleDescription}</p>
-              )}
               <div>
                 <p className="text-lg text-[#c45e4c] font-semibold">Rs.{basePrice.toLocaleString()}.00</p>
                 <p className="text-xs text-muted-foreground mt-1">
@@ -371,70 +368,32 @@ export default function ProductDetail() {
                   Order via WhatsApp
                 </Button>
               </a>
+
+              {/* ── Inline description + specs ────────────────────────────── */}
+              {(candleDescription || productInfo[candleSlug ?? ""]?.details?.length) && (
+                <div className="border-t border-border/40 pt-6 space-y-4">
+                  {candleDescription && (
+                    <p className="text-sm text-muted-foreground leading-relaxed">{candleDescription}</p>
+                  )}
+                  {productInfo[candleSlug ?? ""]?.details?.map((d) => (
+                    <div key={d.label}>
+                      <p className="text-sm text-muted-foreground">
+                        <span className="font-medium text-foreground">{d.label}:</span> {d.value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {!candleDescription && !productInfo[candleSlug ?? ""] && (
+                <div className="border-t border-border/40 pt-6">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Each candle is handcrafted to order. Available in your choice of colour and scent.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
-
-        {/* ── Product Info Tabs ─────────────────────────────────────────── */}
-        {(() => {
-          const info = productInfo[candleSlug ?? ""];
-          return (
-            <div className="mt-14 border-t border-border/40 pt-10">
-              <div className="flex gap-2 mb-8 flex-wrap justify-center">
-                {(["details", "how-to-use", "shipping"] as const).map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`px-5 py-2 rounded-full text-sm font-medium border transition-colors ${
-                      activeTab === tab
-                        ? "bg-foreground text-background border-foreground"
-                        : "bg-transparent text-muted-foreground border-border hover:border-foreground/40"
-                    }`}
-                  >
-                    {tab === "details" ? "Product Details" : tab === "how-to-use" ? "How to Use" : "Shipping & Return"}
-                  </button>
-                ))}
-              </div>
-
-              {activeTab === "details" && (
-                <div className="space-y-6 max-w-2xl mx-auto">
-                  {info?.story && <p className="text-muted-foreground leading-relaxed">{info.story}</p>}
-                  {info?.details && info.details.length > 0 && (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                      {info.details.map((d) => (
-                        <div key={d.label} className="bg-muted/40 rounded-lg p-3">
-                          <p className="text-xs text-muted-foreground">{d.label}</p>
-                          <p className="text-sm font-medium text-foreground mt-0.5">{d.value}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {!info && <p className="text-muted-foreground text-sm">Product details coming soon.</p>}
-                </div>
-              )}
-
-              {activeTab === "how-to-use" && (
-                <ul className="space-y-3 max-w-xl mx-auto">
-                  {howToUse.map((tip, i) => (
-                    <li key={i} className="flex gap-3 text-sm text-muted-foreground">
-                      <span className="text-foreground font-semibold shrink-0">{i + 1}.</span>
-                      {tip}
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {activeTab === "shipping" && (
-                <div className="space-y-4 max-w-xl mx-auto text-sm text-muted-foreground leading-relaxed">
-                  <p><span className="font-medium text-foreground">Delivery Timeline:</span> 7–15 working days. Urgent delivery can be arranged — contact us on Instagram.</p>
-                  <p><span className="font-medium text-foreground">Shipping Charges:</span> Flat Rs. 300 across Pakistan.</p>
-                  <p><span className="font-medium text-foreground">Returns & Exchanges:</span> We prioritize quality. If you receive a damaged or defective product, email <a href="mailto:candlesandcraftss@mail.com" className="underline text-foreground">candlesandcraftss@mail.com</a> with photos. Replacements are dispatched at no extra shipping cost.</p>
-                  <p><span className="font-medium text-foreground">Exchanges for Other Reasons:</span> Item must be unused. Shipping charges apply for return and new delivery.</p>
-                </div>
-              )}
-            </div>
-          );
-        })()}
       </div>
     );
   }
