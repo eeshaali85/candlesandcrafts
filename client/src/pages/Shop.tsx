@@ -350,7 +350,7 @@ export default function Shop() {
                     <StaticProductCard
                       key={candle.key}
                       name={candle.displayName}
-                      price={candle.scented}
+                      priceLine={`Starting Rs.${candle.unscented.toLocaleString()}`}
                       weight={candle.weight}
                       viewMode={viewMode}
                       href={`/product/candle/${candle.key}`}
