@@ -20,7 +20,15 @@ const highlights = [
   "Choose from 7 signature scents or request a custom blend",
   "Custom packaging, labels & branding available",
   "Charges apply for samples",
-  "Delivery: 7–15 working days after order confirmation",
+  "Delivery: Depends on order",
+];
+
+const collaborators = [
+  "State Life Insurance\nCorporation of Pakistan",
+  "LUMS University",
+  "MyHCM",
+  "Dawood Public School",
+  "Nobel Casa Group",
 ];
 
 export default function CustomGiveaways() {
@@ -52,6 +60,7 @@ export default function CustomGiveaways() {
 
   return (
     <div className="min-h-screen bg-background">
+
       {/* ── Hero Section ──────────────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
@@ -64,26 +73,35 @@ export default function CustomGiveaways() {
             <div className="h-px w-16 bg-primary/40" />
 
             <p className="text-muted-foreground leading-relaxed">
-              From corporate orders to personalised giveaways, Candles & Crafts has grown into a
-              trusted name for handcrafted, artisan candles made with love right here in Pakistan.
+              From thoughtfully curated collections to bespoke creations, Candles & Crafts has been
+              quietly transforming everyday spaces into meaningful experiences.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              We take pride in the scented experience our candles create — playing into the ambience
-              of a space and crafting memories through fragrance. Every candle we make is more than
-              a product; it's an experience.
+              At Candles & Crafts, we believe a candle is more than just wax and wick — it's a
+              feeling, a moment, a memory in the making. Each piece is carefully handcrafted to bring
+              warmth, calm, and character into your surroundings.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              We custom create fragrant gifts for businesses, events, weddings, and brand activations
-              using our signature scent blends. Our service extends to custom packaging, branded
-              labels, graphics, and print elements — so your giveaway is truly one of a kind.
+              Our scents are designed to do more than simply linger — they create an atmosphere,
+              elevate moods, and leave a lasting impression long after the flame is gone.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Please fill in the form below for all your custom order enquiries. We'll get back to
-              you as soon as possible.
+              With a focus on detail and creativity, we work closely with our clients to craft
+              personalized candles for events, gifting, and brand collaborations — ensuring every
+              piece feels intentional and unique.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              From concept to creation, we also offer support in packaging, design, branded labels
+              and presentation — because every detail matters.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              For custom orders and collaborations, we'd love to hear from you. Please fill in the
+              form below for your custom order enquiries or DM us on Instagram for urgent custom
+              orders.
             </p>
 
             {/* Highlights */}
-            <div className="pt-2 space-y-2">
+            <div className="pt-2 space-y-2.5">
               {highlights.map((h, i) => (
                 <div key={i} className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
@@ -102,8 +120,6 @@ export default function CustomGiveaways() {
                 className="w-full h-full object-cover transition-opacity duration-500"
               />
             </div>
-
-            {/* Nav buttons */}
             <button
               onClick={prev}
               className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-background/80 backdrop-blur-sm border border-border flex items-center justify-center hover:bg-background transition-colors shadow-sm"
@@ -116,8 +132,6 @@ export default function CustomGiveaways() {
             >
               <ChevronRight className="w-4 h-4 text-foreground" />
             </button>
-
-            {/* Dots */}
             <div className="flex justify-center gap-1.5 mt-4">
               {carouselImages.map((_, i) => (
                 <button
@@ -131,8 +145,26 @@ export default function CustomGiveaways() {
         </div>
       </div>
 
+      {/* ── Collaborations Strip ──────────────────────────────────────────── */}
+      <div className="border-t border-border/40 border-b border-border/40 bg-muted/10 py-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <p className="text-center text-xs uppercase tracking-[0.2em] text-muted-foreground mb-10">
+            Collaborations
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
+            {collaborators.map((name, i) => (
+              <div key={i} className="text-center">
+                <p className="text-sm font-semibold text-foreground/70 uppercase tracking-wide whitespace-pre-line leading-tight">
+                  {name}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* ── Contact Form ──────────────────────────────────────────────────── */}
-      <div className="bg-muted/20 border-t border-border/40">
+      <div className="bg-muted/20">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-14">
           <h2 className="text-2xl md:text-3xl font-serif text-foreground font-normal mb-2">
             Fill out the form for personalised products.
