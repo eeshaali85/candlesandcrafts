@@ -370,27 +370,15 @@ export default function ProductDetail() {
               </a>
 
               {/* ── Inline description + specs ────────────────────────────── */}
-              {(candleDescription || productInfo[candleSlug ?? ""]?.details?.length) && (
-                <div className="border-t border-border/40 pt-6 space-y-4">
-                  {candleDescription && (
-                    <p className="text-sm text-muted-foreground leading-relaxed">{candleDescription}</p>
-                  )}
-                  {productInfo[candleSlug ?? ""]?.details?.map((d) => (
-                    <div key={d.label}>
-                      <p className="text-sm text-muted-foreground">
-                        <span className="font-medium text-foreground">{d.label}:</span> {d.value}
-                      </p>
-                    </div>
-                  ))}
+              <div className="border-t border-border/40 pt-6 space-y-5">
+                {candleDescription && (
+                  <p className="text-sm text-muted-foreground leading-relaxed">{candleDescription}</p>
+                )}
+                <div className="space-y-2">
+                  <p className="text-sm text-foreground font-medium">Net weight</p>
+                  <p className="text-sm text-muted-foreground">{staticCandle.weight}</p>
                 </div>
-              )}
-              {!candleDescription && !productInfo[candleSlug ?? ""] && (
-                <div className="border-t border-border/40 pt-6">
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    Each candle is handcrafted to order. Available in your choice of colour and scent.
-                  </p>
-                </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
