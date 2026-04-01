@@ -24,12 +24,56 @@ const highlights = [
 ];
 
 const collaborators = [
-  "State Life Insurance\nCorporation of Pakistan",
-  "LUMS University",
-  "MyHCM",
-  "Dawood Public School",
-  "Nobel Casa Group",
+  {
+    name: "State Life Insurance Corporation of Pakistan",
+    domain: "statelife.com.pk",
+    short: "STATE LIFE",
+    style: "text-[12px] font-black uppercase tracking-[0.18em] text-foreground/70 max-w-[90px] text-center",
+  },
+  {
+    name: "LUMS University",
+    domain: "lums.edu.pk",
+    short: "LUMS",
+    style: "text-[22px] font-black uppercase tracking-[0.05em] text-foreground/75",
+  },
+  {
+    name: "MyHCM",
+    domain: "myhcm.com",
+    short: "MyHCM",
+    style: "text-[18px] font-bold tracking-tight text-foreground/70 italic",
+  },
+  {
+    name: "Dawood Public School",
+    domain: "dawoodpublicschool.edu.pk",
+    short: "DAWOOD\nPUBLIC SCHOOL",
+    style: "text-[11px] font-black uppercase tracking-[0.14em] text-foreground/70 text-center whitespace-pre-line",
+  },
+  {
+    name: "Nobel Casa Group",
+    domain: "nobelcasa.com.pk",
+    short: "NOBEL CASA\nGROUP",
+    style: "text-[11px] font-black uppercase tracking-[0.18em] text-foreground/70 text-center whitespace-pre-line",
+  },
 ];
+
+function CollabLogo({ domain, name, short, style }: { domain: string; name: string; short: string; style?: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <span className={`text-center leading-snug select-none ${style ?? "text-[13px] font-black uppercase tracking-[0.12em] text-foreground/75"}`}>
+        {short}
+      </span>
+    );
+  }
+  return (
+    <img
+      src={`https://logo.clearbit.com/${domain}`}
+      alt={name}
+      className="h-9 w-auto object-contain grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+      onError={() => setFailed(true)}
+    />
+  );
+}
 
 export default function CustomGiveaways() {
   const [slide, setSlide] = useState(0);
@@ -146,17 +190,15 @@ export default function CustomGiveaways() {
       </div>
 
       {/* ── Collaborations Strip ──────────────────────────────────────────── */}
-      <div className="border-t border-border/40 border-b border-border/40 bg-muted/10 py-12">
+      <div className="bg-white border-t border-border/30 border-b border-border/30 py-14">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <p className="text-center text-xs uppercase tracking-[0.2em] text-muted-foreground mb-10">
+          <p className="text-center text-base font-bold text-black mb-12 tracking-wide">
             Collaborations
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
-            {collaborators.map((name, i) => (
-              <div key={i} className="text-center">
-                <p className="text-sm font-semibold text-foreground/70 uppercase tracking-wide whitespace-pre-line leading-tight">
-                  {name}
-                </p>
+          <div className="flex flex-wrap justify-center items-center gap-x-16 gap-y-10">
+            {collaborators.map((c, i) => (
+              <div key={i} className="flex items-center justify-center min-w-[110px]">
+                <CollabLogo domain={c.domain} name={c.name} short={c.short} style={c.style} />
               </div>
             ))}
           </div>
