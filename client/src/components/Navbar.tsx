@@ -60,7 +60,6 @@ export function Navbar() {
   ];
 
   const navLinks = [
-    { href: "#", label: "workshop" },
     { href: "/giveaways", label: "custom giveaways" },
     { label: "our story", href: "/our-story" },
   ];
