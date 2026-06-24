@@ -3,17 +3,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft, ChevronRight, CheckCircle2 } from "lucide-react";
-import candlesStock from "@assets/stock_images/handcrafted_candles__78dd0cf3.jpg";
-import luxuryGiftStock from "@assets/stock_images/luxury_custom_gift_b_d50df118.jpg";
-import bouquetsStock from "@assets/stock_images/flower_bouquet_candl_69966b97.jpg";
-import vesselStock from "@assets/stock_images/vessel_candle_with_f_e840b005.jpg";
 
 const carouselImages = [
-  { src: luxuryGiftStock, alt: "Luxury custom gift packaging" },
-  { src: candlesStock,    alt: "Handcrafted candles collection" },
-  { src: bouquetsStock,   alt: "Bouquet candles" },
-  { src: vesselStock,     alt: "Vessel candles" },
-];
+  { src: "/images/giveaway-statelife-jars.jpg",     alt: "Custom branded candle jars for State Life" },
+  { src: "/images/giveaway-statelife-boxes.jpg",    alt: "State Life gift boxes with pink ribbons" },
+  { src: "/images/giveaway-wedding-jars.jpg",       alt: "Personalised wedding favour candles" },
+  { src: "/images/giveaway-nobelcasa-boxes.jpg",    alt: "Nobel Casa Group custom gift boxes" },
+  { src: "/images/giveaway-nobelcasa-candles.jpg",  alt: "Nobel Casa branded candles" },
+  { src: "/images/giveaway-bubble-candles.jpg",     alt: "Bubble candles with dried flowers" },
+  { src: "/images/giveaway-IMG_5394_1782340279008-opt.jpg", alt: "Custom giveaway candles" },
+  { src: "/images/giveaway-IMG_7560_1782340279008-opt.jpg", alt: "Custom giveaway candles" },
+  { src: "/images/giveaway-IMG_4621_1782340279009-opt.jpg", alt: "Custom giveaway candles" },
+  { src: "/images/giveaway-IMG_6584_1782340279011-opt.jpg", alt: "Custom giveaway candles" },
+  { src: "/images/giveaway-IMG_9279_1782340279014-opt.jpg", alt: "Custom giveaway candles" },
+  { src: "/images/giveaway-IMG_9019_1782340279015-opt.jpg", alt: "Custom giveaway candles" },
+  { src: "/images/giveaway-IMG_8541_1782340279016-opt.jpg", alt: "Custom giveaway candles" },
+  { src: "/images/giveaway-IMG_9488_1782340279017-opt.jpg", alt: "Custom giveaway candles" },
+].filter(img => img.src);
 
 const highlights = [
   "Minimum order: 15 candles per scent, per size",
