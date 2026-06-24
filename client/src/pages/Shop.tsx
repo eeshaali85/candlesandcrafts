@@ -218,7 +218,6 @@ export default function Shop() {
         if (categoryFilter === "bouquet") return cat.includes("bouquet");
         if (categoryFilter === "gift-sets")
           return cat.includes("gift") || cat.includes("set");
-        if (categoryFilter === "ceramics") return cat.includes("ceramic");
         return cat.includes(categoryFilter.toLowerCase());
       });
     }
