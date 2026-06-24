@@ -250,7 +250,7 @@ export default function ProductDetail() {
 
   // For gift set slug routes
   if (giftSet) {
-    const giftTotal = giftSet.price * quantity + (giftPackaging ? 150 : 0);
+    const giftTotal = giftSet.price * quantity;
     return (
       <div className="min-h-screen bg-background">
         <div className="max-w-6xl mx-auto px-4 py-8">
@@ -307,21 +307,23 @@ export default function ProductDetail() {
                   <button onClick={() => setQuantity((q) => q + 1)} className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"><Plus className="w-3 h-3" /></button>
                 </div>
               </div>
-              {/* Gift Packaging */}
-              <label className="flex items-center gap-3 cursor-pointer p-3 rounded-lg border border-border/50 bg-muted/30 hover:bg-muted/50 transition-colors">
-                <input type="checkbox" checked={giftPackaging} onChange={(e) => setGiftPackaging(e.target.checked)} className="w-4 h-4 accent-foreground" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-foreground">Gift Packaging</p>
-                  <p className="text-xs text-muted-foreground">Beautifully wrapped for gifting</p>
-                </div>
-                <span className="text-sm font-semibold text-[#c45e4c]">+Rs. 150</span>
-              </label>
-              {giftPackaging && (
-                <p className="text-sm text-[#c45e4c] font-medium">
-                  Total: Rs.{giftTotal.toLocaleString()}.00
-                  <span className="text-xs text-muted-foreground font-normal ml-1">(incl. gift packaging)</span>
-                </p>
-              )}
+              {/* What's Included */}
+              <div className="p-4 bg-muted/40 rounded-xl space-y-2">
+                <p className="text-sm font-medium text-foreground mb-3">What's included</p>
+                {[
+                  "Assortment of dates",
+                  "Velvet Quran",
+                  "Moon candle",
+                  "Mini mosque candle",
+                  "Attar",
+                  "Tasbeeh",
+                ].map((item) => (
+                  <div key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary/60 shrink-0" />
+                    {item}
+                  </div>
+                ))}
+              </div>
               {/* Special Instructions */}
               <div>
                 <p className="text-sm text-muted-foreground mb-2">Special Instructions <span className="text-xs">(optional)</span></p>
@@ -336,7 +338,7 @@ export default function ProductDetail() {
               {/* WhatsApp Order */}
               <a
                 href={`https://wa.me/923379229966?text=${encodeURIComponent(
-                  `Hi! I'd like to order:\n\n*${giftSet.displayName}*\nScent: ${selectedScent}\nQuantity: ${quantity}${giftPackaging ? "\nGift Packaging: Yes (+Rs. 150)" : ""}${specialInstructions ? `\nSpecial Instructions: ${specialInstructions}` : ""}\n\nTotal (excl. shipping): Rs.${giftTotal.toLocaleString()}.00`
+                  `Hi! I'd like to order:\n\n*${giftSet.displayName}*\nScent: ${selectedScent}\nQuantity: ${quantity}${specialInstructions ? `\nSpecial Instructions: ${specialInstructions}` : ""}\n\nTotal (excl. shipping): Rs.${giftTotal.toLocaleString()}.00`
                 )}`}
                 target="_blank"
                 rel="noreferrer"

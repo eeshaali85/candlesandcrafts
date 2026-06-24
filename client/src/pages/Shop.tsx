@@ -54,54 +54,282 @@ export const JAR_CANDLE_SERIES = [
 // ── Individual pillar / decorative candles ────────────────────────────────────
 export const PILLAR_CANDLES = [
   // 150ml
-  { key: "heart-bubble-candle",    displayName: "Heart Bubble Candle",             scented: 1200, unscented: 950,  weight: "150ml" },
-  { key: "bubble-candle",          displayName: "Bubble Candle",                   scented: 1200, unscented: 950,  weight: "150ml" },
-  { key: "seashell-candle",        displayName: "Seashell Candle",                 scented: 1200, unscented: 950,  weight: "150ml" },
-  { key: "puffy-candle",           displayName: "Puffy Candle",                    scented: 1200, unscented: 950,  weight: "150ml" },
-  { key: "dog-candle",             displayName: "Dog Candle",                      scented: 1200, unscented: 950,  weight: "150ml" },
-  { key: "rose-bear-candle",       displayName: "Rose Bear Candle",                scented: 1200, unscented: 950,  weight: "150ml" },
+  {
+    key: "heart-bubble-candle",
+    displayName: "Heart Bubble Candle",
+    scented: 1200,
+    unscented: 950,
+    weight: "150ml",
+  },
+  {
+    key: "bubble-candle",
+    displayName: "Bubble Candle",
+    scented: 1200,
+    unscented: 950,
+    weight: "150ml",
+  },
+  {
+    key: "seashell-candle",
+    displayName: "Seashell Candle",
+    scented: 1200,
+    unscented: 950,
+    weight: "150ml",
+  },
+  {
+    key: "puffy-candle",
+    displayName: "Puffy Candle",
+    scented: 1200,
+    unscented: 950,
+    weight: "150ml",
+  },
+  {
+    key: "dog-candle",
+    displayName: "Dog Candle",
+    scented: 1200,
+    unscented: 950,
+    weight: "150ml",
+  },
+  {
+    key: "rose-bear-candle",
+    displayName: "Rose Bear Candle",
+    scented: 1200,
+    unscented: 950,
+    weight: "150ml",
+  },
   // 135ml
-  { key: "cylinder-ribbed-thin",   displayName: "Cylinder Ribbed Candle (Thin)",   scented: 1150, unscented: 900,  weight: "135ml" },
+  {
+    key: "cylinder-ribbed-thin",
+    displayName: "Cylinder Ribbed Candle (Thin)",
+    scented: 1150,
+    unscented: 900,
+    weight: "135ml",
+  },
   // 90ml
-  { key: "sakura-candle",          displayName: "Sakura Candle",                   scented: 1050, unscented: 850,  weight: "90ml"  },
-  { key: "body-candle",            displayName: "Body Candle",                     scented: 1050, unscented: 850,  weight: "90ml"  },
-  { key: "knot-candle",            displayName: "Knot Candle",                     scented: 1050, unscented: 850,  weight: "90ml"  },
-  { key: "moon-candle",            displayName: "Moon Candle",                     scented: 1050, unscented: 850,  weight: "90ml"  },
+  {
+    key: "sakura-candle",
+    displayName: "Sakura Candle",
+    scented: 1050,
+    unscented: 850,
+    weight: "90ml",
+  },
+  {
+    key: "body-candle",
+    displayName: "Body Candle",
+    scented: 1050,
+    unscented: 850,
+    weight: "90ml",
+  },
+  {
+    key: "knot-candle",
+    displayName: "Knot Candle",
+    scented: 1050,
+    unscented: 850,
+    weight: "90ml",
+  },
+  {
+    key: "moon-candle",
+    displayName: "Moon Candle",
+    scented: 1050,
+    unscented: 850,
+    weight: "90ml",
+  },
   // 80ml
-  { key: "serra-ribbed-candle",    displayName: "Serra Ribbed Candle",             scented: 925,  unscented: 825,  weight: "80ml"  },
-  { key: "3d-heart-candle",        displayName: "3D Heart Candle",                 scented: 925,  unscented: 825,  weight: "80ml"  },
+  {
+    key: "serra-ribbed-candle",
+    displayName: "Serra Ribbed Candle",
+    scented: 925,
+    unscented: 825,
+    weight: "80ml",
+  },
+  {
+    key: "3d-heart-candle",
+    displayName: "3D Heart Candle",
+    scented: 925,
+    unscented: 825,
+    weight: "80ml",
+  },
   // 70ml
-  { key: "peony-candle",           displayName: "Peony Candle",                    scented: 900,  unscented: 800,  weight: "70ml"  },
+  {
+    key: "peony-candle",
+    displayName: "Peony Candle",
+    scented: 900,
+    unscented: 800,
+    weight: "70ml",
+  },
   // 55ml
-  { key: "sun-moon-candle",        displayName: "Sun & Moon Candle",               scented: 850,  unscented: 750,  weight: "55ml"  },
-  { key: "rose-candle",            displayName: "Rose Candle",                     scented: 850,  unscented: 750,  weight: "55ml"  },
-  { key: "tapered-candle",         displayName: "Tapered Candle",                  scented: 850,  unscented: 750,  weight: "55ml"  },
-  { key: "big-bear-candle",        displayName: "Big Bear Candle",                 scented: 850,  unscented: 750,  weight: "55ml"  },
-  { key: "rose-bud-candle",        displayName: "Rose Bud Candle",                 scented: 850,  unscented: 750,  weight: "55ml"  },
-  { key: "cloud-candle",           displayName: "Cloud Candle",                    scented: 850,  unscented: 750,  weight: "55ml"  },
+  {
+    key: "sun-moon-candle",
+    displayName: "Sun & Moon Candle",
+    scented: 850,
+    unscented: 750,
+    weight: "55ml",
+  },
+  {
+    key: "rose-candle",
+    displayName: "Rose Candle",
+    scented: 850,
+    unscented: 750,
+    weight: "55ml",
+  },
+  {
+    key: "tapered-candle",
+    displayName: "Tapered Candle",
+    scented: 850,
+    unscented: 750,
+    weight: "55ml",
+  },
+  {
+    key: "big-bear-candle",
+    displayName: "Big Bear Candle",
+    scented: 850,
+    unscented: 750,
+    weight: "55ml",
+  },
+  {
+    key: "rose-bud-candle",
+    displayName: "Rose Bud Candle",
+    scented: 850,
+    unscented: 750,
+    weight: "55ml",
+  },
+  {
+    key: "cloud-candle",
+    displayName: "Cloud Candle",
+    scented: 850,
+    unscented: 750,
+    weight: "55ml",
+  },
   // 45ml
-  { key: "twisted-candle",         displayName: "Twisted Candle",                  scented: 850,  unscented: 750,  weight: "45ml"  },
-  { key: "spiral-candle",          displayName: "Spiral Candle",                   scented: 850,  unscented: 750,  weight: "45ml"  },
-  { key: "butterfly-candle",       displayName: "Butterfly Candle",                scented: 750,  unscented: 650,  weight: "45ml"  },
-  { key: "mini-seashell-candle",   displayName: "Mini Seashell Candle",            scented: 750,  unscented: 650,  weight: "45ml"  },
-  { key: "mini-bubble-candle",     displayName: "Mini Bubble Candle",              scented: 750,  unscented: 650,  weight: "45ml"  },
-  { key: "rose-heart-candle",      displayName: "Rose Heart Candle",               scented: 750,  unscented: 650,  weight: "45ml"  },
-  { key: "small-peony-candle",     displayName: "Small Peony Candle",              scented: 750,  unscented: 650,  weight: "45ml"  },
-  { key: "eid-candle",             displayName: "Eid Candle",                      scented: 750,  unscented: 650,  weight: "45ml"  },
+  {
+    key: "twisted-candle",
+    displayName: "Twisted Candle",
+    scented: 850,
+    unscented: 750,
+    weight: "45ml",
+  },
+  {
+    key: "spiral-candle",
+    displayName: "Spiral Candle",
+    scented: 850,
+    unscented: 750,
+    weight: "45ml",
+  },
+  {
+    key: "butterfly-candle",
+    displayName: "Butterfly Candle",
+    scented: 750,
+    unscented: 650,
+    weight: "45ml",
+  },
+  {
+    key: "mini-seashell-candle",
+    displayName: "Mini Seashell Candle",
+    scented: 750,
+    unscented: 650,
+    weight: "45ml",
+  },
+  {
+    key: "mini-bubble-candle",
+    displayName: "Mini Bubble Candle",
+    scented: 750,
+    unscented: 650,
+    weight: "45ml",
+  },
+  {
+    key: "rose-heart-candle",
+    displayName: "Rose Heart Candle",
+    scented: 750,
+    unscented: 650,
+    weight: "45ml",
+  },
+  {
+    key: "small-peony-candle",
+    displayName: "Small Peony Candle",
+    scented: 750,
+    unscented: 650,
+    weight: "45ml",
+  },
+  {
+    key: "eid-candle",
+    displayName: "Eid Candle",
+    scented: 750,
+    unscented: 650,
+    weight: "45ml",
+  },
   // 40ml
-  { key: "cat-paw-candle",         displayName: "Cat Paw Candle",                  scented: 750,  unscented: 650,  weight: "40ml"  },
+  {
+    key: "cat-paw-candle",
+    displayName: "Cat Paw Candle",
+    scented: 750,
+    unscented: 650,
+    weight: "40ml",
+  },
   // 230ml
-  { key: "arch-candle",            displayName: "Arch Candle",                     scented: 1450, unscented: 1000, weight: "230ml" },
+  {
+    key: "arch-candle",
+    displayName: "Arch Candle",
+    scented: 1450,
+    unscented: 1000,
+    weight: "230ml",
+  },
   // large
-  { key: "ribbed-pierre-300ml",    displayName: "Short Pierre Ribbed Candle",      scented: 1850, unscented: 1200, weight: "300ml" },
-  { key: "cylinder-ribbed-thick",  displayName: "Cylinder Ribbed Candle (Thick)",  scented: 1850, unscented: 1200, weight: "315ml" },
-  { key: "ribbed-pierre-600ml",    displayName: "Long Pierre Ribbed Candle",       scented: 2800, unscented: 1600, weight: "600ml" },
+  {
+    key: "ribbed-pierre-300ml",
+    displayName: "Short Pierre Ribbed Candle",
+    scented: 1850,
+    unscented: 1200,
+    weight: "300ml",
+  },
+  {
+    key: "cylinder-ribbed-thick",
+    displayName: "Cylinder Ribbed Candle (Thick)",
+    scented: 1850,
+    unscented: 1200,
+    weight: "315ml",
+  },
+  {
+    key: "ribbed-pierre-600ml",
+    displayName: "Long Pierre Ribbed Candle",
+    scented: 2800,
+    unscented: 1600,
+    weight: "600ml",
+  },
   // 20ml
-  { key: "daisy-candle",           displayName: "Daisy Candle",                    scented: 425,  unscented: 400,  weight: "20ml"  },
-  { key: "peony-bud-candle",       displayName: "Peony Bud Candle",                scented: 425,  unscented: 400,  weight: "20ml"  },
-  { key: "tulip-candle",           displayName: "Tulip Candle",                    scented: 425,  unscented: 400,  weight: "20ml"  },
-  { key: "mini-bear-candle",       displayName: "Mini Bear Candle",                scented: 400,  unscented: 375,  weight: "20ml"  },
-  { key: "macaroon-candle",        displayName: "Macaroon Candle",                 scented: 400,  unscented: 375,  weight: "20ml"  },
+  {
+    key: "daisy-candle",
+    displayName: "Daisy Candle",
+    scented: 425,
+    unscented: 400,
+    weight: "20ml",
+  },
+  {
+    key: "peony-bud-candle",
+    displayName: "Peony Bud Candle",
+    scented: 425,
+    unscented: 400,
+    weight: "20ml",
+  },
+  {
+    key: "tulip-candle",
+    displayName: "Tulip Candle",
+    scented: 425,
+    unscented: 400,
+    weight: "20ml",
+  },
+  {
+    key: "mini-bear-candle",
+    displayName: "Mini Bear Candle",
+    scented: 400,
+    unscented: 375,
+    weight: "20ml",
+  },
+  {
+    key: "macaroon-candle",
+    displayName: "Macaroon Candle",
+    scented: 400,
+    unscented: 375,
+    weight: "20ml",
+  },
 ];
 
 // Helper: does the current category filter match the decorative/pillar section?
@@ -125,9 +353,12 @@ function isJarFilter(cat: string | null) {
 export const GIFT_SETS = [
   {
     key: "ramadan-eid-gift-set",
-    displayName: "Ramadan / Eid Gift Set",
+    displayName: "Ramadan Gift Set",
     price: 3650,
-    images: ["/images/gift-ramadan-eid-1.jpg", "/images/gift-ramadan-eid-2.jpg"],
+    images: [
+      "/images/gift-ramadan-eid-1.jpg",
+      "/images/gift-ramadan-eid-2.jpg",
+    ],
   },
 ];
 
@@ -149,7 +380,8 @@ export default function Shop() {
 
   useEffect(() => {
     // Detect if this is a back navigation
-    isBackNavRef.current = performance.navigation?.type === 2 ||
+    isBackNavRef.current =
+      performance.navigation?.type === 2 ||
       (window.history.state && window.history.state.__back === true);
 
     const handleLocationChange = () => {
@@ -466,7 +698,9 @@ function StaticProductCard({
         {image ? (
           <img src={image} alt={name} className="w-full h-full object-cover" />
         ) : (
-          <span className="text-muted-foreground text-xs lowercase">coming soon</span>
+          <span className="text-muted-foreground text-xs lowercase">
+            coming soon
+          </span>
         )}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
       </div>
