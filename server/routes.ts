@@ -169,23 +169,28 @@ export async function registerRoutes(
   return httpServer;
 }
 
+const SERIES_IMAGES: Record<string, string> = {
+  "Mini Moments Series": "/images/mini-moments-series.jpg",
+  "Eclipse Series":      "/images/eclipse-series.jpg",
+  "Amber Series":        "/images/amber-series.jpg",
+};
+
 async function seedDatabase() {
   const existing = await storage.getProducts();
   if (existing.length === 0) {
-    // Jar Candles - 5 Series
     await storage.createProduct({
       name: "Mini Moments Series",
       description: "Petite shot glass jar candle, perfect for small spaces. Available in 7 signature scents.",
-      price: "850.00",
+      price: "800.00",
       category: "jar-candles",
       series: "Mini Moments Series",
-      image: "/images/candles-collection.jpeg",
+      image: SERIES_IMAGES["Mini Moments Series"],
       stock: 50
     });
     await storage.createProduct({
       name: "Aurora Series",
       description: "Elegant mini gold jar candle with a warm glow. Available in 7 signature scents.",
-      price: "1250.00",
+      price: "1700.00",
       category: "jar-candles",
       series: "Aurora Series",
       image: "/images/candles-collection.jpeg",
@@ -194,19 +199,19 @@ async function seedDatabase() {
     await storage.createProduct({
       name: "Eclipse Series",
       description: "Sophisticated black jar candle for modern spaces. Available in 7 signature scents.",
-      price: "1650.00",
+      price: "2200.00",
       category: "jar-candles",
       series: "Eclipse Series",
-      image: "/images/candles-collection.jpeg",
+      image: SERIES_IMAGES["Eclipse Series"],
       stock: 50
     });
     await storage.createProduct({
       name: "Amber Series",
       description: "Classic amber jar candle with rich, warm fragrance. Available in 7 signature scents.",
-      price: "2450.00",
+      price: "2700.00",
       category: "jar-candles",
       series: "Amber Series",
-      image: "/images/candles-collection.jpeg",
+      image: SERIES_IMAGES["Amber Series"],
       stock: 50
     });
     await storage.createProduct({
@@ -219,5 +224,14 @@ async function seedDatabase() {
       stock: 50
     });
     console.log("Database seeded with jar candle series!");
+  } else {
+    // Always keep images up to date for named series
+    for (const product of existing) {
+      const newImage = product.series ? SERIES_IMAGES[product.series] : undefined;
+      if (newImage && product.image !== newImage) {
+        await storage.updateProduct(product.id, { image: newImage });
+        console.log(`Updated image for ${product.series}`);
+      }
+    }
   }
 }
