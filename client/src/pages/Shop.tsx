@@ -121,6 +121,16 @@ function isJarFilter(cat: string | null) {
   return cat === "jar";
 }
 
+// ── Gift sets ──────────────────────────────────────────────────────────────────
+export const GIFT_SETS = [
+  {
+    key: "ramadan-eid-gift-set",
+    displayName: "Ramadan / Eid Gift Set",
+    price: 3650,
+    images: ["/images/gift-ramadan-eid-1.jpg", "/images/gift-ramadan-eid-2.jpg"],
+  },
+];
+
 // ── Bouquet candles ────────────────────────────────────────────────────────────
 export const BOUQUET_CANDLES = [
   { key: "mini-bouquet", displayName: "Mini Bouquet", price: 1850 },
@@ -407,25 +417,21 @@ export default function Shop() {
               </div>
             )}
 
-            {/* ── Other categories (gift-sets, ceramics etc.) ── */}
-            {categoryFilter &&
-              !isJarFilter(categoryFilter) &&
-              !isDecorativeFilter(categoryFilter) &&
-              categoryFilter !== "bouquet" && (
-                <div className={gridClass}>
-                  {filteredProducts.length > 0 ? (
-                    filteredProducts.map((product) => (
-                      <ProductCard key={product.id} product={product} />
-                    ))
-                  ) : (
-                    <div className="col-span-full text-center py-20 text-muted-foreground">
-                      <p className="text-lg lowercase">
-                        no products found in this category.
-                      </p>
-                    </div>
-                  )}
-                </div>
-              )}
+            {/* ── Gift Sets Section ── */}
+            {categoryFilter === "gift-sets" && (
+              <div className={gridClass}>
+                {GIFT_SETS.map((gs) => (
+                  <StaticProductCard
+                    key={gs.key}
+                    name={gs.displayName}
+                    price={gs.price}
+                    image={gs.images[0]}
+                    viewMode={viewMode}
+                    href={`/product/candle/${gs.key}`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -443,6 +449,7 @@ function StaticProductCard({
   weight,
   viewMode,
   href,
+  image,
 }: {
   name: string;
   subtitle?: string;
@@ -451,11 +458,16 @@ function StaticProductCard({
   weight?: string;
   viewMode: "grid" | "list";
   href?: string;
+  image?: string;
 }) {
   const inner = (
     <div className="group block cursor-pointer">
       <div className="relative rounded-2xl overflow-hidden aspect-[4/5] bg-secondary/30 mb-3 flex items-center justify-center">
-        <span className="text-muted-foreground text-xs lowercase">coming soon</span>
+        {image ? (
+          <img src={image} alt={name} className="w-full h-full object-cover" />
+        ) : (
+          <span className="text-muted-foreground text-xs lowercase">coming soon</span>
+        )}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
       </div>
       <div className="text-center mt-3">

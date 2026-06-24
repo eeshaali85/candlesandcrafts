@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PILLAR_CANDLES } from "./Shop";
+import { PILLAR_CANDLES, GIFT_SETS } from "./Shop";
 
 export default function ProductDetail() {
   const [, idParams] = useRoute("/product/:id");
@@ -32,6 +32,7 @@ export default function ProductDetail() {
   const [selectedScented, setSelectedScented] = useState<"scented" | "unscented">("scented");
   const [giftPackaging, setGiftPackaging] = useState(false);
   const [specialInstructions, setSpecialInstructions] = useState("");
+  const [activeGiftImg, setActiveGiftImg] = useState(0);
   const [activeTab, setActiveTab] = useState<"details" | "how-to-use" | "shipping">("details");
 
   useEffect(() => {
@@ -90,6 +91,9 @@ export default function ProductDetail() {
 
   // Static candle from slug route
   const staticCandle = candleSlug ? (pillarCandles[candleSlug] ?? null) : null;
+
+  // Gift set from slug route
+  const giftSet = candleSlug ? GIFT_SETS.find((g) => g.key === candleSlug) ?? null : null;
 
   // ── Jar candle series ─────────────────────────────────────────────────────
   const jarSeries: Record<string, { displayName: string; subtitle: string; price: number; weight: string }> = {
@@ -243,6 +247,57 @@ export default function ProductDetail() {
     : matchedPillar
     ? matchedPillar[selectedScented]
     : Number(product?.price ?? 0);
+
+  // For gift set slug routes
+  if (giftSet) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <Button variant="ghost" onClick={() => window.history.back()} className="mb-6 hover:bg-transparent p-0 flex items-center gap-2 text-muted-foreground">
+            <ArrowLeft className="w-4 h-4" /> Back to Shop
+          </Button>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+            {/* Images */}
+            <div className="lg:sticky lg:top-24 space-y-3">
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-secondary/20">
+                <img src={giftSet.images[activeGiftImg]} alt={giftSet.displayName} className="w-full h-full object-cover" />
+              </div>
+              <div className="flex gap-2">
+                {giftSet.images.map((img, i) => (
+                  <button key={i} onClick={() => setActiveGiftImg(i)} className={`flex-1 aspect-square rounded-lg overflow-hidden border-2 transition-colors ${activeGiftImg === i ? "border-primary" : "border-transparent"}`}>
+                    <img src={img} alt={`${giftSet.displayName} view ${i + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            </div>
+            {/* Info */}
+            <div className="space-y-6">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-serif text-primary">{giftSet.displayName}</h1>
+                <p className="text-2xl font-semibold text-[#c45e4c] mt-3">Rs.{giftSet.price.toLocaleString()}.00</p>
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
+                A beautifully curated Ramadan &amp; Eid gift set — thoughtfully assembled to bring warmth, reflection, and celebration to the occasion. Each set is hand-packaged with care and makes a meaningful gift for family, friends, or colleagues.
+              </p>
+              <div className="border-t border-border pt-6 space-y-2 text-sm text-muted-foreground">
+                <p><span className="font-medium text-foreground">Packaging</span> — Wicker tray with cellophane wrap &amp; satin bow</p>
+                <p><span className="font-medium text-foreground">Contents</span> — Moon candle, sculpted candle, Quran, tasbih &amp; greeting card</p>
+                <p><span className="font-medium text-foreground">Shipping</span> — Rs.300 flat rate · 7–10 days dispatch</p>
+              </div>
+              <a
+                href={`https://wa.me/923379229966?text=${encodeURIComponent(`Hi! I'd like to order:\n\n*${giftSet.displayName}*\nQuantity: ${quantity}\n\nTotal (excl. shipping): Rs.${(giftSet.price * quantity).toLocaleString()}.00`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full"
+              >
+                <Button className="w-full py-6 text-base lowercase">order via whatsapp</Button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // For slug-based static candle routes — no DB fetch needed
   if (staticCandle) {
