@@ -163,7 +163,7 @@ export default function CustomGiveaways() {
 
           {/* Right: Carousel */}
           <div className="relative">
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-secondary/20">
+            <div className="aspect-square rounded-2xl overflow-hidden bg-secondary/20">
               <img
                 src={carouselImages[slide].src}
                 alt={carouselImages[slide].alt}
