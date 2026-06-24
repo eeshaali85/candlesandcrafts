@@ -8,7 +8,7 @@ const carouselImages = [
   { src: "/images/giveaway-statelife-jars.jpg",     alt: "Custom branded candle jars for State Life" },
   { src: "/images/giveaway-statelife-boxes.jpg",    alt: "State Life gift boxes with pink ribbons" },
   { src: "/images/giveaway-wedding-jars.jpg",       alt: "Personalised wedding favour candles" },
-  { src: "/images/giveaway-nobelcasa-boxes.jpg",    alt: "Nobel Casa Group custom gift boxes" },
+  { src: "/images/giveaway-nobelcasa-boxes2.jpg",   alt: "Nobel Casa Group custom gift boxes" },
   { src: "/images/giveaway-nobelcasa-candles.jpg",  alt: "Nobel Casa branded candles" },
   { src: "/images/giveaway-bubble-candles.jpg",     alt: "Bubble candles with dried flowers" },
   { src: "/images/giveaway-IMG_5394_1782340279008-opt.jpg", alt: "Custom giveaway candles" },
