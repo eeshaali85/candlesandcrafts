@@ -127,22 +127,22 @@ export default function CustomGiveaways() {
               quietly transforming everyday spaces into meaningful experiences.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              At Candles & Crafts, we believe a candle is more than just wax and wick — it's a
+              At Candles & Crafts, we believe a candle is more than just wax and wick, it's a
               feeling, a moment, a memory in the making. Each piece is carefully handcrafted to bring
               warmth, calm, and character into your surroundings.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Our scents are designed to do more than simply linger — they create an atmosphere,
+              Our scents are designed to do more than simply linger, they create an atmosphere,
               elevate moods, and leave a lasting impression long after the flame is gone.
             </p>
             <p className="text-muted-foreground leading-relaxed">
               With a focus on detail and creativity, we work closely with our clients to craft
-              personalized candles for events, gifting, and brand collaborations — ensuring every
+              personalized candles for events, gifting, and brand collaborations, ensuring every
               piece feels intentional and unique.
             </p>
             <p className="text-muted-foreground leading-relaxed">
               From concept to creation, we also offer support in packaging, design, branded labels
-              and presentation — because every detail matters.
+              and presentation, because every detail matters.
             </p>
             <p className="text-muted-foreground leading-relaxed">
               For custom orders and collaborations, we'd love to hear from you. Please fill in the
