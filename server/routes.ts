@@ -170,11 +170,11 @@ export async function registerRoutes(
 }
 
 const SERIES_IMAGES: Record<string, string> = {
-  "Mini Moments Series":  "/images/mini-moments-v2.jpg",
-  "Aurora Series":        "/images/aurora-series.jpg",
-  "Eclipse Series":       "/images/eclipse-series.jpg",
-  "Amber Series":         "/images/amber-series.jpg",
-  "Signature Luxe Series":"/images/luxe-series.jpg",
+  "Mini Moments Series":  "/images/mini-moments-v2-opt.jpg",
+  "Aurora Series":        "/images/aurora-series-opt.jpg",
+  "Eclipse Series":       "/images/eclipse-series-opt.jpg",
+  "Amber Series":         "/images/amber-series-opt.jpg",
+  "Signature Luxe Series":"/images/luxe-series-opt.jpg",
 };
 
 async function seedDatabase() {
