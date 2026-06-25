@@ -364,9 +364,15 @@ export const GIFT_SETS = [
 
 // ── Bouquet candles ────────────────────────────────────────────────────────────
 export const BOUQUET_CANDLES = [
-  { key: "mini-bouquet", displayName: "Mini Bouquet", price: 1850 },
-  { key: "small-bouquet", displayName: "Small Bouquet", price: 2800 },
-  { key: "medium-bouquet", displayName: "Medium Bouquet", price: 5500 },
+  { key: "mini-bouquet",   displayName: "Mini Bouquet",   price: 1850,  images: [] as string[] },
+  { key: "small-bouquet",  displayName: "Small Bouquet",  price: 2800,  images: [] as string[] },
+  { key: "medium-bouquet", displayName: "Medium Bouquet", price: 5500,  images: [] as string[] },
+  {
+    key: "xl-bouquet",
+    displayName: "XL Bouquet",
+    price: 14500,
+    images: ["/images/bouquet-xl-1.jpg", "/images/bouquet-xl-2.jpg"],
+  },
 ];
 
 export default function Shop() {
@@ -641,7 +647,9 @@ export default function Shop() {
                         key={bouquet.key}
                         name={bouquet.displayName}
                         price={bouquet.price}
+                        image={bouquet.images?.[0]}
                         viewMode={viewMode}
+                        href={bouquet.images?.length ? `/product/candle/${bouquet.key}` : undefined}
                       />
                     );
                   })}

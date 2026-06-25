@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PILLAR_CANDLES, GIFT_SETS } from "./Shop";
+import { PILLAR_CANDLES, GIFT_SETS, BOUQUET_CANDLES } from "./Shop";
 
 export default function ProductDetail() {
   const [, idParams] = useRoute("/product/:id");
@@ -33,6 +33,10 @@ export default function ProductDetail() {
   const [giftPackaging, setGiftPackaging] = useState(false);
   const [specialInstructions, setSpecialInstructions] = useState("");
   const [activeGiftImg, setActiveGiftImg] = useState(0);
+  const [activeBouquetImg, setActiveBouquetImg] = useState(0);
+  const [bouquetCandleColour, setBouquetCandleColour] = useState("pink & white");
+  const [bouquetBoxColour, setBouquetBoxColour] = useState("white");
+  const [bouquetScent, setBouquetScent] = useState("flower meadows");
   const [activeTab, setActiveTab] = useState<"details" | "how-to-use" | "shipping">("details");
 
   useEffect(() => {
@@ -94,6 +98,9 @@ export default function ProductDetail() {
 
   // Gift set from slug route
   const giftSet = candleSlug ? GIFT_SETS.find((g) => g.key === candleSlug) ?? null : null;
+
+  // XL Bouquet from slug route
+  const xlBouquet = candleSlug === "xl-bouquet" ? BOUQUET_CANDLES.find((b) => b.key === "xl-bouquet") ?? null : null;
 
   // ── Jar candle series ─────────────────────────────────────────────────────
   const jarSeries: Record<string, { displayName: string; subtitle: string; price: number; weight: string }> = {
@@ -411,6 +418,194 @@ export default function ProductDetail() {
                 <p><span className="font-medium text-foreground">Shipping Charges:</span> Flat Rs. 300 across Pakistan.</p>
                 <p><span className="font-medium text-foreground">COD Tax:</span> An 8% tax applies to all Cash on Delivery orders.</p>
                 <p><span className="font-medium text-foreground">Returns & Exchanges:</span> We prioritize quality. If you receive a damaged or defective product, email <a href="mailto:candlesandcraftss@mail.com" className="underline text-foreground">candlesandcraftss@mail.com</a> with photos. Replacements are dispatched at no extra shipping cost.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // For XL Bouquet slug route
+  if (xlBouquet) {
+    const xlBouquetScents = ["flower meadows", "butterscotch", "pink chiffon", "alexandria library", "oudh e bakhoor", "serenity"];
+    const candleColours = ["pink & white", "purple & white", "peach & white", "blush & white", "ivory & white", "all white", "lavender & white", "yellow & white"];
+    const boxColours = ["white", "black", "pink"];
+    const totalXl = xlBouquet.price * quantity;
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <Button variant="ghost" onClick={() => window.history.back()} className="mb-6 hover:bg-transparent p-0 flex items-center gap-2 text-muted-foreground">
+            <ArrowLeft className="w-4 h-4" /> Back to Shop
+          </Button>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+            {/* Images */}
+            <div className="lg:sticky lg:top-24 space-y-3">
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-secondary/20">
+                <img src={xlBouquet.images[activeBouquetImg]} alt={xlBouquet.displayName} className="w-full h-full object-cover" />
+              </div>
+              <div className="flex gap-2">
+                {xlBouquet.images.map((img, i) => (
+                  <button key={i} onClick={() => setActiveBouquetImg(i)} className={`flex-1 aspect-square rounded-lg overflow-hidden border-2 transition-colors ${activeBouquetImg === i ? "border-primary" : "border-transparent"}`}>
+                    <img src={img} alt={`${xlBouquet.displayName} view ${i + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            </div>
+            {/* Info */}
+            <div className="space-y-6">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-serif text-primary">{xlBouquet.displayName}</h1>
+                <p className="text-muted-foreground text-sm mt-1">50-candle floral arrangement · scented</p>
+              </div>
+              <div>
+                <p className="text-lg text-[#c45e4c] font-semibold">Rs.{xlBouquet.price.toLocaleString()}.00</p>
+                <p className="text-sm text-muted-foreground mt-1"><span className="underline cursor-pointer">Shipping</span> calculated at checkout.</p>
+              </div>
+
+              {/* Candle Colour */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">candle colour</p>
+                <div className="flex flex-wrap gap-2">
+                  {candleColours.map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setBouquetCandleColour(c)}
+                      className={`px-3 py-1.5 rounded-full text-xs border transition-colors ${bouquetCandleColour === c ? "bg-foreground text-background border-foreground" : "bg-transparent text-muted-foreground border-border hover:border-foreground/40"}`}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Box Colour */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">box colour</p>
+                <div className="flex gap-2">
+                  {boxColours.map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setBouquetBoxColour(c)}
+                      className={`px-4 py-2 rounded-full text-xs border capitalize transition-colors ${bouquetBoxColour === c ? "bg-foreground text-background border-foreground" : "bg-transparent text-muted-foreground border-border hover:border-foreground/40"}`}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Scent */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">scent</p>
+                <Select value={bouquetScent} onValueChange={setBouquetScent}>
+                  <SelectTrigger className="w-full bg-muted border-0"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {xlBouquetScents.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+                {scentDescriptions[bouquetScent] && (
+                  <div className="mt-3 p-3 bg-muted rounded-md">
+                    <p className="text-sm font-medium text-primary">Notes: {scentDescriptions[bouquetScent].notes}</p>
+                    <p className="text-sm text-muted-foreground mt-1">{scentDescriptions[bouquetScent].description}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Quantity */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">Quantity</p>
+                <div className="flex items-center border border-muted-foreground/20 rounded-sm bg-muted w-fit">
+                  <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} disabled={quantity <= 1} className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"><Minus className="w-3 h-3" /></button>
+                  <span className="w-8 text-center text-sm text-foreground">{quantity}</span>
+                  <button onClick={() => setQuantity((q) => q + 1)} className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"><Plus className="w-3 h-3" /></button>
+                </div>
+              </div>
+
+              {/* Special Instructions */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">Special Instructions <span className="text-xs">(optional)</span></p>
+                <textarea
+                  value={specialInstructions}
+                  onChange={(e) => setSpecialInstructions(e.target.value)}
+                  placeholder="e.g. specific colour shade, personalised ribbon message, delivery date..."
+                  rows={3}
+                  className="w-full rounded-md bg-muted border-0 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 resize-none focus:outline-none focus:ring-1 focus:ring-border"
+                />
+              </div>
+
+              <a
+                href={`https://wa.me/923379229966?text=${encodeURIComponent(
+                  `Hi! I'd like to order:\n\n*${xlBouquet.displayName}*\nCandle Colour: ${bouquetCandleColour}\nBox Colour: ${bouquetBoxColour}\nScent: ${bouquetScent}\nQuantity: ${quantity}${specialInstructions ? `\nSpecial Instructions: ${specialInstructions}` : ""}\n\nTotal (excl. shipping): Rs.${totalXl.toLocaleString()}.00`
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+                className="block w-full"
+              >
+                <Button className="w-full py-4 rounded-full bg-foreground hover:bg-foreground/90 text-background font-medium text-sm">
+                  Order via WhatsApp
+                </Button>
+              </a>
+            </div>
+          </div>
+
+          {/* Tabs */}
+          <div className="mt-14 border-t border-border/40 pt-10">
+            <div className="flex gap-2 mb-8 flex-wrap justify-center">
+              {(["details", "how-to-use", "shipping"] as const).map((tab) => (
+                <button key={tab} onClick={() => setActiveTab(tab)}
+                  className={`px-5 py-2 rounded-full text-sm font-medium border transition-colors ${activeTab === tab ? "bg-foreground text-background border-foreground" : "bg-transparent text-muted-foreground border-border hover:border-foreground/40"}`}>
+                  {tab === "details" ? "Product Details" : tab === "how-to-use" ? "How to Use" : "Shipping & Return"}
+                </button>
+              ))}
+            </div>
+            {activeTab === "details" && (
+              <div className="space-y-6 max-w-2xl mx-auto">
+                <p className="text-muted-foreground leading-relaxed">
+                  A breathtaking arrangement of 50 handcrafted flower candles, curated into a lush, gift-ready bouquet. Each candle is sculpted by hand from premium wax — a mix of roses, peonies, tulips, and more — arranged together to create a showstopping centrepiece that lasts far longer than fresh flowers.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  Presented in your choice of box colour, the XL Bouquet is perfect for birthdays, anniversaries, grand gestures, or any occasion that deserves something truly memorable.
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  {[
+                    { label: "Candle Count", value: "50 flower candles" },
+                    { label: "Flowers Included", value: "Roses, peonies, tulips, baby's breath & more" },
+                    { label: "Scented", value: "Yes — 6 scents available" },
+                    { label: "Box Options", value: "Black, White, Pink" },
+                    { label: "Colour Options", value: "8 combinations" },
+                    { label: "Suitable For", value: "Birthdays, anniversaries, luxury gifts" },
+                  ].map((d) => (
+                    <div key={d.label} className="bg-muted/40 rounded-lg p-3">
+                      <p className="text-xs text-muted-foreground">{d.label}</p>
+                      <p className="text-sm font-medium text-foreground mt-0.5">{d.value}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {activeTab === "how-to-use" && (
+              <ul className="space-y-3 max-w-xl mx-auto">
+                {[
+                  "Place the bouquet on a flat, heat-resistant surface away from draughts.",
+                  "Light individual candles one at a time using a long lighter or match.",
+                  "Trim each wick to 5mm before lighting for a clean, even burn.",
+                  "Do not leave burning candles unattended — always keep within sight.",
+                  "Candles can also be displayed unlit as a lasting decorative centrepiece.",
+                ].map((tip, i) => (
+                  <li key={i} className="flex gap-3 text-sm text-muted-foreground">
+                    <span className="text-foreground font-semibold shrink-0">{i + 1}.</span>
+                    {tip}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {activeTab === "shipping" && (
+              <div className="space-y-4 max-w-xl mx-auto text-sm text-muted-foreground leading-relaxed">
+                <p><span className="font-medium text-foreground">Delivery Timeline:</span> 7–15 working days. Urgent delivery can be arranged — contact us on Instagram.</p>
+                <p><span className="font-medium text-foreground">Shipping Charges:</span> Flat Rs. 300 across Pakistan.</p>
+                <p><span className="font-medium text-foreground">COD Tax:</span> An 8% tax applies to all Cash on Delivery orders.</p>
+                <p><span className="font-medium text-foreground">Returns & Exchanges:</span> We prioritize quality. If you receive a damaged or defective product, email <a href="mailto:candlesandcraftss@mail.com" className="underline text-foreground">candlesandcraftss@mail.com</a> with photos.</p>
               </div>
             )}
           </div>
