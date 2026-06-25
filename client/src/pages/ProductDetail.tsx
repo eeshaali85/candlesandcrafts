@@ -1,8 +1,9 @@
 import { useRoute } from "wouter";
 import { useProduct, useProducts } from "@/hooks/use-products";
-import { useAddToCart } from "@/hooks/use-cart";
+import { useAddToCart, useAddBouquetToCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
-import { Loader2, Minus, Plus, ArrowLeft } from "lucide-react";
+import { Loader2, Minus, Plus, ArrowLeft, Timer, Truck, Gift } from "lucide-react";
+import { SiWhatsapp } from "react-icons/si";
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import {
@@ -26,6 +27,7 @@ export default function ProductDetail() {
   const { data: product, isLoading, isError } = useProduct(id);
   const { data: allProducts } = useProducts();
   const addToCart = useAddToCart();
+  const { addBouquet } = useAddBouquetToCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("blue");
   const [selectedScent, setSelectedScent] = useState("flower meadows");
@@ -101,6 +103,48 @@ export default function ProductDetail() {
 
   // XL Bouquet from slug route
   const xlBouquet = candleSlug === "xl-bouquet" ? BOUQUET_CANDLES.find((b) => b.key === "xl-bouquet") ?? null : null;
+
+  // Mini / Small / Medium bouquet from slug route
+  const otherBouquet = candleSlug && ["mini-bouquet", "small-bouquet", "medium-bouquet"].includes(candleSlug)
+    ? BOUQUET_CANDLES.find((b) => b.key === candleSlug) ?? null
+    : null;
+
+  const bouquetProductIdMap: Record<string, number> = {
+    "mini-bouquet": -1,
+    "small-bouquet": -2,
+    "medium-bouquet": -3,
+    "xl-bouquet": -4,
+  };
+
+  const bouquetDescriptions: Record<string, { headline: string; paragraphs: string[] }> = {
+    "mini-bouquet": {
+      headline: "A charming and delicate candle bouquet, perfect for small celebrations, desk styling, or as a sweet heartfelt gift.",
+      paragraphs: [
+        "The Mini Bouquet features a beautiful arrangement of handcrafted flower candles nestled among delicate baby's breath, beautifully presented in our gift-ready bouquet box. Each arrangement is carefully assembled by hand, ensuring every bouquet feels unique and thoughtfully crafted.",
+        "Personalize your bouquet by choosing your preferred box colour and candle colour palette — from timeless all-white arrangements to soft pastels, romantic pinks, lilacs, or a custom combination that suits your occasion.",
+        "Crafted from our premium soy-paraffin wax blend, the candles maintain their shape beautifully while providing lasting quality. Finished with a ribbon, every bouquet arrives ready for gifting. Add your favourite fragrance at checkout.",
+        "Candle Care: Remove individual candles from the bouquet before lighting and place them on a heat-resistant surface.",
+      ],
+    },
+    "small-bouquet": {
+      headline: "A beautifully full candle bouquet that strikes the perfect balance between statement piece and everyday elegance.",
+      paragraphs: [
+        "The Small Bouquet features a lovely arrangement of handcrafted flower candles nestled among delicate baby's breath, beautifully presented in our gift-ready bouquet box. Each arrangement is carefully assembled by hand, ensuring every bouquet feels unique and thoughtfully crafted.",
+        "Personalize your bouquet by choosing your preferred box colour and candle colour palette — from timeless all-white arrangements to soft pastels, romantic pinks, lilacs, or a custom combination that suits your occasion.",
+        "Crafted from our premium soy-paraffin wax blend, the candles maintain their shape beautifully while providing lasting quality. Finished with a ribbon, every bouquet arrives ready for gifting. Add your favourite fragrance at checkout.",
+        "Candle Care: Remove individual candles from the bouquet before lighting and place them on a heat-resistant surface.",
+      ],
+    },
+    "medium-bouquet": {
+      headline: "A grand and generous candle bouquet that commands attention and fills any space with effortless elegance.",
+      paragraphs: [
+        "The Medium Bouquet features a lush arrangement of handcrafted flower candles nestled among delicate baby's breath, beautifully presented in our gift-ready bouquet box. Each arrangement is carefully assembled by hand, ensuring every bouquet feels unique and thoughtfully crafted.",
+        "Personalize your bouquet by choosing your preferred box colour and candle colour palette — from timeless all-white arrangements to soft pastels, romantic pinks, lilacs, or a custom combination that suits your occasion.",
+        "Crafted from our premium soy-paraffin wax blend, the candles maintain their shape beautifully while providing lasting quality. Finished with a ribbon, every bouquet arrives ready for gifting. Add your favourite fragrance at checkout.",
+        "Candle Care: Remove individual candles from the bouquet before lighting and place them on a heat-resistant surface.",
+      ],
+    },
+  };
 
   // ── Jar candle series ─────────────────────────────────────────────────────
   const jarSeries: Record<string, { displayName: string; subtitle: string; price: number; weight: string }> = {
@@ -534,18 +578,40 @@ export default function ProductDetail() {
                 />
               </div>
 
-              <a
-                href={`https://wa.me/923379229966?text=${encodeURIComponent(
-                  `Hi! I'd like to order:\n\n*${xlBouquet.displayName}*\nCandle Colour: ${bouquetCandleColour}\nBox Colour: ${bouquetBoxColour}\nScent: ${bouquetScent}\nQuantity: ${quantity}${specialInstructions ? `\nSpecial Instructions: ${specialInstructions}` : ""}\n\nTotal (excl. shipping): Rs.${totalXl.toLocaleString()}.00`
-                )}`}
-                target="_blank"
-                rel="noreferrer"
-                className="block w-full"
-              >
-                <Button className="w-full py-4 rounded-full bg-foreground hover:bg-foreground/90 text-background font-medium text-sm">
-                  Order via WhatsApp
+              <div className="space-y-3">
+                <Button
+                  onClick={() => addBouquet({
+                    productId: -4,
+                    name: `XL Bouquet – ${bouquetCandleColour} candles, ${bouquetBoxColour} box, ${bouquetScent}`,
+                    price: xlBouquet.price,
+                    image: xlBouquet.images[0],
+                    quantity,
+                  })}
+                  className="w-full py-4 bg-foreground hover:bg-foreground/90 text-background font-medium text-sm"
+                >
+                  add to cart
                 </Button>
-              </a>
+                <a
+                  href={`https://wa.me/923379229966?text=${encodeURIComponent(
+                    `Hi! I'd like to order:\n\n*${xlBouquet.displayName}*\nCandle Colour: ${bouquetCandleColour}\nBox Colour: ${bouquetBoxColour}\nScent: ${bouquetScent}\nQuantity: ${quantity}${specialInstructions ? `\nSpecial Instructions: ${specialInstructions}` : ""}\n\nTotal (excl. shipping): Rs.${totalXl.toLocaleString()}.00`
+                  )}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block w-full"
+                >
+                  <Button variant="outline" className="w-full py-4 border-green-600 text-green-600 hover:bg-green-50 font-medium text-sm flex items-center justify-center gap-2">
+                    <SiWhatsapp className="w-4 h-4" /> order via whatsapp
+                  </Button>
+                </a>
+                <div className="bg-muted/60 rounded-md px-4 py-3 flex items-center gap-3 text-sm">
+                  <Timer className="w-4 h-4 text-muted-foreground shrink-0" />
+                  <span className="text-muted-foreground">made to order — allow <span className="font-semibold text-foreground">3–12 days</span> for production + delivery</span>
+                </div>
+                <div className="bg-muted/60 rounded-md px-4 py-3 space-y-2 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-3"><Truck className="w-4 h-4 shrink-0" /><span>delivery across Pakistan in 3–12 days</span></div>
+                  <div className="flex items-center gap-3"><Gift className="w-4 h-4 shrink-0" /><span>gift-ready packaging on every order</span></div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -560,28 +626,12 @@ export default function ProductDetail() {
               ))}
             </div>
             {activeTab === "details" && (
-              <div className="space-y-6 max-w-2xl mx-auto">
-                <p className="text-muted-foreground leading-relaxed">
-                  A breathtaking arrangement of 50 handcrafted flower candles, curated into a lush, gift-ready bouquet. Each candle is sculpted by hand from premium wax — a mix of roses, peonies, tulips, and more — arranged together to create a showstopping centrepiece that lasts far longer than fresh flowers.
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  Presented in your choice of box colour, the XL Bouquet is perfect for birthdays, anniversaries, grand gestures, or any occasion that deserves something truly memorable.
-                </p>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                  {[
-                    { label: "Candle Count", value: "50 flower candles" },
-                    { label: "Flowers Included", value: "Roses, peonies, tulips, baby's breath & more" },
-                    { label: "Scented", value: "Yes — 6 scents available" },
-                    { label: "Box Options", value: "Black, White, Pink" },
-                    { label: "Colour Options", value: "8 combinations" },
-                    { label: "Suitable For", value: "Birthdays, anniversaries, luxury gifts" },
-                  ].map((d) => (
-                    <div key={d.label} className="bg-muted/40 rounded-lg p-3">
-                      <p className="text-xs text-muted-foreground">{d.label}</p>
-                      <p className="text-sm font-medium text-foreground mt-0.5">{d.value}</p>
-                    </div>
-                  ))}
-                </div>
+              <div className="space-y-4 max-w-2xl mx-auto text-muted-foreground leading-relaxed">
+                <p>Our most grand and luxurious candle bouquet, designed for those who love making a statement. XL Bouquet is a stunning, full-bodied arrangement that instantly elevates any space with its elegant presence and intricate floral details.</p>
+                <p>Featuring 50 handcrafted flower candles nestled among delicate baby's breath, this bouquet is beautifully presented in our 10 x 6 inch extra-large bouquet box. Each arrangement is carefully assembled by hand, ensuring every bouquet feels unique and thoughtfully crafted.</p>
+                <p>Personalize your bouquet by choosing your preferred box color and candle color palette, from timeless all-white arrangements to soft pastels, romantic pinks, lilacs, or a custom combination that suits your occasion.</p>
+                <p>Crafted from our premium soy-paraffin wax blend, the candles maintain their shape beautifully while providing lasting quality. Finished with a ribbon, every bouquet arrives ready for gifting. Add your favorite fragrance at checkout.</p>
+                <p className="font-medium text-foreground">Candle Care: Remove individual candles from the bouquet before lighting and place them on a heat-resistant surface.</p>
               </div>
             )}
             {activeTab === "how-to-use" && (
@@ -596,6 +646,187 @@ export default function ProductDetail() {
                   <li key={i} className="flex gap-3 text-sm text-muted-foreground">
                     <span className="text-foreground font-semibold shrink-0">{i + 1}.</span>
                     {tip}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {activeTab === "shipping" && (
+              <div className="space-y-4 max-w-xl mx-auto text-sm text-muted-foreground leading-relaxed">
+                <p><span className="font-medium text-foreground">Delivery Timeline:</span> 7–15 working days. Urgent delivery can be arranged — contact us on Instagram.</p>
+                <p><span className="font-medium text-foreground">Shipping Charges:</span> Flat Rs. 300 across Pakistan.</p>
+                <p><span className="font-medium text-foreground">COD Tax:</span> An 8% tax applies to all Cash on Delivery orders.</p>
+                <p><span className="font-medium text-foreground">Returns & Exchanges:</span> We prioritize quality. If you receive a damaged or defective product, email <a href="mailto:candlesandcraftss@mail.com" className="underline text-foreground">candlesandcraftss@mail.com</a> with photos.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // For Mini / Small / Medium bouquet slug routes
+  if (otherBouquet && candleSlug) {
+    const desc = bouquetDescriptions[candleSlug];
+    const bouquetScents = ["flower meadows", "butterscotch", "pink chiffon", "alexandria library", "oudh e bakhoor", "serenity"];
+    const candleColours = ["pink & white", "purple & white", "peach & white", "blush & white", "ivory & white", "all white", "lavender & white", "yellow & white"];
+    const boxColours = ["white", "black", "pink"];
+    const bouquetTotal = otherBouquet.price * quantity;
+    const bouquetProdId = bouquetProductIdMap[candleSlug];
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <Button variant="ghost" onClick={() => window.history.back()} className="mb-6 hover:bg-transparent p-0 flex items-center gap-2 text-muted-foreground">
+            <ArrowLeft className="w-4 h-4" /> Back to Shop
+          </Button>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+            {/* Image placeholder */}
+            <div className="lg:sticky lg:top-24">
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-secondary/20 flex items-center justify-center">
+                <span className="text-muted-foreground text-sm lowercase">coming soon</span>
+              </div>
+            </div>
+            {/* Info */}
+            <div className="space-y-6">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-serif text-primary">{otherBouquet.displayName}</h1>
+                <p className="text-muted-foreground text-sm mt-1">handcrafted flower candle bouquet · scented</p>
+              </div>
+              <div>
+                <p className="text-lg text-[#c45e4c] font-semibold">Rs.{otherBouquet.price.toLocaleString()}.00</p>
+                <p className="text-sm text-muted-foreground mt-1"><span className="underline cursor-pointer">Shipping</span> calculated at checkout.</p>
+              </div>
+
+              {/* Candle Colour */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">candle colour</p>
+                <div className="flex flex-wrap gap-2">
+                  {candleColours.map((c) => (
+                    <button key={c} onClick={() => setBouquetCandleColour(c)}
+                      className={`px-3 py-1.5 rounded-full text-xs border transition-colors ${bouquetCandleColour === c ? "bg-foreground text-background border-foreground" : "bg-transparent text-muted-foreground border-border hover:border-foreground/40"}`}>
+                      {c}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Box Colour */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">box colour</p>
+                <div className="flex gap-2">
+                  {boxColours.map((c) => (
+                    <button key={c} onClick={() => setBouquetBoxColour(c)}
+                      className={`px-4 py-2 rounded-full text-xs border capitalize transition-colors ${bouquetBoxColour === c ? "bg-foreground text-background border-foreground" : "bg-transparent text-muted-foreground border-border hover:border-foreground/40"}`}>
+                      {c}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Scent */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">scent</p>
+                <Select value={bouquetScent} onValueChange={setBouquetScent}>
+                  <SelectTrigger className="w-full bg-muted border-0"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {bouquetScents.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+                {scentDescriptions[bouquetScent] && (
+                  <div className="mt-3 p-3 bg-muted rounded-md">
+                    <p className="text-sm font-medium text-primary">Notes: {scentDescriptions[bouquetScent].notes}</p>
+                    <p className="text-sm text-muted-foreground mt-1">{scentDescriptions[bouquetScent].description}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Quantity */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">Quantity</p>
+                <div className="flex items-center border border-muted-foreground/20 rounded-sm bg-muted w-fit">
+                  <button onClick={() => setQuantity((q) => Math.max(1, q - 1))} disabled={quantity <= 1} className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"><Minus className="w-3 h-3" /></button>
+                  <span className="w-8 text-center text-sm text-foreground">{quantity}</span>
+                  <button onClick={() => setQuantity((q) => q + 1)} className="px-3 py-2 hover:bg-muted/50 transition-colors text-muted-foreground"><Plus className="w-3 h-3" /></button>
+                </div>
+              </div>
+
+              {/* Special Instructions */}
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">Special Instructions <span className="text-xs">(optional)</span></p>
+                <textarea
+                  value={specialInstructions}
+                  onChange={(e) => setSpecialInstructions(e.target.value)}
+                  placeholder="e.g. specific colour shade, personalised ribbon message, delivery date..."
+                  rows={3}
+                  className="w-full rounded-md bg-muted border-0 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 resize-none focus:outline-none focus:ring-1 focus:ring-border"
+                />
+              </div>
+
+              {/* Buttons + Info */}
+              <div className="space-y-3">
+                <Button
+                  onClick={() => addBouquet({
+                    productId: bouquetProdId,
+                    name: `${otherBouquet.displayName} – ${bouquetCandleColour} candles, ${bouquetBoxColour} box, ${bouquetScent}`,
+                    price: otherBouquet.price,
+                    quantity,
+                  })}
+                  className="w-full py-4 bg-foreground hover:bg-foreground/90 text-background font-medium text-sm"
+                >
+                  add to cart
+                </Button>
+                <a
+                  href={`https://wa.me/923379229966?text=${encodeURIComponent(
+                    `Hi! I'd like to order:\n\n*${otherBouquet.displayName}*\nCandle Colour: ${bouquetCandleColour}\nBox Colour: ${bouquetBoxColour}\nScent: ${bouquetScent}\nQuantity: ${quantity}${specialInstructions ? `\nSpecial Instructions: ${specialInstructions}` : ""}\n\nTotal (excl. shipping): Rs.${bouquetTotal.toLocaleString()}.00`
+                  )}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block w-full"
+                >
+                  <Button variant="outline" className="w-full py-4 border-green-600 text-green-600 hover:bg-green-50 font-medium text-sm flex items-center justify-center gap-2">
+                    <SiWhatsapp className="w-4 h-4" /> order via whatsapp
+                  </Button>
+                </a>
+                <div className="bg-muted/60 rounded-md px-4 py-3 flex items-center gap-3 text-sm">
+                  <Timer className="w-4 h-4 text-muted-foreground shrink-0" />
+                  <span className="text-muted-foreground">made to order — allow <span className="font-semibold text-foreground">3–12 days</span> for production + delivery</span>
+                </div>
+                <div className="bg-muted/60 rounded-md px-4 py-3 space-y-2 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-3"><Truck className="w-4 h-4 shrink-0" /><span>delivery across Pakistan in 3–12 days</span></div>
+                  <div className="flex items-center gap-3"><Gift className="w-4 h-4 shrink-0" /><span>gift-ready packaging on every order</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tabs */}
+          <div className="mt-14 border-t border-border/40 pt-10">
+            <div className="flex gap-2 mb-8 flex-wrap justify-center">
+              {(["details", "how-to-use", "shipping"] as const).map((tab) => (
+                <button key={tab} onClick={() => setActiveTab(tab)}
+                  className={`px-5 py-2 rounded-full text-sm font-medium border transition-colors ${activeTab === tab ? "bg-foreground text-background border-foreground" : "bg-transparent text-muted-foreground border-border hover:border-foreground/40"}`}>
+                  {tab === "details" ? "Product Details" : tab === "how-to-use" ? "How to Use" : "Shipping & Return"}
+                </button>
+              ))}
+            </div>
+            {activeTab === "details" && desc && (
+              <div className="space-y-4 max-w-2xl mx-auto text-muted-foreground leading-relaxed">
+                <p className="font-medium text-foreground">{desc.headline}</p>
+                {desc.paragraphs.map((p, i) => (
+                  <p key={i} className={i === desc.paragraphs.length - 1 ? "font-medium text-foreground" : ""}>{p}</p>
+                ))}
+              </div>
+            )}
+            {activeTab === "how-to-use" && (
+              <ul className="space-y-3 max-w-xl mx-auto">
+                {[
+                  "Place the bouquet on a flat, heat-resistant surface away from draughts.",
+                  "Light individual candles one at a time using a long lighter or match.",
+                  "Trim each wick to 5mm before lighting for a clean, even burn.",
+                  "Do not leave burning candles unattended — always keep within sight.",
+                  "Candles can also be displayed unlit as a lasting decorative centrepiece.",
+                ].map((tip, i) => (
+                  <li key={i} className="flex gap-3 text-sm text-muted-foreground">
+                    <span className="text-foreground font-semibold shrink-0">{i + 1}.</span>{tip}
                   </li>
                 ))}
               </ul>

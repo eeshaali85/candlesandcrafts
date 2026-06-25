@@ -95,6 +95,42 @@ export function useUpdateCartQuantity() {
   return { mutate, isPending };
 }
 
+export function useAddBouquetToCart() {
+  const { toast } = useToast();
+
+  const addBouquet = useCallback((opts: {
+    productId: number;
+    name: string;
+    price: number;
+    image?: string;
+    quantity: number;
+  }) => {
+    const syntheticProduct: Product = {
+      id: opts.productId,
+      name: opts.name,
+      description: "Custom handcrafted candle bouquet",
+      price: String(opts.price),
+      image: opts.image ?? "",
+      category: "bouquet",
+      series: null,
+      stock: 999,
+    };
+    const cart = getStoredCart();
+    const existing = cart.find((i) => i.productId === opts.productId);
+    if (existing) {
+      existing.quantity += opts.quantity;
+      existing.product = syntheticProduct;
+    } else {
+      cart.push({ productId: opts.productId, quantity: opts.quantity, product: syntheticProduct });
+    }
+    saveCart(cart);
+    window.dispatchEvent(new Event("open-cart-drawer"));
+    toast({ title: "Added to cart", description: `${opts.name.split(" – ")[0]} has been added to your cart.` });
+  }, [toast]);
+
+  return { addBouquet };
+}
+
 export function useRemoveFromCart() {
   const { toast } = useToast();
   const [isPending, setIsPending] = useState(false);

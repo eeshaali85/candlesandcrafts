@@ -649,7 +649,7 @@ export default function Shop() {
                         price={bouquet.price}
                         image={bouquet.images?.[0]}
                         viewMode={viewMode}
-                        href={bouquet.images?.length ? `/product/candle/${bouquet.key}` : undefined}
+                        href={`/product/candle/${bouquet.key}`}
                       />
                     );
                   })}
