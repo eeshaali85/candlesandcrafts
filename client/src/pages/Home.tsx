@@ -11,7 +11,6 @@ import candlesStock from "@assets/stock_images/handcrafted_candles__78dd0cf3.jpg
 import homewareStock from "@assets/stock_images/modern_minimalist_ho_efcfdea8.jpg";
 import bouquetsStock from "@assets/stock_images/flower_bouquet_candl_69966b97.jpg";
 import vesselStock from "@assets/stock_images/vessel_candle_with_f_e840b005.jpg";
-import luxuryGiftStock from "@assets/stock_images/luxury_custom_gift_b_d50df118.jpg";
 
 export default function Home() {
   const [bestSellerPage, setBestSellerPage] = useState(0);
@@ -193,7 +192,7 @@ export default function Home() {
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{
-              backgroundImage: `url(${luxuryGiftStock})`,
+              backgroundImage: `url('/images/giveaway-statelife-boxes.jpg')`,
             }}
           />
           <div className="absolute inset-0 bg-black/30" />

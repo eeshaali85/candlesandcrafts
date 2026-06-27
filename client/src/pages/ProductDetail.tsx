@@ -2,7 +2,7 @@ import { useRoute } from "wouter";
 import { useProduct, useProducts } from "@/hooks/use-products";
 import { useAddToCart, useAddBouquetToCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
-import { Loader2, Minus, Plus, ArrowLeft, Timer, Truck, Gift } from "lucide-react";
+import { Loader2, Minus, Plus, ArrowLeft } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
@@ -273,7 +273,7 @@ export default function ProductDetail() {
     { value: "brown",  label: "Brown"  },
   ];
 
-  const slug = product?.slug ?? "";
+  const slug = product?.name?.toLowerCase().replace(/\s+/g, "-") ?? "";
   const isJarCandle = product?.category?.toLowerCase().includes("jar");
   const isDecorativeCandle =
     product?.category?.toLowerCase().includes("decorative") ||
@@ -603,14 +603,7 @@ export default function ProductDetail() {
                     <SiWhatsapp className="w-4 h-4" /> order via whatsapp
                   </Button>
                 </a>
-                <div className="bg-muted/60 rounded-md px-4 py-3 flex items-center gap-3 text-sm">
-                  <Timer className="w-4 h-4 text-muted-foreground shrink-0" />
-                  <span className="text-muted-foreground">made to order — allow <span className="font-semibold text-foreground">3–12 days</span> for production + delivery</span>
-                </div>
-                <div className="bg-muted/60 rounded-md px-4 py-3 space-y-2 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-3"><Truck className="w-4 h-4 shrink-0" /><span>delivery across Pakistan in 3–12 days</span></div>
-                  <div className="flex items-center gap-3"><Gift className="w-4 h-4 shrink-0" /><span>gift-ready packaging on every order</span></div>
-                </div>
+                <p className="text-sm text-muted-foreground">please mention date by when required or message on whatsapp for customisation or urgent deliveries</p>
               </div>
             </div>
           </div>
@@ -786,14 +779,7 @@ export default function ProductDetail() {
                     <SiWhatsapp className="w-4 h-4" /> order via whatsapp
                   </Button>
                 </a>
-                <div className="bg-muted/60 rounded-md px-4 py-3 flex items-center gap-3 text-sm">
-                  <Timer className="w-4 h-4 text-muted-foreground shrink-0" />
-                  <span className="text-muted-foreground">made to order — allow <span className="font-semibold text-foreground">3–12 days</span> for production + delivery</span>
-                </div>
-                <div className="bg-muted/60 rounded-md px-4 py-3 space-y-2 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-3"><Truck className="w-4 h-4 shrink-0" /><span>delivery across Pakistan in 3–12 days</span></div>
-                  <div className="flex items-center gap-3"><Gift className="w-4 h-4 shrink-0" /><span>gift-ready packaging on every order</span></div>
-                </div>
+                <p className="text-sm text-muted-foreground">please mention date by when required or message on whatsapp for customisation or urgent deliveries</p>
               </div>
             </div>
           </div>
