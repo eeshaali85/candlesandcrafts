@@ -250,35 +250,77 @@ export default function Home() {
               <CarouselContent className="-ml-4">
                 {[
                   {
-                    handle: "@nimrakhan_official",
-                    text: "This was the most creative way I could start my birthday! Who knew breakfast in bed could be so magical with your egg & toast candle!!😭",
-                    image: "/images/candles-hero.jpeg",
+                    handle: "Verified Customer",
+                    text: "I just wanted to say a big thank you for the incredible candle work! The quality, scent, and presentation exceeded all expectations. The one I gifted gave me very amazing compliments — truly a beautiful piece of art and fragrance. I'll definitely be approaching you again in the future for more.",
+                    image: "/images/luxe-series.jpg",
                     verified: true
                   },
                   {
-                    handle: "@meenaghorii",
-                    text: "So pretty! I loved it ✨💕",
-                    image: "/images/candles-collection.jpeg",
+                    handle: "Verified Customer",
+                    text: "I just wanted to drop a message and thank you so much for the souvenirs. They look so, so cute — I'm so happy with the way they turned out and the quality. The candle smell, you can instantly smell it the moment you open the box and it's so beautiful and fragrant. You did a wonderful job, thank you so much!",
+                    image: "/images/amber-series.jpg",
                     verified: true
                   },
                   {
-                    handle: "@Fatima Sajjad",
-                    text: "Its SO BEAUTIFUL! Fits my room's vibe perfectly 🎀🎀",
-                    image: "/images/candles-hero.jpeg",
-                    verified: false
-                  },
-                  {
-                    handle: "@sara_shaikh",
-                    text: "The scent is so calming, perfect for my workspace! 🕯️✨",
-                    image: "/images/candles-collection.jpeg",
+                    handle: "Verified Customer",
+                    text: "The box was wrapped so beautifully 😍 And I loved the bubblegummy scent of the blueberry! It's the perfect scent to accompany a long bath after a hard day at work 🤗",
+                    image: "/images/aurora-series.jpg",
                     verified: true
                   },
                   {
-                    handle: "@zainab_ali",
-                    text: "Obsessed with the packaging! Makes such a perfect gift. 🎁",
-                    image: "/images/candles-hero.jpeg",
+                    handle: "Verified Customer",
+                    text: "They smell soo potent and amazing. But so happy for the order, they're such big beautiful candles ❤️ Will take a pic as soon as I light them.",
+                    image: "/images/eclipse-series.jpg",
                     verified: true
-                  }
+                  },
+                  {
+                    handle: "Verified Customer",
+                    text: "I got my order yesterday. Literally when I lit the candle the entire room smelt so amazing within seconds ❤️ I love the cute matchstick bottle you included and it all looked very thought out. I'll definitely be recommending this to a lot of my friends.",
+                    image: "/images/mini-moments-series.jpg",
+                    verified: true
+                  },
+                  {
+                    handle: "Verified Customer",
+                    text: "Thank you guys so muchh!! The candles looked amazing in the gift baskets and you delivered it all in such short notice as well ❤️ Even though I'm really particular about the things I like, I loved all the smells.",
+                    image: "/images/gift-ramadan-eid-1.jpg",
+                    verified: true
+                  },
+                  {
+                    handle: "Verified Customer",
+                    text: "I'm super glad that I made a perfect choice to select you people. My fiancé and I totally loved the frame and candle gift box — it was so beautifully wrapped and smells divine 😍 And I recommended your candles to everyone there.",
+                    image: "/images/spring-medium-bouquet-1.jpg",
+                    verified: true
+                  },
+                  {
+                    handle: "Verified Customer",
+                    text: "received them and even the box smelled so good just as I opened it — they're both rlly cute and smell sooo good even unlit. if im really close to them they smell so sweet and good.",
+                    image: "/images/bouquet-xl-1.jpg",
+                    verified: true
+                  },
+                  {
+                    handle: "Verified Customer",
+                    text: "i love the package so much better than i expected. The picture was so nicely put and the packaging was amazing. Wasn't expecting this at all.",
+                    image: "/images/amber-series.jpg",
+                    verified: true
+                  },
+                  {
+                    handle: "Verified Customer",
+                    text: "Got the parcel and really loved it. The scent is so strong and nice — I was able to smell it even without opening the packaging. It was packed really nicely and thanks for the complimentary ones too... loved it ❤️🙏",
+                    image: "/images/aurora-series.jpg",
+                    verified: true
+                  },
+                  {
+                    handle: "Verified Customer",
+                    text: "Thank you! I've received the souvenirs, they look very well done and pretty and thank you so much for making this process easy for me 🤍",
+                    image: "/images/luxe-series.jpg",
+                    verified: true
+                  },
+                  {
+                    handle: "Verified Customer",
+                    text: "hello! i saw the candles! they're amazing!! i love how they smell (loved the bow and box they came in 🤗) thank you so much 🌺💕 vanilla is the best but blueberry isn't less either!!!!",
+                    image: "/images/eclipse-series.jpg",
+                    verified: true
+                  },
                 ].map((review, i) => (
                   <CarouselItem key={i} className="pl-4 md:basis-1/2 lg:basis-1/3">
                     <div className="flex gap-6 items-start group">
