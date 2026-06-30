@@ -613,7 +613,13 @@ export default function Shop() {
                   </h2>
                 )}
                 <div className={gridClass}>
-                  {sortedPillarCandles.map((candle) => (
+                  {sortedPillarCandles.map((candle) => {
+                    const pillarImages: Record<string, string> = {
+                      "bubble-candle":       "/images/bubble-candle.jpg",
+                      "heart-bubble-candle": "/images/heart-bubble-candle.jpg",
+                      "dog-candle":          "/images/dog-candle.jpg",
+                    };
+                    return (
                     <StaticProductCard
                       key={candle.key}
                       name={candle.displayName}
@@ -621,8 +627,10 @@ export default function Shop() {
                       weight={candle.weight}
                       viewMode={viewMode}
                       href={`/product/candle/${candle.key}`}
+                      image={pillarImages[candle.key]}
                     />
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
