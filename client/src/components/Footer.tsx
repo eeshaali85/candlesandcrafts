@@ -1,5 +1,6 @@
 import { Link } from "wouter";
-import { SiFacebook, SiInstagram, SiWhatsapp } from "react-icons/si";
+import { SiInstagram } from "react-icons/si";
+import { Mail } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -28,14 +29,11 @@ export function Footer() {
               <li>candlesandcraftss@gmail.com</li>
             </ul>
             <div className="flex gap-4 justify-center pt-2">
-              <a href="#" className="hover:opacity-80 transition-opacity" data-testid="link-facebook">
-                <SiFacebook className="w-5 h-5" />
-              </a>
-              <a href="https://www.instagram.com/candlesandcraftss/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-instagram">
+              <a href="https://www.instagram.com/candlesandcraftspk/?hl=en" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-instagram">
                 <SiInstagram className="w-5 h-5" />
               </a>
-              <a href="https://wa.me/923379229966" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" data-testid="link-whatsapp">
-                <SiWhatsapp className="w-5 h-5" />
+              <a href="mailto:candlesandcraftss@gmail.com" className="hover:opacity-80 transition-opacity" data-testid="link-email">
+                <Mail className="w-5 h-5" />
               </a>
             </div>
           </div>

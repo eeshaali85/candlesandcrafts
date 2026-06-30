@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ChevronRight, Star, CheckCircle2, Leaf, MapPin, Heart, HandHeart } from "lucide-react";
+import { ChevronRight, Star, Leaf, MapPin, Heart, HandHeart } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
@@ -340,13 +340,8 @@ export default function Home() {
                           {review.text}
                         </p>
                         
-                        {/* Handle & Verified */}
-                        <div className="flex items-center gap-1.5 mb-4">
-                          <span className="text-[10px] text-muted-foreground font-medium">{review.handle}</span>
-                          {review.verified && (
-                            <CheckCircle2 className="w-3 h-3 text-[#3897f0] fill-[#3897f0] stroke-white stroke-[2]" />
-                          )}
-                        </div>
+                        {/* Rating spacer */}
+                        <div className="mb-4" />
 
                         {/* Rating */}
                         <div className="flex gap-0.5">
