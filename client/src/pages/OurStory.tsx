@@ -5,17 +5,6 @@ export default function OurStory() {
   return (
     <div className="min-h-screen bg-background">
 
-      {/* ── Hero headline ── */}
-      <section className="px-6 pt-20 pb-12 md:pt-28 md:pb-16 max-w-6xl mx-auto">
-        <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground mb-6 flex items-center gap-3">
-          <span className="inline-block w-8 h-px bg-muted-foreground/50" />
-          our story
-        </p>
-        <h1 className="font-serif text-5xl md:text-7xl text-foreground font-normal leading-[1.05] max-w-3xl">
-          made by hand,<br />poured with care.
-        </h1>
-      </section>
-
       {/* ── Section 1: image left, text right ── */}
       <section className="max-w-6xl mx-auto px-6 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
@@ -40,22 +29,6 @@ export default function OurStory() {
               It all started with one test candle. From there came countless late nights experimenting with wax blends, testing fragrances, refining designs, and learning through plenty of trial and error. What began as a small passion project slowly grew into a brand that lights homes, celebrates special moments, and brings people together.
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* ── Stats strip ── */}
-      <section className="bg-card py-12 px-6 my-4">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[
-            { stat: "100%", label: "soy wax scented candles" },
-            { stat: "hand-poured", label: "every order" },
-            { stat: "care", label: "made with care" },
-          ].map(({ stat, label }) => (
-            <div key={stat} className="border border-foreground/10 rounded-2xl p-6 space-y-3 bg-background">
-              <p className="font-serif text-3xl md:text-4xl text-foreground font-normal leading-tight">{stat}</p>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{label}</p>
-            </div>
-          ))}
         </div>
       </section>
 
