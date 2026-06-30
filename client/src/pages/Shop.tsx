@@ -368,6 +368,12 @@ export const BOUQUET_CANDLES = [
   { key: "small-bouquet",  displayName: "Small Bouquet",  price: 2800,  images: [] as string[] },
   { key: "medium-bouquet", displayName: "Medium Bouquet", price: 5500,  images: [] as string[] },
   {
+    key: "spring-medium-bouquet",
+    displayName: "Spring Medium Bouquet",
+    price: 6000,
+    images: ["/images/spring-medium-bouquet-1.jpg", "/images/spring-medium-bouquet-2.jpg"],
+  },
+  {
     key: "xl-bouquet",
     displayName: "XL Bouquet",
     price: 14500,

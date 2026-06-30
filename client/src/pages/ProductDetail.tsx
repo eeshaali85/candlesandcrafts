@@ -104,8 +104,8 @@ export default function ProductDetail() {
   // XL Bouquet from slug route
   const xlBouquet = candleSlug === "xl-bouquet" ? BOUQUET_CANDLES.find((b) => b.key === "xl-bouquet") ?? null : null;
 
-  // Mini / Small / Medium bouquet from slug route
-  const otherBouquet = candleSlug && ["mini-bouquet", "small-bouquet", "medium-bouquet"].includes(candleSlug)
+  // Mini / Small / Medium / Spring bouquet from slug route
+  const otherBouquet = candleSlug && ["mini-bouquet", "small-bouquet", "medium-bouquet", "spring-medium-bouquet"].includes(candleSlug)
     ? BOUQUET_CANDLES.find((b) => b.key === candleSlug) ?? null
     : null;
 
@@ -114,6 +114,7 @@ export default function ProductDetail() {
     "small-bouquet": -2,
     "medium-bouquet": -3,
     "xl-bouquet": -4,
+    "spring-medium-bouquet": -5,
   };
 
   const bouquetDescriptions: Record<string, { headline: string; paragraphs: string[] }> = {
@@ -139,6 +140,15 @@ export default function ProductDetail() {
       headline: "A grand and generous candle bouquet that commands attention and fills any space with effortless elegance.",
       paragraphs: [
         "The Medium Bouquet features a lush arrangement of handcrafted flower candles nestled among delicate baby's breath, beautifully presented in our gift-ready bouquet box. Each arrangement is carefully assembled by hand, ensuring every bouquet feels unique and thoughtfully crafted.",
+        "Personalize your bouquet by choosing your preferred box colour and candle colour palette — from timeless all-white arrangements to soft pastels, romantic pinks, lilacs, or a custom combination that suits your occasion.",
+        "Crafted from our premium soy-paraffin wax blend, the candles maintain their shape beautifully while providing lasting quality. Finished with a ribbon, every bouquet arrives ready for gifting. Add your favourite fragrance at checkout.",
+        "Candle Care: Remove individual candles from the bouquet before lighting and place them on a heat-resistant surface.",
+      ],
+    },
+    "spring-medium-bouquet": {
+      headline: "A fresh, romantic candle bouquet inspired by the soft beauty of a spring garden in full bloom.",
+      paragraphs: [
+        "The Spring Medium Bouquet features 36 handcrafted peony bud candles, delicately sculpted to capture the lush, layered fullness of a fresh peony. Each bud is arranged by hand into a full, rounded bouquet that feels as luxurious as it looks — beautifully presented in our gift-ready bouquet box.",
         "Personalize your bouquet by choosing your preferred box colour and candle colour palette — from timeless all-white arrangements to soft pastels, romantic pinks, lilacs, or a custom combination that suits your occasion.",
         "Crafted from our premium soy-paraffin wax blend, the candles maintain their shape beautifully while providing lasting quality. Finished with a ribbon, every bouquet arrives ready for gifting. Add your favourite fragrance at checkout.",
         "Candle Care: Remove individual candles from the bouquet before lighting and place them on a heat-resistant surface.",
@@ -672,11 +682,25 @@ export default function ProductDetail() {
             <ArrowLeft className="w-4 h-4" /> Back to Shop
           </Button>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-            {/* Image placeholder */}
-            <div className="lg:sticky lg:top-24">
+            {/* Image */}
+            <div className="lg:sticky lg:top-24 space-y-3">
               <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-secondary/20 flex items-center justify-center">
-                <span className="text-muted-foreground text-sm lowercase">coming soon</span>
+                {otherBouquet.images.length > 0 ? (
+                  <img src={otherBouquet.images[activeBouquetImg]} alt={otherBouquet.displayName} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-muted-foreground text-sm lowercase">coming soon</span>
+                )}
               </div>
+              {otherBouquet.images.length > 1 && (
+                <div className="flex gap-2">
+                  {otherBouquet.images.map((img, i) => (
+                    <button key={i} onClick={() => setActiveBouquetImg(i)}
+                      className={`flex-1 aspect-square rounded-lg overflow-hidden border-2 transition-colors ${activeBouquetImg === i ? "border-primary" : "border-transparent"}`}>
+                      <img src={img} alt={`${otherBouquet.displayName} view ${i + 1}`} className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             {/* Info */}
             <div className="space-y-6">
