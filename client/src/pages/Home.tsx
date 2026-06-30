@@ -162,10 +162,10 @@ export default function Home() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { name: "jar candles", image: "/images/candles-hero.jpeg", href: "/shop?category=jar-candles" },
+            { name: "jar candles", image: "/images/amber-series.jpg", href: "/shop?category=jar-candles" },
             { name: "decorative candles", image: "/images/candles-collection.jpeg", href: "/shop?category=decorative-candles" },
-            { name: "bouquets", image: "/images/candles-hero.jpeg", href: "/shop?category=bouquets" },
-            { name: "gift sets", image: "/images/candles-collection.jpeg", href: "/shop?category=gift-sets" },
+            { name: "bouquets", image: "/images/spring-medium-bouquet-1.jpg", href: "/shop?category=bouquets" },
+            { name: "gift sets", image: "/images/gift-ramadan-eid-1.jpg", href: "/shop?category=gift-sets" },
           ].map((cat, i) => (
             <Link key={i} href={cat.href} data-testid={`link-category-${cat.name.replace(/\s+/g, '-')}`}>
               <div className="group relative aspect-[3/4] overflow-hidden rounded-md cursor-pointer">
