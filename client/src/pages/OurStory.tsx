@@ -1,5 +1,3 @@
-import candlesHero from "@assets/stock_images/handcrafted_candles__78dd0cf3.jpg";
-import bouquetsStock from "@assets/stock_images/flower_bouquet_candl_69966b97.jpg";
 
 export default function OurStory() {
   return (
@@ -10,8 +8,8 @@ export default function OurStory() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
           <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-muted">
             <img
-              src="/images/candles-hero.jpeg"
-              alt="Handcrafted candles"
+              src="/images/amber-series.jpg"
+              alt="Jar candles"
               className="w-full h-full object-cover"
             />
           </div>
@@ -46,13 +44,13 @@ export default function OurStory() {
               Our decorative candles are crafted from a carefully developed <strong className="text-foreground">soy and paraffin wax blend</strong>, allowing them to hold their intricate details and withstand Pakistan's warm climate without compromising on quality.
             </p>
             <p className="text-foreground/70 leading-relaxed text-sm md:text-base">
-              None of it would have been possible without your support — and we are endlessly grateful.
+              None of it would have been possible without your support and we are endlessly grateful.
             </p>
           </div>
           <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-muted md:order-2">
             <img
-              src={candlesHero}
-              alt="Candle making process"
+              src="/images/luxe-series.jpg"
+              alt="Jar candles"
               className="w-full h-full object-cover"
             />
           </div>
@@ -64,8 +62,8 @@ export default function OurStory() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
           <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-muted">
             <img
-              src={bouquetsStock}
-              alt="Giving back to animal shelters"
+              src="/images/spring-medium-bouquet-1.jpg"
+              alt="Bouquet candle"
               className="w-full h-full object-cover"
             />
           </div>
@@ -74,7 +72,7 @@ export default function OurStory() {
               giving back
             </h2>
             <p className="text-foreground/70 leading-relaxed text-sm md:text-base">
-              The most meaningful part of this journey is what it allows us to give back. A portion of every order goes towards supporting animal shelters — helping provide food, medical care, and shelter for animals waiting for a second chance.
+              The most meaningful part of this journey is what it allows us to give back. A portion of every order goes towards supporting animal shelters,helping provide food, medical care, and shelter for animals waiting for a second chance.
             </p>
             <p className="text-foreground/70 leading-relaxed text-sm md:text-base">
               We are proud to support <strong className="text-foreground">ACF</strong> and <strong className="text-foreground">ARTS</strong>, two organisations doing incredible work to care for and rescue animals in need.
