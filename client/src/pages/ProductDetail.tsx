@@ -856,9 +856,16 @@ export default function ProductDetail() {
   }
 
   // For slug-based static candle routes — no DB fetch needed
+  const pillarImages: Record<string, string> = {
+    "bubble-candle":       "/images/bubble-candle.jpg",
+    "heart-bubble-candle": "/images/heart-bubble-candle.jpg",
+    "dog-candle":          "/images/dog-candle.jpg",
+  };
+
   if (staticCandle) {
     const basePrice = staticCandle[selectedScented];
     const candleDescription = candleSlug ? pillarDescriptions[candleSlug] : undefined;
+    const pillarImage = candleSlug ? pillarImages[candleSlug] : undefined;
     return (
       <div className="min-h-screen bg-background">
         <div className="max-w-6xl mx-auto px-4 py-8">
@@ -868,8 +875,12 @@ export default function ProductDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
             {/* Sticky image */}
             <div className="lg:sticky lg:top-24 space-y-3">
-              <div className="aspect-square bg-secondary/30 rounded-2xl flex items-center justify-center">
-                <span className="text-muted-foreground text-sm">coming soon</span>
+              <div className="aspect-square bg-secondary/30 rounded-2xl overflow-hidden flex items-center justify-center">
+                {pillarImage ? (
+                  <img src={pillarImage} alt={staticCandle.displayName} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-muted-foreground text-sm">coming soon</span>
+                )}
               </div>
             </div>
             {/* Scrollable Info */}

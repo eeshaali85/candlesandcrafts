@@ -323,33 +323,17 @@ export default function Home() {
                   },
                 ].map((review, i) => (
                   <CarouselItem key={i} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                    <div className="flex gap-6 items-start group">
-                      {/* Image Card */}
-                      <div className="w-1/2 aspect-[4/5] rounded-lg overflow-hidden bg-muted shadow-sm transform -rotate-1 group-hover:rotate-0 transition-transform duration-500">
-                        <img
-                          src={review.image}
-                          alt={review.handle}
-                          className="w-full h-full object-cover rounded-lg"
-                        />
+                    <div className="flex flex-col gap-4 p-5 bg-background rounded-xl border border-foreground/8 h-full">
+                      {/* Rating */}
+                      <div className="flex gap-0.5">
+                        {[...Array(5)].map((_, j) => (
+                          <Star key={j} className="w-3 h-3 fill-[#4a4a4a] text-[#4a4a4a]" />
+                        ))}
                       </div>
-                      
-                      {/* Content */}
-                      <div className="w-1/2 pt-4 relative">
-                        {/* Text */}
-                        <p className="text-[11px] md:text-xs text-foreground/80 leading-relaxed mb-4 font-light italic">
-                          {review.text}
-                        </p>
-                        
-                        {/* Rating spacer */}
-                        <div className="mb-4" />
-
-                        {/* Rating */}
-                        <div className="flex gap-0.5">
-                          {[...Array(5)].map((_, j) => (
-                            <Star key={j} className="w-3 h-3 fill-[#4a4a4a] text-[#4a4a4a]" />
-                          ))}
-                        </div>
-                      </div>
+                      {/* Text */}
+                      <p className="text-[11px] md:text-xs text-foreground/80 leading-relaxed font-light italic flex-1">
+                        "{review.text}"
+                      </p>
                     </div>
                   </CarouselItem>
                 ))}
