@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -13,18 +13,19 @@ import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
 import Profile from "@/pages/Profile";
 import CustomGiveaways from "@/pages/CustomGiveaways";
+import Admin from "@/pages/Admin";
 
 function Router() {
+  const [location] = useLocation();
+  const isAdmin = location.startsWith("/admin");
+
   return (
     <div className="flex flex-col min-h-screen font-sans antialiased text-foreground bg-background">
-      <Navbar />
+      {!isAdmin && <Navbar />}
       <main className="flex-grow">
         <Switch>
           <Route path="/">
-            {(params) => {
-              // Force home page if we are at root
-              return <Home />;
-            }}
+            {() => <Home />}
           </Route>
           <Route path="/shop" component={Shop} />
           <Route path="/our-story" component={OurStory} />
@@ -34,10 +35,11 @@ function Router() {
           <Route path="/checkout" component={Checkout} />
           <Route path="/profile" component={Profile} />
           <Route path="/giveaways" component={CustomGiveaways} />
+          <Route path="/admin" component={Admin} />
           <Route component={NotFound} />
         </Switch>
       </main>
-      <Footer />
+      {!isAdmin && <Footer />}
     </div>
   );
 }
