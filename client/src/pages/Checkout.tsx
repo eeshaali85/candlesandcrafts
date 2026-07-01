@@ -15,6 +15,7 @@ import {
 import { Link } from "wouter";
 import { useState } from "react";
 import { checkoutDetailsSchema, type CheckoutDetails } from "@shared/schema";
+import { useToast } from "@/hooks/use-toast";
 
 const SHIPPING_COST = 300;
 
@@ -356,6 +357,7 @@ function PolicyFooter() {
 export default function Checkout() {
   const { data: cartItems, isLoading } = useCart();
   const createOrder = useCreateOrder();
+  const { toast } = useToast();
 
   const [formData, setFormData] = useState<CheckoutDetails>({
     email: "",
@@ -521,7 +523,16 @@ export default function Checkout() {
   };
 
   const handlePlaceOrder = () => {
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      toast({ title: "Please fill in all required fields", variant: "destructive" });
+      const firstError = document.querySelector("[data-error='true']");
+      if (firstError) firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    if (!cartItems || cartItems.length === 0) {
+      toast({ title: "Your cart is empty", variant: "destructive" });
+      return;
+    }
     const orderInput = {
       ...formData,
       items: cartItems.map((item) => ({
@@ -532,6 +543,7 @@ export default function Checkout() {
     createOrder.mutate(orderInput, {
       onSuccess: (order) => {
         setConfirmedOrder(order);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       },
     });
   };
@@ -593,7 +605,7 @@ export default function Checkout() {
                         data-testid="input-first-name"
                       />
                       {formErrors.firstName && (
-                        <p className="text-xs text-destructive mt-1">
+                        <p className="text-xs text-destructive mt-1" data-error="true">
                           {formErrors.firstName}
                         </p>
                       )}
@@ -609,7 +621,7 @@ export default function Checkout() {
                         data-testid="input-last-name"
                       />
                       {formErrors.lastName && (
-                        <p className="text-xs text-destructive mt-1">
+                        <p className="text-xs text-destructive mt-1" data-error="true">
                           {formErrors.lastName}
                         </p>
                       )}
@@ -625,7 +637,7 @@ export default function Checkout() {
                       data-testid="input-address"
                     />
                     {formErrors.address && (
-                      <p className="text-xs text-destructive mt-1">
+                      <p className="text-xs text-destructive mt-1" data-error="true">
                         {formErrors.address}
                       </p>
                     )}
@@ -651,7 +663,7 @@ export default function Checkout() {
                         data-testid="input-city"
                       />
                       {formErrors.city && (
-                        <p className="text-xs text-destructive mt-1">
+                        <p className="text-xs text-destructive mt-1" data-error="true">
                           {formErrors.city}
                         </p>
                       )}
@@ -678,7 +690,7 @@ export default function Checkout() {
                       data-testid="input-phone"
                     />
                     {formErrors.phone && (
-                      <p className="text-xs text-destructive mt-1">
+                      <p className="text-xs text-destructive mt-1" data-error="true">
                         {formErrors.phone}
                       </p>
                     )}
