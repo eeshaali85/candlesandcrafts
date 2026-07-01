@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import {
   users, products, cartItems, orders, orderItems, newsletterSubscribers,
   type User, type InsertUser, type Product, type CartItem, type Order, type InsertCartItem, type CheckoutDetails, type NewsletterSubscriber
