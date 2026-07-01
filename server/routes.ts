@@ -7,13 +7,8 @@ import { guestCheckoutSchema } from "@shared/schema";
 import { z } from "zod";
 
 const isAdmin: RequestHandler = (req, res, next) => {
-  const user = req.user as any;
-  if (!req.isAuthenticated() || !user?.claims?.sub) {
+  if (!(req.session as any).adminLoggedIn) {
     return res.status(401).json({ message: "Unauthorized" });
-  }
-  const adminId = process.env.ADMIN_USER_ID;
-  if (!adminId || user.claims.sub !== adminId) {
-    return res.status(403).json({ message: "Forbidden", yourId: user.claims.sub });
   }
   next();
 };
@@ -123,15 +118,30 @@ export async function registerRoutes(
     res.json(req.user || null);
   });
 
+  // ── Admin: password-based login (no Replit dependency) ──────────────────────
+  app.post("/api/admin/login", (req, res) => {
+    const { username, password } = req.body;
+    const adminUser = process.env.ADMIN_USERNAME || "admin";
+    const adminPass = process.env.ADMIN_PASSWORD;
+    if (!adminPass) {
+      return res.status(500).json({ message: "ADMIN_PASSWORD not configured" });
+    }
+    if (username === adminUser && password === adminPass) {
+      (req.session as any).adminLoggedIn = true;
+      return res.json({ ok: true });
+    }
+    res.status(401).json({ message: "Invalid credentials" });
+  });
+
+  app.post("/api/admin/logout", (req, res) => {
+    (req.session as any).adminLoggedIn = false;
+    res.json({ ok: true });
+  });
+
   // ── Admin: current session info (used by frontend to check access) ──────────
   app.get("/api/admin/me", (req, res) => {
-    const user = req.user as any;
-    if (!req.isAuthenticated() || !user?.claims?.sub) {
-      return res.status(401).json({ authenticated: false });
-    }
-    const adminId = process.env.ADMIN_USER_ID;
-    const isAdminUser = !!adminId && user.claims.sub === adminId;
-    res.json({ authenticated: true, isAdmin: isAdminUser, userId: user.claims.sub });
+    const loggedIn = !!(req.session as any).adminLoggedIn;
+    res.json({ authenticated: loggedIn, isAdmin: loggedIn });
   });
 
   // ── Admin: Products ──────────────────────────────────────────────────────────

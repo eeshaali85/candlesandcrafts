@@ -61,13 +61,28 @@ export default function Admin() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [addForm, setAddForm] = useState<typeof emptyForm>(emptyForm);
   const [expandedOrder, setExpandedOrder] = useState<number | null>(null);
+  const [loginForm, setLoginForm] = useState({ username: "", password: "" });
+  const [loginError, setLoginError] = useState("");
 
-  const { data: session, isLoading: sessionLoading } = useQuery<{
+  const { data: session, isLoading: sessionLoading, refetch: refetchSession } = useQuery<{
     authenticated: boolean;
     isAdmin: boolean;
-    userId?: string;
   }>({
     queryKey: ["/api/admin/me"],
+  });
+
+  const loginMutation = useMutation({
+    mutationFn: () => apiRequest("POST", "/api/admin/login", loginForm),
+    onSuccess: () => {
+      setLoginError("");
+      refetchSession();
+    },
+    onError: () => setLoginError("Invalid username or password."),
+  });
+
+  const logoutMutation = useMutation({
+    mutationFn: () => apiRequest("POST", "/api/admin/logout", {}),
+    onSuccess: () => refetchSession(),
   });
 
   const { data: products, isLoading: productsLoading } = useQuery<Product[]>({
@@ -151,32 +166,44 @@ export default function Admin() {
   if (!session?.authenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center max-w-sm p-8 bg-white rounded-2xl shadow-sm border">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Admin Panel</h1>
-          <p className="text-gray-500 mb-6 text-sm">You need to log in with your Replit account to continue.</p>
-          <a
-            href="/api/login"
-            className="inline-block px-6 py-3 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
-          >
-            Log in with Replit
-          </a>
-        </div>
-      </div>
-    );
-  }
-
-  if (!session?.isAdmin) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center max-w-sm p-8 bg-white rounded-2xl shadow-sm border">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h1>
-          <p className="text-gray-500 mb-4 text-sm">
-            Your account isn't set up as admin yet. Copy your user ID below and set it as the <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">ADMIN_USER_ID</code> environment variable.
-          </p>
-          <div className="bg-gray-100 rounded-lg px-4 py-3 text-xs font-mono text-gray-700 break-all mb-4 text-left">
-            {session.userId}
+        <div className="max-w-sm w-full p-8 bg-white rounded-2xl shadow-sm border">
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">Admin Login</h1>
+          <p className="text-gray-400 text-sm mb-6">Candles & Crafts</p>
+          <div className="space-y-3">
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Username</label>
+              <input
+                type="text"
+                value={loginForm.username}
+                onChange={e => setLoginForm(f => ({ ...f, username: e.target.value }))}
+                onKeyDown={e => e.key === "Enter" && loginMutation.mutate()}
+                placeholder="admin"
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-200"
+                data-testid="input-username"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Password</label>
+              <input
+                type="password"
+                value={loginForm.password}
+                onChange={e => setLoginForm(f => ({ ...f, password: e.target.value }))}
+                onKeyDown={e => e.key === "Enter" && loginMutation.mutate()}
+                placeholder="••••••••"
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-200"
+                data-testid="input-password"
+              />
+            </div>
+            {loginError && <p className="text-red-500 text-xs">{loginError}</p>}
+            <button
+              onClick={() => loginMutation.mutate()}
+              disabled={loginMutation.isPending || !loginForm.username || !loginForm.password}
+              className="w-full py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
+              data-testid="button-login"
+            >
+              {loginMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Login"}
+            </button>
           </div>
-          <p className="text-xs text-gray-400">After setting the env variable, restart the app and refresh this page.</p>
         </div>
       </div>
     );
@@ -205,9 +232,12 @@ export default function Admin() {
         </div>
         <div className="flex items-center gap-4">
           <a href="/" className="text-sm text-gray-500 hover:text-gray-800 transition-colors">← View Store</a>
-          <a href="/api/logout" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors">
+          <button
+            onClick={() => logoutMutation.mutate()}
+            className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors"
+          >
             <LogOut className="w-4 h-4" /> Logout
-          </a>
+          </button>
         </div>
       </header>
 
