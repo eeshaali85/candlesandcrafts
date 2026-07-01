@@ -731,10 +731,14 @@ export default function Checkout() {
                   {formData.paymentMethod === "bank_deposit" && (
                     <div className="px-4 py-4 bg-muted/20 border-t border-border text-sm space-y-3">
                       <div className="space-y-1">
-                        <p className="font-semibold">Bank Transfer Details:</p>
-                        <p>Bank Name: Faysal Bank Limited</p>
+                        <p className="font-semibold">Faysal Bank:</p>
                         <p>IBAN: PK80FAYS3565383000002240</p>
                         <p>Account Number: 3565383000002240</p>
+                        <p>Account Title: Eesha Ali</p>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="font-semibold">NayaPay:</p>
+                        <p>Account: 03379229966</p>
                         <p>Account Title: Eesha Ali</p>
                       </div>
                       <div className="space-y-1 text-muted-foreground">
