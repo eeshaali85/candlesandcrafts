@@ -5,6 +5,7 @@ import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { guestCheckoutSchema } from "@shared/schema";
 import { z } from "zod";
+import bcrypt from "bcrypt";
 
 const isAdmin: RequestHandler = (req, res, next) => {
   if (!(req.session as any).adminLoggedIn) {
@@ -116,6 +117,55 @@ export async function registerRoutes(
   // Auth user endpoint for frontend
   app.get(api.auth.me.path, (req, res) => {
     res.json(req.user || null);
+  });
+
+  // ── Customer Auth ────────────────────────────────────────────────────────────
+  app.post("/api/auth/signup", async (req, res) => {
+    const { username, password, email, firstName, lastName } = req.body;
+    if (!username || !password) return res.status(400).json({ message: "Username and password required" });
+    if (password.length < 6) return res.status(400).json({ message: "Password must be at least 6 characters" });
+    const existing = await storage.getUserByUsername(username);
+    if (existing) return res.status(409).json({ message: "Username already taken" });
+    const hashed = await bcrypt.hash(password, 10);
+    const user = await storage.createUser({ username, password: hashed, email: email || null, firstName: firstName || null, lastName: lastName || null, phone: null, address: null, city: null });
+    (req.session as any).customerId = user.id;
+    const { password: _, ...safeUser } = user;
+    res.status(201).json(safeUser);
+  });
+
+  app.post("/api/auth/login", async (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) return res.status(400).json({ message: "Username and password required" });
+    const user = await storage.getUserByUsername(username);
+    if (!user) return res.status(401).json({ message: "Invalid username or password" });
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) return res.status(401).json({ message: "Invalid username or password" });
+    (req.session as any).customerId = user.id;
+    const { password: _, ...safeUser } = user;
+    res.json(safeUser);
+  });
+
+  app.post("/api/auth/logout", (req, res) => {
+    (req.session as any).customerId = null;
+    res.json({ ok: true });
+  });
+
+  app.get("/api/auth/customer", async (req, res) => {
+    const id = (req.session as any).customerId;
+    if (!id) return res.status(401).json(null);
+    const user = await storage.getUser(id);
+    if (!user) return res.status(401).json(null);
+    const { password: _, ...safeUser } = user;
+    res.json(safeUser);
+  });
+
+  app.patch("/api/auth/profile", async (req, res) => {
+    const id = (req.session as any).customerId;
+    if (!id) return res.status(401).json({ message: "Not logged in" });
+    const { email, firstName, lastName, phone, address, city } = req.body;
+    const updated = await storage.updateUserProfile(id, { email, firstName, lastName, phone, address, city });
+    const { password: _, ...safeUser } = updated;
+    res.json(safeUser);
   });
 
   // ── Admin: password-based login (no Replit dependency) ──────────────────────

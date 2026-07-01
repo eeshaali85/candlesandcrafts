@@ -14,6 +14,7 @@ import Checkout from "@/pages/Checkout";
 import Profile from "@/pages/Profile";
 import CustomGiveaways from "@/pages/CustomGiveaways";
 import Admin from "@/pages/Admin";
+import Login from "@/pages/Login";
 
 function Router() {
   const [location] = useLocation();
@@ -35,6 +36,7 @@ function Router() {
           <Route path="/checkout" component={Checkout} />
           <Route path="/profile" component={Profile} />
           <Route path="/giveaways" component={CustomGiveaways} />
+          <Route path="/login" component={Login} />
           <Route path="/admin" component={Admin} />
           <Route component={NotFound} />
         </Switch>
