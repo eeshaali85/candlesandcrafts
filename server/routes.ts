@@ -5,6 +5,7 @@ import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { guestCheckoutSchema } from "@shared/schema";
 import { z } from "zod";
+import nodemailer from "nodemailer";
 
 const isAdmin: RequestHandler = (req, res, next) => {
   const user = req.user as any;
@@ -18,12 +19,48 @@ const isAdmin: RequestHandler = (req, res, next) => {
   next();
 };
 
+function createMailTransporter() {
+  const user = process.env.GMAIL_USER;
+  const pass = process.env.GMAIL_APP_PASSWORD;
+  if (!user || !pass) return null;
+  return nodemailer.createTransport({
+    service: "gmail",
+    auth: { user, pass },
+  });
+}
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
   // Set up Replit Auth
   setupAuth(app);
+
+  // Newsletter subscription
+  app.post("/api/newsletter", async (req, res) => {
+    const { email } = req.body;
+    if (!email || typeof email !== "string" || !email.includes("@")) {
+      return res.status(400).json({ message: "Valid email required" });
+    }
+    const transporter = createMailTransporter();
+    if (!transporter) {
+      console.warn("Email not configured — GMAIL_USER / GMAIL_APP_PASSWORD missing");
+      return res.status(200).json({ message: "Subscribed" });
+    }
+    try {
+      await transporter.sendMail({
+        from: process.env.GMAIL_USER,
+        to: process.env.GMAIL_USER,
+        subject: "New Newsletter Subscriber — CandlesandCrafts",
+        text: `A new visitor subscribed to the newsletter:\n\nEmail: ${email}`,
+        html: `<p>A new visitor subscribed to the newsletter:</p><p><strong>${email}</strong></p>`,
+      });
+      res.json({ message: "Subscribed" });
+    } catch (err) {
+      console.error("Newsletter email error:", err);
+      res.status(500).json({ message: "Failed to send" });
+    }
+  });
 
   // Products
   app.get(api.products.list.path, async (req, res) => {

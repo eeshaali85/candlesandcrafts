@@ -7,6 +7,27 @@ import { Button } from "@/components/ui/button";
 
 export function Footer() {
   const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+
+  async function handleSubscribe() {
+    if (!email || !email.includes("@")) return;
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setStatus("done");
+        setEmail("");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  }
 
   return (
     <footer className="bg-foreground text-background py-12 px-4">
@@ -42,22 +63,32 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-sans uppercase tracking-widest mb-6 text-background">newsletter</h3>
             <p className="text-sm opacity-80 mb-4">Subscribe to our newsletter</p>
-            <div className="flex flex-col gap-2">
-              <Input
-                type="email"
-                placeholder="Enter your email here*"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-transparent border-background/50 text-background placeholder:text-background/60"
-                data-testid="input-footer-newsletter-email"
-              />
-              <Button 
-                className="w-full bg-background/20 hover:bg-background/30 text-background border border-background/50"
-                data-testid="button-footer-newsletter-join"
-              >
-                Join
-              </Button>
-            </div>
+            {status === "done" ? (
+              <p className="text-sm text-background/80">Thank you for subscribing! 🕯️</p>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <Input
+                  type="email"
+                  placeholder="Enter your email here*"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
+                  className="bg-transparent border-background/50 text-background placeholder:text-background/60"
+                  data-testid="input-footer-newsletter-email"
+                />
+                <Button
+                  onClick={handleSubscribe}
+                  disabled={status === "loading"}
+                  className="w-full bg-background/20 hover:bg-background/30 text-background border border-background/50"
+                  data-testid="button-footer-newsletter-join"
+                >
+                  {status === "loading" ? "Sending..." : "Join"}
+                </Button>
+                {status === "error" && (
+                  <p className="text-xs text-red-300">Something went wrong. Please try again.</p>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
