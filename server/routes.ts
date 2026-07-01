@@ -5,7 +5,6 @@ import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { guestCheckoutSchema } from "@shared/schema";
 import { z } from "zod";
-import nodemailer from "nodemailer";
 
 const isAdmin: RequestHandler = (req, res, next) => {
   const user = req.user as any;
@@ -18,16 +17,6 @@ const isAdmin: RequestHandler = (req, res, next) => {
   }
   next();
 };
-
-function createMailTransporter() {
-  const user = process.env.GMAIL_USER;
-  const pass = process.env.GMAIL_APP_PASSWORD;
-  if (!user || !pass) return null;
-  return nodemailer.createTransport({
-    service: "gmail",
-    auth: { user, pass },
-  });
-}
 
 export async function registerRoutes(
   httpServer: Server,
@@ -42,24 +31,19 @@ export async function registerRoutes(
     if (!email || typeof email !== "string" || !email.includes("@")) {
       return res.status(400).json({ message: "Valid email required" });
     }
-    const transporter = createMailTransporter();
-    if (!transporter) {
-      console.warn("Email not configured — GMAIL_USER / GMAIL_APP_PASSWORD missing");
-      return res.status(200).json({ message: "Subscribed" });
-    }
     try {
-      await transporter.sendMail({
-        from: process.env.GMAIL_USER,
-        to: process.env.GMAIL_USER,
-        subject: "New Newsletter Subscriber — CandlesandCrafts",
-        text: `A new visitor subscribed to the newsletter:\n\nEmail: ${email}`,
-        html: `<p>A new visitor subscribed to the newsletter:</p><p><strong>${email}</strong></p>`,
-      });
-      res.json({ message: "Subscribed" });
+      const sub = await storage.addSubscriber(email);
+      res.json({ message: "Subscribed", subscriber: sub });
     } catch (err) {
-      console.error("Newsletter email error:", err);
-      res.status(500).json({ message: "Failed to send" });
+      console.error("Newsletter error:", err);
+      res.status(500).json({ message: "Failed to subscribe" });
     }
+  });
+
+  // Get all subscribers (admin only)
+  app.get("/api/newsletter/subscribers", isAdmin, async (_req, res) => {
+    const subscribers = await storage.getSubscribers();
+    res.json(subscribers);
   });
 
   // Products

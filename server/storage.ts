@@ -1,8 +1,8 @@
 import { db } from "./db";
 import { eq, and } from "drizzle-orm";
 import {
-  users, products, cartItems, orders, orderItems,
-  type User, type InsertUser, type Product, type CartItem, type Order, type InsertCartItem, type CheckoutDetails
+  users, products, cartItems, orders, orderItems, newsletterSubscribers,
+  type User, type InsertUser, type Product, type CartItem, type Order, type InsertCartItem, type CheckoutDetails, type NewsletterSubscriber
 } from "@shared/schema";
 
 export interface IStorage {
@@ -29,6 +29,10 @@ export interface IStorage {
   updateCartQuantity(id: number, quantity: number): Promise<CartItem>;
   getOrders(userId: number): Promise<(Order & { items: (typeof orderItems.$inferSelect & { product: Product })[] })[]>;
   getAllOrders(): Promise<(Order & { items: (typeof orderItems.$inferSelect & { product: Product })[] })[]>;
+
+  // Newsletter
+  addSubscriber(email: string): Promise<NewsletterSubscriber>;
+  getSubscribers(): Promise<NewsletterSubscriber[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -158,6 +162,17 @@ export class DatabaseStorage implements IStorage {
   async getAllOrders(): Promise<(Order & { items: (typeof orderItems.$inferSelect & { product: Product })[] })[]> {
     const allOrders = await db.select().from(orders).orderBy(orders.createdAt);
     return this._populateOrderItems(allOrders);
+  }
+
+  async addSubscriber(email: string): Promise<NewsletterSubscriber> {
+    const [existing] = await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.email, email));
+    if (existing) return existing;
+    const [sub] = await db.insert(newsletterSubscribers).values({ email }).returning();
+    return sub;
+  }
+
+  async getSubscribers(): Promise<NewsletterSubscriber[]> {
+    return await db.select().from(newsletterSubscribers).orderBy(newsletterSubscribers.createdAt);
   }
 
   private async _populateOrderItems(orderList: Order[]) {

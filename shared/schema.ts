@@ -47,6 +47,12 @@ export const orders = pgTable("orders", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const newsletterSubscribers = pgTable("newsletter_subscribers", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const orderItems = pgTable("order_items", {
   id: serial("id").primaryKey(),
   orderId: integer("order_id").references(() => orders.id),
@@ -122,6 +128,7 @@ export type CheckoutDetails = z.infer<typeof checkoutDetailsSchema>;
 export type GuestCheckoutInput = z.infer<typeof guestCheckoutSchema>;
 
 // Types
+export type NewsletterSubscriber = typeof newsletterSubscribers.$inferSelect;
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type Product = typeof products.$inferSelect;

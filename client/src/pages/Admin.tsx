@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Plus, Pencil, Trash2, X, Check, Package, ShoppingBag, LogOut, ChevronDown, ChevronUp } from "lucide-react";
+import { Loader2, Plus, Pencil, Trash2, X, Check, Package, ShoppingBag, LogOut, ChevronDown, ChevronUp, Mail } from "lucide-react";
 
 type Product = {
   id: number;
@@ -55,7 +55,7 @@ const emptyForm = {
 
 export default function Admin() {
   const { toast } = useToast();
-  const [tab, setTab] = useState<"products" | "orders">("products");
+  const [tab, setTab] = useState<"products" | "orders" | "subscribers">("products");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<typeof emptyForm>(emptyForm);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -78,6 +78,11 @@ export default function Admin() {
   const { data: orders, isLoading: ordersLoading } = useQuery<Order[]>({
     queryKey: ["/api/admin/orders"],
     enabled: session?.isAdmin === true && tab === "orders",
+  });
+
+  const { data: subscribers, isLoading: subscribersLoading } = useQuery<{ id: number; email: string; createdAt: string | null }[]>({
+    queryKey: ["/api/newsletter/subscribers"],
+    enabled: session?.isAdmin === true && tab === "subscribers",
   });
 
   const createMutation = useMutation({
@@ -224,6 +229,14 @@ export default function Admin() {
             }`}
           >
             <ShoppingBag className="w-4 h-4" /> Orders
+          </button>
+          <button
+            onClick={() => setTab("subscribers")}
+            className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
+              tab === "subscribers" ? "bg-gray-900 text-white" : "text-gray-500 hover:text-gray-900"
+            }`}
+          >
+            <Mail className="w-4 h-4" /> Subscribers
           </button>
         </div>
 
@@ -432,6 +445,45 @@ export default function Admin() {
                     )}
                   </div>
                 ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── SUBSCRIBERS TAB ── */}
+        {tab === "subscribers" && (
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Newsletter Subscribers <span className="text-gray-400 font-normal text-sm">({subscribers?.length ?? 0})</span>
+            </h2>
+            {subscribersLoading ? (
+              <div className="flex justify-center py-12">
+                <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+              </div>
+            ) : !subscribers?.length ? (
+              <div className="bg-white border rounded-2xl p-12 text-center text-gray-400">No subscribers yet.</div>
+            ) : (
+              <div className="bg-white border rounded-2xl overflow-hidden">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50 border-b">
+                    <tr>
+                      <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                      <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                      <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Signed Up</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {[...(subscribers ?? [])].reverse().map((sub, i) => (
+                      <tr key={sub.id} className="hover:bg-gray-50">
+                        <td className="px-5 py-3 text-gray-400">{subscribers.length - i}</td>
+                        <td className="px-5 py-3 font-medium text-gray-900">{sub.email}</td>
+                        <td className="px-5 py-3 text-gray-500">
+                          {sub.createdAt ? new Date(sub.createdAt).toLocaleDateString("en-PK", { day: "numeric", month: "short", year: "numeric" }) : "—"}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </div>
