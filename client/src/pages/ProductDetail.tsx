@@ -3,7 +3,6 @@ import { useProduct, useProducts } from "@/hooks/use-products";
 import { useAddToCart, useAddBouquetToCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
 import { Loader2, Minus, Plus, ArrowLeft } from "lucide-react";
-import { SiWhatsapp } from "react-icons/si";
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import {
@@ -396,19 +395,18 @@ export default function ProductDetail() {
                   className="w-full rounded-md bg-muted border-0 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 resize-none focus:outline-none focus:ring-1 focus:ring-border"
                 />
               </div>
-              {/* WhatsApp Order */}
-              <a
-                href={`https://wa.me/923379229966?text=${encodeURIComponent(
-                  `Hi! I'd like to order:\n\n*${giftSet.displayName}*\nScent: ${selectedScent}\nQuantity: ${quantity}${specialInstructions ? `\nSpecial Instructions: ${specialInstructions}` : ""}\n\nTotal (excl. shipping): Rs.${giftTotal.toLocaleString()}.00`
-                )}`}
-                target="_blank"
-                rel="noreferrer"
-                className="block w-full"
+              <Button
+                onClick={() => addBouquet({
+                  productId: -5,
+                  name: `${giftSet.displayName} – ${selectedScent}`,
+                  price: giftSet.price,
+                  image: giftSet.images[0],
+                  quantity,
+                })}
+                className="w-full py-4 rounded-full bg-foreground hover:bg-foreground/90 text-background font-medium text-sm"
               >
-                <Button className="w-full py-4 rounded-full bg-foreground hover:bg-foreground/90 text-background font-medium text-sm">
-                  Order via WhatsApp
-                </Button>
-              </a>
+                add to cart
+              </Button>
             </div>
           </div>
 
@@ -601,19 +599,6 @@ export default function ProductDetail() {
                 >
                   add to cart
                 </Button>
-                <a
-                  href={`https://wa.me/923379229966?text=${encodeURIComponent(
-                    `Hi! I'd like to order:\n\n*${xlBouquet.displayName}*\nCandle Colour: ${bouquetCandleColour}\nBox Colour: ${bouquetBoxColour}\nScent: ${bouquetScent}\nQuantity: ${quantity}${specialInstructions ? `\nSpecial Instructions: ${specialInstructions}` : ""}\n\nTotal (excl. shipping): Rs.${totalXl.toLocaleString()}.00`
-                  )}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="block w-full"
-                >
-                  <Button variant="outline" className="w-full py-4 border-green-600 text-green-600 hover:bg-green-50 font-medium text-sm flex items-center justify-center gap-2">
-                    <SiWhatsapp className="w-4 h-4" /> order via whatsapp
-                  </Button>
-                </a>
-                <p className="text-sm text-muted-foreground">please mention date by when required or message on whatsapp for customisation or urgent deliveries</p>
               </div>
             </div>
           </div>
@@ -791,19 +776,6 @@ export default function ProductDetail() {
                 >
                   add to cart
                 </Button>
-                <a
-                  href={`https://wa.me/923379229966?text=${encodeURIComponent(
-                    `Hi! I'd like to order:\n\n*${otherBouquet.displayName}*\nCandle Colour: ${bouquetCandleColour}\nBox Colour: ${bouquetBoxColour}\nScent: ${bouquetScent}\nQuantity: ${quantity}${specialInstructions ? `\nSpecial Instructions: ${specialInstructions}` : ""}\n\nTotal (excl. shipping): Rs.${bouquetTotal.toLocaleString()}.00`
-                  )}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="block w-full"
-                >
-                  <Button variant="outline" className="w-full py-4 border-green-600 text-green-600 hover:bg-green-50 font-medium text-sm flex items-center justify-center gap-2">
-                    <SiWhatsapp className="w-4 h-4" /> order via whatsapp
-                  </Button>
-                </a>
-                <p className="text-sm text-muted-foreground">please mention date by when required or message on whatsapp for customisation or urgent deliveries</p>
               </div>
             </div>
           </div>
@@ -982,18 +954,18 @@ export default function ProductDetail() {
                 />
               </div>
 
-              <a
-                href={`https://wa.me/923379229966?text=${encodeURIComponent(
-                  `Hi! I'd like to order:\n\n*${staticCandle.displayName}*\nScented/Unscented: ${selectedScented}\nColor: ${selectedColor}${selectedScented === "scented" ? `\nScent: ${selectedScent}` : ""}\nQuantity: ${quantity}${giftPackaging ? "\nGift Packaging: Yes (+Rs. 150)" : ""}${specialInstructions ? `\nSpecial Instructions: ${specialInstructions}` : ""}\n\nTotal (excl. shipping): Rs.${(basePrice * quantity + (giftPackaging ? 150 : 0)).toLocaleString()}.00`
-                )}`}
-                target="_blank"
-                rel="noreferrer"
-                className="block w-full"
+              <Button
+                onClick={() => addBouquet({
+                  productId: -6,
+                  name: `${staticCandle.displayName} – ${selectedScented === "scented" ? selectedScent : "Unscented"}, ${selectedColor}${giftPackaging ? " + Gift Packaging" : ""}`,
+                  price: basePrice + (giftPackaging ? 150 : 0),
+                  image: pillarImage || undefined,
+                  quantity,
+                })}
+                className="w-full py-4 rounded-full bg-foreground hover:bg-foreground/90 text-background font-medium text-sm"
               >
-                <Button className="w-full py-4 rounded-full bg-foreground hover:bg-foreground/90 text-background font-medium text-sm">
-                  Order via WhatsApp
-                </Button>
-              </a>
+                add to cart
+              </Button>
 
             </div>
           </div>
