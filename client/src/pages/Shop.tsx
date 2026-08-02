@@ -618,6 +618,12 @@ export default function Shop() {
                       "bubble-candle":       "/images/bubble-candle.jpg",
                       "heart-bubble-candle": "/images/heart-bubble-candle.jpg",
                       "dog-candle":          "/images/dog-candle.jpg",
+                      "body-candle":         "/images/body-candle.png",
+                      "rose-heart-candle":   "/images/rose-heart-candle.jpeg",
+                      "seashell-candle":     "/images/seashell-candle.jpeg",
+                      "cloud-candle":        "/images/cloud-candle.jpeg",
+                      "sun-moon-candle":     "/images/sun-moon-candle.png",
+                      "mini-bear-candle":    "/images/mini-bear-candle.jpeg",
                     };
                     return (
                     <StaticProductCard
