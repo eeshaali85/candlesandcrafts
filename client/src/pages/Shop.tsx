@@ -379,6 +379,12 @@ export const BOUQUET_CANDLES = [
     price: 14500,
     images: ["/images/bouquet-xl-1.jpg", "/images/bouquet-xl-2.jpg"],
   },
+  {
+    key: "large-bouquet",
+    displayName: "Large Bouquet",
+    price: 8500,
+    images: ["/images/large-bouquet.jpg"],
+  },
 ];
 
 export default function Shop() {
