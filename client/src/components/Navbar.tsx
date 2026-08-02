@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { ShoppingBag, User, Menu, ArrowRight, Search, ChevronDown } from "lucide-react";
+import { ShoppingBag, User, Menu, ArrowRight, Search, ChevronDown, X } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useUser } from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
@@ -15,13 +15,32 @@ import { CartDrawer } from "@/components/CartDrawer";
 import logoUrl from "@assets/WhatsApp_Image_2025-12-29_at_7.27.13_PM_1767018467380.jpeg";
 
 export function Navbar() {
-  const [location] = useLocation();
+  const [location, navigate] = useLocation();
   const { data: user } = useUser();
   const { data: cart } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    if (searchOpen) {
+      setTimeout(() => searchInputRef.current?.focus(), 50);
+    }
+  }, [searchOpen]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (q) {
+      navigate(`/shop?q=${encodeURIComponent(q)}`);
+      setSearchOpen(false);
+      setSearchQuery("");
+    }
+  };
 
   useEffect(() => {
     const handleOpenDrawer = () => setCartDrawerOpen(true);
@@ -114,7 +133,7 @@ export function Navbar() {
 
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center space-x-4">
-              <Button variant="ghost" size="icon" className="hover:bg-secondary">
+              <Button variant="ghost" size="icon" className="hover:bg-secondary" onClick={() => setSearchOpen((o) => !o)}>
                 <Search className="w-5 h-5" data-testid="button-search" />
               </Button>
 
@@ -221,6 +240,34 @@ export function Navbar() {
           </div>
         </div>
       </nav>
+
+      {/* Search Bar */}
+      {searchOpen && (
+        <div className="border-b border-border/30 bg-background">
+          <form
+            onSubmit={handleSearch}
+            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-3"
+          >
+            <Search className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="search for a candle..."
+              className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground outline-none text-sm lowercase"
+              onKeyDown={(e) => e.key === "Escape" && setSearchOpen(false)}
+            />
+            <button
+              type="button"
+              onClick={() => setSearchOpen(false)}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </form>
+        </div>
+      )}
 
       <CartDrawer open={cartDrawerOpen} onOpenChange={setCartDrawerOpen} />
     </>

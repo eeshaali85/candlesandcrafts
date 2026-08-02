@@ -51,6 +51,19 @@ export const JAR_CANDLE_SERIES = [
   },
 ];
 
+// ── Pillar candle images ──────────────────────────────────────────────────────
+export const PILLAR_IMAGES: Record<string, string> = {
+  "bubble-candle":       "/images/bubble-candle.jpg",
+  "heart-bubble-candle": "/images/heart-bubble-candle.jpg",
+  "dog-candle":          "/images/dog-candle.jpg",
+  "body-candle":         "/images/body-candle.png",
+  "rose-heart-candle":   "/images/rose-heart-candle.jpeg",
+  "seashell-candle":     "/images/seashell-candle.jpeg",
+  "cloud-candle":        "/images/cloud-candle.jpeg",
+  "sun-moon-candle":     "/images/sun-moon-candle.png",
+  "mini-bear-candle":    "/images/mini-bear-candle.jpeg",
+};
+
 // ── Individual pillar / decorative candles ────────────────────────────────────
 export const PILLAR_CANDLES = [
   // 150ml
@@ -436,6 +449,7 @@ export default function Shop() {
 
   const queryParams = useMemo(() => new URLSearchParams(search), [search]);
   const categoryFilter = queryParams.get("category");
+  const searchQuery = queryParams.get("q")?.trim().toLowerCase() || "";
 
   // Only scroll to top when user actively changes category, not on initial mount/back nav
   useEffect(() => {
@@ -450,6 +464,7 @@ export default function Shop() {
   }, [categoryFilter]);
 
   const categoryTitle = useMemo(() => {
+    if (searchQuery) return `Results for "${queryParams.get("q")}"`;
     if (!categoryFilter) return "All Candles";
     if (isDecorativeFilter(categoryFilter)) return "Decorative Candles";
     if (isJarFilter(categoryFilter)) return "Jar Candles";
@@ -463,7 +478,37 @@ export default function Shop() {
         ? ""
         : " Candles")
     );
-  }, [categoryFilter]);
+  }, [categoryFilter, searchQuery]);
+
+  // Search across all product types
+  const searchResults = useMemo(() => {
+    if (!searchQuery) return null;
+    type SearchItem = { name: string; price?: number; priceLine?: string; image?: string; href: string };
+    const results: SearchItem[] = [];
+
+    JAR_CANDLE_SERIES.forEach((series) => {
+      if (series.displayName.toLowerCase().includes(searchQuery)) {
+        const dbProduct = products?.find((p) =>
+          p.name?.toLowerCase().includes(series.displayName.split(" ")[0].toLowerCase())
+        );
+        results.push({ name: series.displayName, price: series.price, image: dbProduct?.image, href: `/product/candle/${series.key}` });
+      }
+    });
+
+    PILLAR_CANDLES.forEach((candle) => {
+      if (candle.displayName.toLowerCase().includes(searchQuery)) {
+        results.push({ name: candle.displayName, priceLine: `Starting Rs.${candle.unscented.toLocaleString()}`, image: PILLAR_IMAGES[candle.key], href: `/product/candle/${candle.key}` });
+      }
+    });
+
+    BOUQUET_CANDLES.forEach((bouquet) => {
+      if (bouquet.displayName.toLowerCase().includes(searchQuery)) {
+        results.push({ name: bouquet.displayName, price: bouquet.price, image: bouquet.images?.[0], href: `/product/candle/${bouquet.key}` });
+      }
+    });
+
+    return results;
+  }, [searchQuery, products]);
 
   const filteredProducts = useMemo(() => {
     if (!products) return [];
@@ -567,8 +612,33 @@ export default function Shop() {
           </div>
         ) : (
           <div className="space-y-16">
+            {/* ── Search Results ── */}
+            {searchResults && (
+              <div>
+                {searchResults.length === 0 ? (
+                  <div className="text-center py-16">
+                    <p className="text-muted-foreground text-sm lowercase">no candles found for "{queryParams.get("q")}"</p>
+                  </div>
+                ) : (
+                  <div className={gridClass}>
+                    {searchResults.map((item) => (
+                      <StaticProductCard
+                        key={item.href}
+                        name={item.name}
+                        price={item.price}
+                        priceLine={item.priceLine}
+                        image={item.image}
+                        viewMode={viewMode}
+                        href={item.href}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* ── Jar Candles Section ── */}
-            {isJarFilter(categoryFilter) && (
+            {!searchResults && isJarFilter(categoryFilter) && (
               <div>
                 {!categoryFilter && (
                   <h2 className="font-serif text-2xl text-foreground mb-6 lowercase">
@@ -610,7 +680,7 @@ export default function Shop() {
             )}
 
             {/* ── Decorative / Pillar Candles Section ── */}
-            {isDecorativeFilter(categoryFilter) && (
+            {!searchResults && isDecorativeFilter(categoryFilter) && (
               <div>
                 {!categoryFilter && (
                   <h2 className="font-serif text-2xl text-foreground mb-6 lowercase">
@@ -619,17 +689,7 @@ export default function Shop() {
                 )}
                 <div className={gridClass}>
                   {sortedPillarCandles.map((candle) => {
-                    const pillarImages: Record<string, string> = {
-                      "bubble-candle":       "/images/bubble-candle.jpg",
-                      "heart-bubble-candle": "/images/heart-bubble-candle.jpg",
-                      "dog-candle":          "/images/dog-candle.jpg",
-                      "body-candle":         "/images/body-candle.png",
-                      "rose-heart-candle":   "/images/rose-heart-candle.jpeg",
-                      "seashell-candle":     "/images/seashell-candle.jpeg",
-                      "cloud-candle":        "/images/cloud-candle.jpeg",
-                      "sun-moon-candle":     "/images/sun-moon-candle.png",
-                      "mini-bear-candle":    "/images/mini-bear-candle.jpeg",
-                    };
+                    const pillarImages = PILLAR_IMAGES;
                     return (
                     <StaticProductCard
                       key={candle.key}
@@ -647,7 +707,7 @@ export default function Shop() {
             )}
 
             {/* ── Bouquet Section ── */}
-            {categoryFilter === "bouquet" && (
+            {!searchResults && categoryFilter === "bouquet" && (
               <div>
                 <div className={gridClass}>
                   {BOUQUET_CANDLES.map((bouquet) => {
@@ -683,7 +743,7 @@ export default function Shop() {
             )}
 
             {/* ── Gift Sets Section ── */}
-            {categoryFilter === "gift-sets" && (
+            {!searchResults && categoryFilter === "gift-sets" && (
               <div className={gridClass}>
                 {GIFT_SETS.map((gs) => (
                   <StaticProductCard
