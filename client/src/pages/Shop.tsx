@@ -365,7 +365,6 @@ export const GIFT_SETS = [
 // ── Bouquet candles ────────────────────────────────────────────────────────────
 export const BOUQUET_CANDLES = [
   { key: "mini-bouquet",   displayName: "Mini Bouquet",   price: 1850,  images: [] as string[] },
-  { key: "small-bouquet",  displayName: "Small Bouquet",  price: 2800,  images: [] as string[] },
   { key: "medium-bouquet", displayName: "Medium Bouquet", price: 5500,  images: [] as string[] },
   {
     key: "spring-medium-bouquet",
