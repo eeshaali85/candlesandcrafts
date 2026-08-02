@@ -8,7 +8,6 @@ import {
   Loader2,
   ShoppingBag,
   CheckCircle,
-  Package,
   ArrowLeft,
   X,
 } from "lucide-react";
@@ -313,7 +312,11 @@ function PolicyModal({
 
 // ── Policy Footer ─────────────────────────────────────────────────────────────
 
-function PolicyFooter() {
+function PolicyFooter({
+  onOpenPolicy,
+}: {
+  onOpenPolicy?: (key: string) => void;
+} = {}) {
   const [openPolicy, setOpenPolicy] = useState<string | null>(null);
 
   const links = [
@@ -395,67 +398,208 @@ export default function Checkout() {
   }
 
   if (confirmedOrder) {
+    // Full shipping address, used both for display and for the map query.
+    const fullAddress = `${formData.address}${
+      formData.apartment ? ", " + formData.apartment : ""
+    }, ${formData.city}, Pakistan`;
+    const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(
+      fullAddress,
+    )}&output=embed`;
+
     return (
       <>
-        <div className="min-h-[70vh] flex flex-col items-center justify-center px-4">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
-            <CheckCircle className="w-10 h-10 text-green-600" />
-          </div>
-          <h1 className="font-serif text-3xl font-bold mb-2">
-            Order Confirmed!
-          </h1>
-          <p className="text-muted-foreground mb-2 text-center max-w-md">
-            Thank you, {formData.firstName}! Your order #{confirmedOrder.id} has
-            been placed successfully.
-          </p>
-          <p className="text-muted-foreground mb-8 text-center max-w-md text-sm">
-            We'll reach out to you at {formData.phone} to confirm delivery
-            details. Please allow 7-10 days for dispatch.
-          </p>
-          <div className="bg-muted rounded-xl p-6 mb-8 w-full max-w-sm">
-            <div className="flex justify-between mb-2">
-              <span className="text-muted-foreground text-sm">Order Total</span>
+        <div className="min-h-screen bg-background">
+          <div className="max-w-2xl mx-auto px-4 sm:px-6 py-10">
+            {/* Order summary bar */}
+            <div className="flex items-center justify-between border-b border-border pb-4 mb-8">
+              <span className="text-sm text-muted-foreground">
+                Order summary
+              </span>
               <span className="font-semibold" data-testid="text-order-total">
-                <span className="text-xs text-muted-foreground mr-1">PKR</span>
                 Rs {Number(confirmedOrder.total).toLocaleString()}.00
               </span>
             </div>
-            <div className="flex justify-between mb-2">
-              <span className="text-muted-foreground text-sm">Delivery To</span>
-              <span className="text-sm text-right">{formData.city}</span>
+
+            {/* Confirmation header */}
+            <div className="flex items-start gap-4 mb-6">
+              <div className="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">
+                  Order #{confirmedOrder.id}
+                </p>
+                <h1 className="font-serif text-3xl font-bold">
+                  Thank you, {formData.firstName}!
+                </h1>
+              </div>
             </div>
-            <div className="flex justify-between mb-2">
-              <span className="text-muted-foreground text-sm">Payment</span>
-              <span className="text-sm">
-                {formData.paymentMethod === "cod"
-                  ? "Cash on Delivery"
-                  : "Bank Deposit"}
-              </span>
+
+            {/* Map + confirmation card */}
+            <div className="rounded-xl overflow-hidden border border-border">
+              <div className="relative">
+                <iframe
+                  title="Shipping location"
+                  src={mapSrc}
+                  className="w-full h-56 border-0"
+                  loading="lazy"
+                />
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 bg-background shadow-lg rounded-lg px-4 py-2 text-center">
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                    Shipping address
+                  </p>
+                  <p className="text-sm font-semibold">{formData.city}</p>
+                </div>
+              </div>
+
+              <div className="bg-background px-6 py-6 border-t border-border">
+                <h2 className="text-xl font-bold mb-2">
+                  Your order is confirmed
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  We've accepted your order, and we're getting it ready.
+                  We'll reach out to you at {formData.phone} to confirm
+                  delivery details. Please allow 7-10 days for dispatch.
+                </p>
+
+                {/*
+                  TCS tracking number — wire this up once the backend
+                  returns it (e.g. confirmedOrder.trackingNumber). Until
+                  then this block simply won't render.
+                */}
+                {confirmedOrder.trackingNumber && (
+                  <div className="border-t border-border mt-4 pt-4">
+                    <p className="text-sm font-semibold mb-1">
+                      TCS tracking number
+                    </p>
+                    <p className="text-sm text-primary">
+                      {confirmedOrder.trackingNumber}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground text-sm">Status</span>
-              <span className="text-sm flex items-center gap-1">
-                <Package className="w-3 h-3" /> Processing
-              </span>
+
+            {/* Bank deposit note */}
+            {formData.paymentMethod === "bank_deposit" && (
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-6 text-sm">
+                <p className="font-medium mb-1">
+                  Please transfer the amount and share receipt via WhatsApp
+                </p>
+                <p className="text-muted-foreground">+92 3379229966</p>
+              </div>
+            )}
+
+            {/* Order details card */}
+            <div className="rounded-xl border border-border mt-6 p-6 space-y-6">
+              <h2 className="text-lg font-bold">Order details</h2>
+
+              <div>
+                <p className="text-sm font-semibold text-muted-foreground mb-1">
+                  Contact information
+                </p>
+                <p className="text-sm">{formData.email || "—"}</p>
+              </div>
+
+              <div>
+                <p className="text-sm font-semibold text-muted-foreground mb-1">
+                  Shipping address
+                </p>
+                <div className="text-sm leading-relaxed">
+                  <p>
+                    {formData.firstName} {formData.lastName}
+                  </p>
+                  <p>{formData.address}</p>
+                  {formData.apartment && <p>{formData.apartment}</p>}
+                  <p>
+                    {formData.city}
+                    {formData.postalCode ? ` ${formData.postalCode}` : ""}
+                  </p>
+                  <p>Pakistan</p>
+                  <p>{formData.phone}</p>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-sm font-semibold text-muted-foreground mb-1">
+                  Shipping method
+                </p>
+                <p className="text-sm">Standard</p>
+              </div>
+
+              <div>
+                <p className="text-sm font-semibold text-muted-foreground mb-1">
+                  Payment method
+                </p>
+                <p className="text-sm">
+                  {formData.paymentMethod === "cod"
+                    ? "Cash on Delivery (COD)"
+                    : "Bank Deposit"}{" "}
+                  - Rs {Number(confirmedOrder.total).toLocaleString()}.00
+                </p>
+              </div>
+
+              <div>
+                <p className="text-sm font-semibold text-muted-foreground mb-1">
+                  Billing address
+                </p>
+                <div className="text-sm leading-relaxed">
+                  {formData.billingSameAsShipping ? (
+                    <>
+                      <p>
+                        {formData.firstName} {formData.lastName}
+                      </p>
+                      <p>{formData.address}</p>
+                      {formData.apartment && <p>{formData.apartment}</p>}
+                      <p>
+                        {formData.city}
+                        {formData.postalCode ? ` ${formData.postalCode}` : ""}
+                      </p>
+                      <p>Pakistan</p>
+                      <p>{formData.phone}</p>
+                    </>
+                  ) : (
+                    <>
+                      <p>{formData.billingAddress}</p>
+                      <p>
+                        {formData.billingCity}
+                        {formData.billingPostalCode
+                          ? ` ${formData.billingPostalCode}`
+                          : ""}
+                      </p>
+                      <p>Pakistan</p>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
+
+            {/* Continue shopping */}
+            <div className="flex justify-center mt-8">
+              <Link href="/shop">
+                <Button
+                  size="lg"
+                  className="rounded-full px-8"
+                  data-testid="button-continue-shopping"
+                >
+                  Continue Shopping
+                </Button>
+              </Link>
+            </div>
+
+            {/* Need help */}
+            <p className="text-center text-sm text-muted-foreground mt-6">
+              Need help?{" "}
+              <a
+                href="https://wa.me/923379229966"
+                target="_blank"
+                rel="noreferrer"
+                className="underline text-foreground"
+              >
+                Contact us
+              </a>
+            </p>
           </div>
-          {formData.paymentMethod === "bank_deposit" && (
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 w-full max-w-sm text-sm">
-              <p className="font-medium mb-1">
-                Please transfer the amount and share receipt via WhatsApp
-              </p>
-              <p className="text-muted-foreground">+92 3379229966</p>
-            </div>
-          )}
-          <Link href="/shop">
-            <Button
-              size="lg"
-              className="rounded-full px-8"
-              data-testid="button-continue-shopping"
-            >
-              Continue Shopping
-            </Button>
-          </Link>
         </div>
         <PolicyFooter />
       </>
